@@ -125,7 +125,7 @@ export default class FinDePartiePanel {
 
   private attacherPartage(): void {
     const resumeBouton = document.getElementById("fin-de-partie-panel-resume-bouton") as HTMLElement;
-    CopieHelper.attacheBoutonCopieLien(resumeBouton, this._resumeTexte + "\n\nhttps://sutom.nocle.fr", "Résumé copié dans le presse papier.");
+    CopieHelper.attacheBoutonCopieLien(resumeBouton, this._resumeTexte + "\n\nhttps://fog.gy/pokenigme", "Résumé copié dans le presse-papiers.");
 
     let rejouerInfiniBouton = document.getElementById("rejouer-infini-bouton") as HTMLElement;
     rejouerInfiniBouton.addEventListener("click", (event) => {
@@ -195,7 +195,7 @@ export default class FinDePartiePanel {
 
     let resumeTexte = StatistiquesDisplayer.genererResumeTexteStatistiques(stats);
 
-    CopieHelper.attacheBoutonCopieLien(resumeBouton, resumeTexte + "\n\nhttps://sutom.nocle.fr", "Résumé copié dans le presse papier.");
+    CopieHelper.attacheBoutonCopieLien(resumeBouton, resumeTexte + "\n\nhttps://fog.gy/pokenigme", "Résumé copié dans le presse-papiers.");
   }
 
 }
