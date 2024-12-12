@@ -48,7 +48,7 @@ export default class ReglesPanel {
       "Les noms anglais et allemands sont acceptés, uniquement comme propositions." +
       "</div>" +
       "<p>" +
-      '<a target="_blank" href="https://fog.gy/pokenigme/pokenigme.zip">Projet</a> créé par <a href="mailto:schnapper@fog.gy">Schnapper</a>. Basé sur l\'excellent <a target="_blank" href="https://framagit.org/JonathanMM/sutom">SUTOM</a> créé par <a target="_blank" href="https://twitter.com/Jonamaths">Jonamaths</a>.<br />' +
+      '<a target="_blank" href="https://github.com/Schn4pper/pokenigme">Projet</a> créé par <a href="mailto:schnapper@fog.gy">Schnapper</a>. Basé sur l\'excellent <a target="_blank" href="https://framagit.org/JonathanMM/sutom">SUTOM</a> créé par <a target="_blank" href="https://twitter.com/Jonamaths">Jonamaths</a>.<br />' +
       "</p>";
 
     this._panelManager.setContenu(titre, contenu);
