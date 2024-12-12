@@ -25,7 +25,7 @@ export default class Configuration {
   disposition: ClavierDisposition = ClavierDisposition.Azerty;
   theme: Theme = Theme.Sombre;
   haptique: boolean = false;
-  changelog: 0,
+  changelog: number = 0;
   police: Police = Police.Humaine;
   modeJeu: ModeJeu = ModeJeu.DuJour;
 }
