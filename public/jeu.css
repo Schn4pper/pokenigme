@@ -42,7 +42,7 @@ body {
   background-color: var(--couleur-fond);
   max-height: 95vh;
   height: 95vh;
-  height: -webkit-fill-available; /* Seulement pour safari et sa flotting bar */
+  height: -webkit-fill-available;
   text-align: center;
   color: var(--couleur-police);
   margin: 0;
