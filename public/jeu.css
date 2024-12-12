@@ -303,7 +303,6 @@ h2 {
 #panel-fenetre-notification-area {
   opacity: 0;
   transition: opacity linear 1s;
-  background-color: brown;
   min-height: 50px;
 }
 
