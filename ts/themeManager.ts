@@ -12,7 +12,6 @@ export default class ThemeManager {
     const root = document.documentElement;
     switch (theme) {
       case Theme.Clair:
-        break;
       case Theme.ClairAccessible:
         root.style.setProperty("--couleur-fond-rgb", "245, 245, 220");
         root.style.setProperty("--couleur-police", "#000000");
