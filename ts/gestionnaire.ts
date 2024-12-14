@@ -44,8 +44,8 @@ export default class Gestionnaire {
   private _stats: SauvegardeStats = SauvegardeStats.Default;
   private _config: Configuration = Configuration.Default;
   private _courseEnCours: boolean = false;
-  private _secondesCourse: number  = 60;
-  private _manchesCourse: number = 2;
+  private _secondesCourse: number  = 180;
+  private _manchesCourse: number = 3;
   private _mancheEnCours : number = 1;
   
   public constructor() {
@@ -70,8 +70,10 @@ export default class Gestionnaire {
     }
 	
 	if (this._modeJeu === ModeJeu.Course) {
-		this._secondesCourse = this._config.secondesCourse;
-		this._manchesCourse = this._config.nbManches;
+		if (this._config.secondesCourse !== undefined && this._config.nbManches !== undefined) {
+			this._secondesCourse =  this._config.secondesCourse;
+			this._manchesCourse = this._config.nbManches;
+		}
 	}
 
     this._datePartieEnCours = partieEnCours.datePartie ?? new Date();
