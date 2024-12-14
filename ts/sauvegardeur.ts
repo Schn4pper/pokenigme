@@ -12,6 +12,7 @@ export default class Sauvegardeur {
   private static readonly _clePartieEnCoursInfini = "partieEnCoursInfini";
   private static readonly _clePartieEnCoursDevinette = "partieEnCoursDevinette";
   private static readonly _clePartieEnCoursDesordre = "partieEnCoursDesordre";
+  private static readonly _clePartieEnCoursCourse = "partieEnCoursCourse";
   private static readonly _clePartieEnCours = "partieEnCours";
 
   private static readonly _cleConfiguration = "configuration";
@@ -65,9 +66,12 @@ export default class Sauvegardeur {
         case ModeJeu.Devinette:
             clePartie = this._clePartieEnCoursDevinette;
             break;
-        default:
+        case ModeJeu.Desordre:
             clePartie = this._clePartieEnCoursDesordre;
             break;
+		case ModeJeu.Course:
+		default:
+           clePartie = this._clePartieEnCoursCourse;
     }
 
     localStorage.setItem(clePartie, JSON.stringify(partieEnCours));
@@ -87,9 +91,12 @@ export default class Sauvegardeur {
         case ModeJeu.Devinette:
             dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursDevinette);
             break;
-        default:
+        case ModeJeu.Desordre:
             dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursDesordre);
             break;
+	    case ModeJeu.Course:
+		default:
+            dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursCourse);
     }
 
     if (!dataPartieEnCours) return;
@@ -142,9 +149,12 @@ export default class Sauvegardeur {
         case ModeJeu.Devinette:
             localStorage.removeItem(this._clePartieEnCoursDevinette);
             break;
-        default:
+        case ModeJeu.Desordre:
             localStorage.removeItem(this._clePartieEnCoursDesordre);
             break;
+		case ModeJeu.Course:
+		default:
+            localStorage.removeItem(this._clePartieEnCoursCourse);
     }
   }
   

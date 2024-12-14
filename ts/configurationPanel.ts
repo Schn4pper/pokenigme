@@ -175,7 +175,39 @@ export default class ConfigurationPanel {
         }
       )
     );
+	
+	contenu.appendChild(
+      this.genererConfigSaisieNumerique(
+        "️⏱️ Pokémon à trouver",
+        config.nbManches ?? Configuration.Default.nbManches,
+        (event: Event) => {
+			event.stopPropagation();
+			let nbManches = (event.target as HTMLInputElement).value;
 
+          Sauvegardeur.sauvegarderConfig({
+            ...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
+            nbManches : Number(nbManches)
+          });
+        }
+      )
+    );
+	
+	contenu.appendChild(
+      this.genererConfigSaisieNumerique(
+        "⏱️ Temps imparti (secondes)",
+        config.secondesCourse ?? Configuration.Default.secondesCourse,
+        (event: Event) => {
+			event.stopPropagation();
+			let secondesCourse = (event.target as HTMLInputElement).value;
+
+          Sauvegardeur.sauvegarderConfig({
+            ...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
+            secondesCourse : Number(secondesCourse)
+          });
+        }
+      )
+    );
+		
     if (Sauvegardeur.chargerSauvegardeStats()) contenu.appendChild(this.genererZoneExportSauvegarde());
 
     this._panelManager.setContenuHtmlElement(titre, contenu);
@@ -210,6 +242,35 @@ export default class ConfigurationPanel {
     return div;
   }
 
+  private genererConfigSaisieNumerique(
+    nomConfig: string,
+    valeurChoisie: number,
+    onChange?: (event: Event) => void
+  ): HTMLElement {
+    let div = document.createElement("div");
+    div.className = "config-item";
+
+    let label = document.createElement("label");
+    label.innerText = nomConfig;
+    div.appendChild(label);
+
+	const input = document.createElement("input");
+	input.type = "number";
+	input.min = "1";
+	input.step = "1";
+	input.value = valeurChoisie.toString();
+	input.oninput = () => {
+	  if (Number(input.value) < 1) {
+		input.value = "1"; // Forcer une valeur minimale de 1
+	  }
+	};	
+	
+    if (onChange !== undefined) input.addEventListener("change", onChange);
+    div.appendChild(input);
+
+    return div;
+  }
+  
   private genererZoneExportSauvegarde(): HTMLElement {
     let div = document.createElement("div");
     div.id = "config-sauvegarde-area";

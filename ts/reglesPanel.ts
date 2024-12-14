@@ -45,6 +45,7 @@ export default class ReglesPanel {
       "Le mode ∞ génère aléatoirement et de manière illimitée une Pokénigme.<br/>" +
       "Le mode 🕵️ génère aléatoirement et de manière illimitée une Pokénigme avec cinq propositions préremplies (exclu des statistiques).<br/>" +
       "Le mode 👀 génère aléatoirement et de manière illimitée une Pokénigme dont les lettres la composant sont indiquées sur le clavier (exclu des statistiques).<br/>" +
+      "Le mode ⏱️ permet de jouer en contre-la-montre (exclu des statistiques).<br/>" +
       "Les noms anglais et allemands sont acceptés, uniquement comme propositions." +
       "</div>" +
       "<p>" +

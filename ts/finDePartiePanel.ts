@@ -35,6 +35,25 @@ export default class FinDePartiePanel {
   }
 
   public genererResume(estBonneReponse: boolean, motATrouver: string, resultats: Array<Array<LettreResultat>>, dureeMs: number): void {
+	var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+	let dateGrille = this._datePartie.getTime();
+    let origine = InstanceConfiguration.dateOrigine.getTime();
+    this._motATrouver = motATrouver;
+    this._estVictoire = estBonneReponse;
+    this._partieEstFinie = true;
+
+	if (config.modeJeu == ModeJeu.Course) {
+		let entete = "";
+		if (estBonneReponse) {
+			entete = "Challenge ️⏱️ remporté:<br/>" + config.nbManches + " Pokémon trouvés en moins de " + config.secondesCourse + " secondes"
+		} else {
+			entete = "Challenge ️⏱️ non remporté:<br/>" + config.nbManches + " Pokémon à trouver en moins de " + config.secondesCourse + " secondes"
+		}
+		this._resumeTexte = entete.replace("<br/>","");
+		this._resumeTexteLegacy = entete;
+		return;
+	}
+
     let resultatsEmojis = resultats.map((mot) =>
       mot
         .map((resultat) => resultat.statut)
@@ -64,13 +83,6 @@ export default class FinDePartiePanel {
           }
         }, "")
     );
-    let dateGrille = this._datePartie.getTime();
-    let origine = InstanceConfiguration.dateOrigine.getTime();
-    this._motATrouver = motATrouver;
-    this._estVictoire = estBonneReponse;
-    this._partieEstFinie = true;
-
-    var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
 
     let numeroGrille;
 
@@ -84,9 +96,11 @@ export default class FinDePartiePanel {
         case ModeJeu.Devinette:
             numeroGrille = "🕵️";
             break;
-        default:
+        case ModeJeu.Desordre:
             numeroGrille = "👀";
             break;
+		default:
+			numeroGrille = "∞";
     }
 
     let afficherChrono = (Sauvegardeur.chargerConfig() ?? Configuration.Default).afficherChrono;
@@ -150,6 +164,14 @@ export default class FinDePartiePanel {
       Sauvegardeur.sauvegarderConfig(config);
       window.location.reload();
     });
+	
+	let rejouerCourseBouton = document.getElementById("rejouer-course-bouton") as HTMLElement;
+    rejouerCourseBouton.addEventListener("click", (event) => {
+      var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+      config.modeJeu = ModeJeu.Course;
+      Sauvegardeur.sauvegarderConfig(config);
+      window.location.reload();
+    });
 
   }
 
@@ -166,16 +188,19 @@ export default class FinDePartiePanel {
         contenu += '<p class="fin-de-partie-panel-phrase">Bravo, c\'est gagné. Merci d\'avoir joué.</p>';
       } else {
         titre = "Perdu";
-        contenu +=
-        '<details class="fin-de-partie-panel-phrase"> \
-          <summary>Le Pokémon à trouver était...</summary> ' +
-          this._motATrouver.toUpperCase() +
-          "<br /> \
-        </details>";
-      }
-      
+		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+		if (config.modeJeu !== ModeJeu.Course) {
+			contenu +=
+			'<details class="fin-de-partie-panel-phrase"> \
+			  <summary>Le Pokémon à trouver était...</summary> ' +
+			  this._motATrouver.toUpperCase() +
+			  "<br /> \
+			</details>";
+		}
+	  }
+
       contenu += StatistiquesDisplayer.genererResumeTexte(this._resumeTexteLegacy).outerHTML;
-      contenu += '<p><a href="#" id="rejouer-infini-bouton">Rejouer en mode ∞</a></p><p><a href="#" id="rejouer-devinette-bouton">Rejouer en mode 🕵️</a></p><p><a href="#" id="rejouer-desordre-bouton">Rejouer en mode 👀</a></p>';
+      contenu += '<p><a href="#" id="rejouer-infini-bouton">Rejouer en mode ∞</a></p><p><a href="#" id="rejouer-devinette-bouton">Rejouer en mode 🕵️</a></p><p><a href="#" id="rejouer-desordre-bouton">Rejouer en mode 👀</a></p><p><a href="#" id="rejouer-course-bouton">Rejouer en mode ⏱️</a></p>';
     }
 
     let stats = Sauvegardeur.chargerSauvegardeStats();

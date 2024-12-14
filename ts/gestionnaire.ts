@@ -43,7 +43,11 @@ export default class Gestionnaire {
   private _modeJeu: ModeJeu;
   private _stats: SauvegardeStats = SauvegardeStats.Default;
   private _config: Configuration = Configuration.Default;
-
+  private _courseEnCours: boolean = false;
+  private _secondesCourse: number  = 60;
+  private _manchesCourse: number = 2;
+  private _mancheEnCours : number = 1;
+  
   public constructor() {
     this._config = Sauvegardeur.chargerConfig() ?? this._config;
 
@@ -64,6 +68,11 @@ export default class Gestionnaire {
         partieEnCours = new PartieEnCours();
       }
     }
+	
+	if (this._modeJeu === ModeJeu.Course) {
+		this._secondesCourse = this._config.secondesCourse;
+		this._manchesCourse = this._config.nbManches;
+	}
 
     this._datePartieEnCours = partieEnCours.datePartie ?? new Date();
 
@@ -82,28 +91,7 @@ export default class Gestionnaire {
     this._configurationPanel = new ConfigurationPanel(this._panelManager, this._audioPanel, this._themeManager);
     this._notesMaJPanel = new NotesMaJPanel(this._panelManager);
 
-    this.choisirMot(this._modeJeu, partieEnCours.solution)
-      .then(async (mot) => {
-        this._motATrouver = mot;
-        this._input = new Input(this, this._config, this._motATrouver.length);
-        this._panelManager.setInput(this._input);
-        this._grille = new Grille(this._motATrouver.length, this._maxNbPropositions, this._motATrouver[0], this._audioPanel);
-        this._configurationPanel.setInput(this._input);
-        this._compositionMotATrouver = this.decompose(this._motATrouver);
-        if (this._modeJeu == ModeJeu.Devinette) {
-          if (partieEnCours.idPartie !== undefined) {
-            await this.chargerPropositions(partieEnCours.propositions);
-          } else {
-            Dictionnaire.getDevinette(mot).then(async(propositions) => await this.chargerPropositions(propositions));
-          }
-        } else {
-          if (this._modeJeu == ModeJeu.Desordre) {
-            await this._input.updateClavierAvecProposition(this.analyserMot(this._motATrouver, true), true);
-          }
-          await this.chargerPropositions(partieEnCours.propositions);          
-        }
-      })
-      .catch((raison) => NotificationMessage.ajouterNotification("Aucun Pokémon n'a été trouvé pour aujourd'hui."));
+	this.initialiserChoisirMot(partieEnCours);
       
     this.afficherReglesSiNecessaire();
   }
@@ -119,6 +107,9 @@ export default class Gestionnaire {
   }
 
   private chargerPartieEnCours(): PartieEnCours {
+	  
+	if (this._config.modeJeu == ModeJeu.Course) return new PartieEnCours();
+	
     this._stats = Sauvegardeur.chargerSauvegardeStats() ?? SauvegardeStats.Default;
 
     let sauvegardePartieEnCours = Sauvegardeur.chargerSauvegardePartieEnCours();
@@ -184,6 +175,54 @@ export default class Gestionnaire {
     }
     return solution;
   }
+  
+  private initialiserChoisirMot(partieEnCours : PartieEnCours) : void {
+      this.choisirMot(this._modeJeu, partieEnCours.solution)
+      .then(async (mot) => {
+        this._motATrouver = mot;
+        this._input = new Input(this, this._config, this._motATrouver.length);
+        this._panelManager.setInput(this._input);
+        this._grille = new Grille(this._motATrouver.length, this._maxNbPropositions, this._motATrouver[0], this._audioPanel);
+        this._configurationPanel.setInput(this._input);
+        this._compositionMotATrouver = this.decompose(this._motATrouver);
+		
+		switch(this._modeJeu) {
+          case ModeJeu.Devinette:
+            if (partieEnCours.idPartie !== undefined) {
+              await this.chargerPropositions(partieEnCours.propositions);
+            } else {
+              Dictionnaire.getDevinette(mot).then(async(propositions) => await this.chargerPropositions(propositions));
+            }
+			break;
+		  case ModeJeu.Course:
+			let notificationCourse: HTMLElement = document.getElementById("notification-course") as HTMLElement;
+		    if (!this._courseEnCours) {
+ 			NotificationMessage.decompterTemps(this._secondesCourse).then((estTermine) => {
+				if (estTermine) {
+					// Effectuer une action spécifique, par exemple afficher un panneau de fin de partie
+					this._finDePartiePanel.genererResume(false, "", new Array(), 0);
+					this._finDePartiePanel.afficher();  
+					Sauvegardeur.purgerPartieEnCours();
+					this._courseEnCours = false;
+					this._propositions.length = 0;
+					this.initialiserChoisirMot(new PartieEnCours());  
+				}
+			});
+			notificationCourse.style.opacity = "1";
+			notificationCourse.style.opacity = "1";
+			this._courseEnCours = true;
+			}
+			notificationCourse.innerHTML = this._mancheEnCours + "/" + this._manchesCourse;
+            await this.chargerPropositions(partieEnCours.propositions);
+			break;
+	      case ModeJeu.Desordre:
+            await this._input.updateClavierAvecProposition(this.analyserMot(this._motATrouver, true), true);
+		  default:
+            await this.chargerPropositions(partieEnCours.propositions);
+		}
+      })
+      .catch((raison) => NotificationMessage.ajouterNotification("Aucun Pokémon n'a été trouvé pour aujourd'hui."));
+  }
 
   private decompose(mot: string): { [lettre: string]: number } {
     let composition: { [lettre: string]: number } = {};
@@ -211,6 +250,7 @@ export default class Gestionnaire {
       NotificationMessage.ajouterNotification((await Dictionnaire.estMotMissingno(mot)) ? "Bien essayé ! ;-)" : "Pokémon inconnu.");
       return false;
     }
+	
     if (!this._datePartieEnCours) this._datePartieEnCours = new Date();
     let resultats = this.analyserMot(mot, false);
     let isBonneReponse = resultats.every((item) => item.statut === LettreStatut.BienPlace);
@@ -221,7 +261,7 @@ export default class Gestionnaire {
       if (!this._dateFinPartie) this._dateFinPartie = new Date();
       let duree = this._dateFinPartie.getTime() - this._datePartieEnCours.getTime();
       this._finDePartiePanel.genererResume(isBonneReponse, this._motATrouver, this._resultats, duree);
-      if (!chargementPartie && this._modeJeu !== ModeJeu.Devinette && this._modeJeu !== ModeJeu.Desordre) this.enregistrerPartieDansStats();
+      if (!chargementPartie && (this._modeJeu == ModeJeu.DuJour || this._modeJeu == ModeJeu.Infini)) this.enregistrerPartieDansStats();
     }
 
     if (this._grille) {
@@ -229,10 +269,21 @@ export default class Gestionnaire {
         if (this._input) {
           this._input.updateClavier(resultats);
           if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
-            this._finDePartiePanel.afficher();
+			  // TODO Mode Course
+			  if (this._modeJeu !== ModeJeu.Course || this._mancheEnCours == this._manchesCourse) {
+				NotificationMessage.stopperTemps();
+				this._finDePartiePanel.afficher();  
+			  }
+			  
             if (this._modeJeu !== ModeJeu.DuJour) {
               Sauvegardeur.purgerPartieEnCours();
             }
+			
+			  if (this._modeJeu == ModeJeu.Course && this._mancheEnCours != this._manchesCourse) {
+				if (isBonneReponse) this._mancheEnCours++;
+				this._propositions.length = 0;
+				this.initialiserChoisirMot(new PartieEnCours());  
+			  }
           } else {
             // La partie n'est pas finie, on débloque
             this._input.debloquer(ContexteBloquage.ValidationMot);

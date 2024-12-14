@@ -42,7 +42,7 @@ body {
   background-color: var(--couleur-fond);
   max-height: 95vh;
   height: 95vh;
-  height: -webkit-fill-available;
+  height: -webkit-fill-available; /* Seulement pour safari et sa flotting bar */
   text-align: center;
   color: var(--couleur-police);
   margin: 0;
@@ -118,7 +118,7 @@ h2 {
   min-height: calc(6 * var(--taille-cellule) + 10 * var(--epaisseur-bordure-cellule));
   margin-bottom: auto;
   font-family: var(--police-grille);
-  font-size: 32px; /* https://framagit.org/JonathanMM/sutom/-/commit/b9b83c9b79c322790e22c5efd427fa710373006e */
+  font-size: 32px;
 }
 
 .grille table {
@@ -300,9 +300,14 @@ h2 {
 }
 
 #notification-area,
+#notification-area-temps,
 #panel-fenetre-notification-area {
   opacity: 0;
   transition: opacity linear 1s;
+}
+
+#notification-area,
+#panel-fenetre-notification-area {
   min-height: 50px;
 }
 
@@ -311,6 +316,8 @@ h2 {
 }
 
 #notification-label,
+#notification-temps,
+#notification-course,
 #panel-fenetre-notification-label {
   font-size: 22px;
   background-color: #bdbdbd;
@@ -321,6 +328,13 @@ h2 {
   padding: 5px 0px;
   color: black;
   font-weight: bold;
+}
+
+#notification-temps,
+notification-course {
+  width: fit-content;
+  background-color: unset;
+  color:unset;
 }
 
 #panel-area {

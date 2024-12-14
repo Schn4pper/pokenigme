@@ -13,9 +13,11 @@ export default class Configuration {
     disposition: ClavierDisposition.Azerty,
     theme: Theme.Sombre,
     haptique: false,
-    changelog: 0,
+    changelog: 2,
     police: Police.Humaine,
-    modeJeu: ModeJeu.DuJour
+    modeJeu: ModeJeu.DuJour,
+	nbManches: 3,
+	secondesCourse: 180
   };
 
   hasAudio: boolean = false;
@@ -28,4 +30,6 @@ export default class Configuration {
   changelog: number = 0;
   police: Police = Police.Humaine;
   modeJeu: ModeJeu = ModeJeu.DuJour;
+  nbManches: number = 3;
+  secondesCourse: number = 180;
 }

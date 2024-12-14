@@ -8,6 +8,12 @@ export default class NotesMaJPanel {
 
   private readonly _notes = [
     {
+      version: 3,
+      notes: [
+        "Nouveau mode de jeu ⏱.️",
+      ],
+    },
+    {
       version: 2,
       notes: [
         "Mise à jour de Pokénigme sur la base de la version actuelle de SUTOM.",

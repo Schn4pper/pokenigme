@@ -2,5 +2,6 @@ export enum ModeJeu {
   DuJour,
   Infini,
   Devinette,
-  Desordre
+  Desordre,
+  Course
 }

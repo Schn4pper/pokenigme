@@ -10,6 +10,7 @@ export default class ModeJeuPanel {
   private _modeJeuInfini: HTMLElement;
   private _modeJeuDevinette: HTMLElement;
   private _modeJeuDesordre: HTMLElement;
+  private _modeJeuCourse: HTMLElement;
 
   public constructor(panelManager: PanelManager) {
     this._panelManager = panelManager;
@@ -19,6 +20,7 @@ export default class ModeJeuPanel {
     this._modeJeuInfini = this._modeJeuBouton;
     this._modeJeuDevinette = this._modeJeuBouton;
     this._modeJeuDesordre = this._modeJeuBouton;
+    this._modeJeuCourse = this._modeJeuBouton;
 
     this._modeJeuBouton.addEventListener(
       "click",
@@ -45,9 +47,12 @@ export default class ModeJeuPanel {
         case ModeJeu.Devinette:
             modeJeuTexte = "🕵️";
             break;
-        default:
+        case ModeJeu.Desordre:
             modeJeuTexte = "👀";
             break;
+		case ModeJeu.Course:
+		default:
+            modeJeuTexte = "⏱️";
     }
 
     this._modeJeuBouton.innerHTML = "Pokénigme " + modeJeuTexte;
@@ -68,7 +73,7 @@ export default class ModeJeuPanel {
     let titre = "Mode de jeu";
     let contenu =
       "<h2>" +
-      '<a href="#" id="mode-jeu-dujour">📅</a> <a href="#" id="mode-jeu-infini">∞</a> <a href="#" id="mode-jeu-devinette">🕵️</a> <a href="#" id="mode-jeu-desordre">👀</a>' +
+      '<a href="#" id="mode-jeu-dujour">📅</a> <a href="#" id="mode-jeu-infini">∞</a> <a href="#" id="mode-jeu-devinette">🕵️</a> <a href="#" id="mode-jeu-desordre">👀</a> <a href="#" id="mode-jeu-course">⏱️</a>' +
       "</h2>";
 
     this._panelManager.setContenu(titre, contenu);
@@ -79,7 +84,7 @@ export default class ModeJeuPanel {
     this._modeJeuInfini = document.getElementById("mode-jeu-infini") as HTMLElement;
     this._modeJeuDevinette = document.getElementById("mode-jeu-devinette") as HTMLElement;
     this._modeJeuDesordre = document.getElementById("mode-jeu-desordre") as HTMLElement;
-
+    this._modeJeuCourse = document.getElementById("mode-jeu-course") as HTMLElement;
 
     this._modeJeuDuJour.addEventListener(
         "click",
@@ -109,6 +114,14 @@ export default class ModeJeuPanel {
         "click",
         (() => {
             this.sauvegarderModeJeu(ModeJeu.Desordre);
+            location.reload();
+        }).bind(this)
+    );
+	
+	this._modeJeuCourse.addEventListener(
+        "click",
+        (() => {
+            this.sauvegarderModeJeu(ModeJeu.Course);
             location.reload();
         }).bind(this)
     );
