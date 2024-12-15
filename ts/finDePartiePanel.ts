@@ -41,13 +41,14 @@ export default class FinDePartiePanel {
     this._motATrouver = motATrouver;
     this._estVictoire = estBonneReponse;
     this._partieEstFinie = true;
+    let afficherChrono = (Sauvegardeur.chargerConfig() ?? Configuration.Default).afficherChrono;
 
 	if (config.modeJeu == ModeJeu.Course) {
 		let entete = "";
 		if (estBonneReponse) {
-			entete = "Challenge ️⏱️ remporté:<br/>" + config.nbManches + " Pokémon trouvés en moins de " + config.secondesCourse + " secondes"
+			entete = "Challenge ️⏱️ remporté:<br/>" + config.nbManches + " Pokémon trouvés en moins de " + this.genererTempsHumain(config.secondesCourse*1000);
 		} else {
-			entete = "Challenge ️⏱️ non remporté:<br/>" + config.nbManches + " Pokémon à trouver en moins de " + config.secondesCourse + " secondes"
+			entete = "Challenge ️⏱️ non remporté:<br/>" + config.nbManches + " Pokémon à trouver en moins de " + this.genererTempsHumain(config.secondesCourse*1000);
 		}
 		this._resumeTexte = entete.replace("<br/>","");
 		this._resumeTexteLegacy = entete;
@@ -102,8 +103,6 @@ export default class FinDePartiePanel {
 		default:
 			numeroGrille = "∞";
     }
-
-    let afficherChrono = (Sauvegardeur.chargerConfig() ?? Configuration.Default).afficherChrono;
 
     const entete =
       "Pokénigme " +
