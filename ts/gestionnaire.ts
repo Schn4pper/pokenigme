@@ -280,7 +280,7 @@ export default class Gestionnaire {
 				Sauvegardeur.purgerPartieEnCours();
             }
 			
-			  if (this._modeJeu == ModeJeu.Course && this._mancheEnCours != this._manchesCourse) {
+			  if (this._modeJeu == ModeJeu.Course && ((this._mancheEnCours != this._manchesCourse) || (!isBonneReponse && this._mancheEnCours == this._manchesCourse))) {
 				if (isBonneReponse) this._mancheEnCours++;
 				this._propositions.length = 0;
 				let partieEnCours = this.chargerPartieEnCours();
