@@ -52,7 +52,7 @@ export default class FinDePartiePanel {
 		} else {
 			entete = "Challenge ️⏱️ non remporté:<br/>" + nbManches + " Pokémon à trouver en moins de " + this.genererTempsHumain(secondesCourse*1000);
 		}
-		this._resumeTexte = entete.replace("<br/>","");
+		this._resumeTexte = entete.replace("<br/>"," ");
 		this._resumeTexteLegacy = entete;
 		return;
 	}
