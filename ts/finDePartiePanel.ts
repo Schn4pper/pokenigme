@@ -1,12 +1,10 @@
-import CopieHelper from "./copieHelper";
 import Configuration from "./entites/configuration";
 import LettreResultat from "./entites/lettreResultat";
 import { LettreStatut } from "./entites/lettreStatut";
-import SauvegardeStats from "./entites/sauvegardeStats";
 import InstanceConfiguration from "./instanceConfiguration";
+import NotificationMessage from "./notificationMessage";
 import PanelManager from "./panelManager";
 import Sauvegardeur from "./sauvegardeur";
-import StatistiquesDisplayer from "./statistiquesDisplayer";
 import { ModeJeu } from "./entites/modeJeu";
 
 export default class FinDePartiePanel {
@@ -35,28 +33,6 @@ export default class FinDePartiePanel {
   }
 
   public genererResume(estBonneReponse: boolean, motATrouver: string, resultats: Array<Array<LettreResultat>>, dureeMs: number): void {
-	var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
-	var nbManches = config.nbManches ?? Configuration.Default.nbManches;
-	var secondesCourse = config.secondesCourse ?? Configuration.Default.secondesCourse;
-	let dateGrille = this._datePartie.getTime();
-    let origine = InstanceConfiguration.dateOrigine.getTime();
-    this._motATrouver = motATrouver;
-    this._estVictoire = estBonneReponse;
-    this._partieEstFinie = true;
-    let afficherChrono = (Sauvegardeur.chargerConfig() ?? Configuration.Default).afficherChrono;
-
-	if (config.modeJeu == ModeJeu.Course) {
-		let entete = "";
-		if (estBonneReponse) {
-			entete = "Challenge ️⏱️ remporté:<br/>" + nbManches + " Pokémon trouvés en moins de " + this.genererTempsHumain(secondesCourse*1000) + (afficherChrono ? " (en " + this.genererTempsHumain(dureeMs) +")" : "");
-		} else {
-			entete = "Challenge ️⏱️ non remporté:<br/>" + nbManches + " Pokémon à trouver en moins de " + this.genererTempsHumain(secondesCourse*1000);
-		}
-		this._resumeTexte = entete.replace("<br/>","");
-		this._resumeTexteLegacy = entete;
-		return;
-	}
-
     let resultatsEmojis = resultats.map((mot) =>
       mot
         .map((resultat) => resultat.statut)
@@ -86,6 +62,13 @@ export default class FinDePartiePanel {
           }
         }, "")
     );
+    let dateGrille = this._datePartie.getTime();
+    let origine = InstanceConfiguration.dateOrigine.getTime();
+    this._motATrouver = motATrouver;
+    this._estVictoire = estBonneReponse;
+    this._partieEstFinie = true;
+
+    var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
 
     let numeroGrille;
 
@@ -99,12 +82,12 @@ export default class FinDePartiePanel {
         case ModeJeu.Devinette:
             numeroGrille = "🕵️";
             break;
-        case ModeJeu.Desordre:
+        default:
             numeroGrille = "👀";
             break;
-		default:
-			numeroGrille = "∞";
     }
+
+    let afficherChrono = (Sauvegardeur.chargerConfig() ?? Configuration.Default).afficherChrono;
 
     const entete =
       "Pokénigme " +
@@ -139,8 +122,31 @@ export default class FinDePartiePanel {
   }
 
   private attacherPartage(): void {
-    const resumeBouton = document.getElementById("fin-de-partie-panel-resume-bouton") as HTMLElement;
-    CopieHelper.attacheBoutonCopieLien(resumeBouton, this._resumeTexte + "\n\nhttps://fog.gy/pokenigme", "Résumé copié dans le presse-papiers.");
+    let resumeBouton = document.getElementById("fin-de-partie-panel-resume-bouton") as HTMLElement;
+    resumeBouton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      new Promise((resolve, reject) => {
+        if (window.navigator.clipboard !== undefined) {
+          return resolve(window.navigator.clipboard.writeText(this._resumeTexte + "\n\nhttps://fog.gy/pokenigme"));
+        }
+
+        return reject();
+      })
+        .catch(
+          () =>
+            new Promise((resolve, reject) => {
+              if (window.navigator.share !== undefined) return resolve(navigator.share({ text: this._resumeTexte + "\n\nhttps://fog.gy/pokenigme" }));
+
+              return reject();
+            })
+        )
+        .then(() => {
+          NotificationMessage.ajouterNotificationPanel("Résumé copié dans le presse-papiers.");
+        })
+        .catch((raison) => {
+          NotificationMessage.ajouterNotificationPanel("Votre navigateur n'est pas compatible.");
+        });
+    });
 
     let rejouerInfiniBouton = document.getElementById("rejouer-infini-bouton") as HTMLElement;
     rejouerInfiniBouton.addEventListener("click", (event) => {
@@ -165,14 +171,6 @@ export default class FinDePartiePanel {
       Sauvegardeur.sauvegarderConfig(config);
       window.location.reload();
     });
-	
-	let rejouerCourseBouton = document.getElementById("rejouer-course-bouton") as HTMLElement;
-    rejouerCourseBouton.addEventListener("click", (event) => {
-      var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
-      config.modeJeu = ModeJeu.Course;
-      Sauvegardeur.sauvegarderConfig(config);
-      window.location.reload();
-    });
 
   }
 
@@ -189,39 +187,54 @@ export default class FinDePartiePanel {
         contenu += '<p class="fin-de-partie-panel-phrase">Bravo, c\'est gagné. Merci d\'avoir joué.</p>';
       } else {
         titre = "Perdu";
-		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
-		//if (config.modeJeu !== ModeJeu.Course) {
-			contenu +=
-			'<details class="fin-de-partie-panel-phrase"> \
-			  <summary>Le Pokémon à trouver était...</summary> ' +
-			  this._motATrouver.toUpperCase() +
-			  "<br /> \
-			</details>";
-		//}
-	  }
-
-      contenu += StatistiquesDisplayer.genererResumeTexte(this._resumeTexteLegacy).outerHTML;
-      contenu += '<p><a href="#" id="rejouer-infini-bouton">Rejouer en mode ∞</a></p><p><a href="#" id="rejouer-devinette-bouton">Rejouer en mode 🕵️</a></p><p><a href="#" id="rejouer-desordre-bouton">Rejouer en mode 👀</a></p><p><a href="#" id="rejouer-course-bouton">Rejouer en mode ⏱️</a></p>';
+        contenu +=
+        '<details class="fin-de-partie-panel-phrase"> \
+          <summary>Le Pokémon à trouver était...</summary> ' +
+          this._motATrouver.toUpperCase() +
+          "<br /> \
+        </details>";
+      }
+      contenu +=
+        '<p>Résumé de ta partie - <a href="#" id="fin-de-partie-panel-resume-bouton">Partager</a></p> \
+          <pre id="fin-de-partie-panel-resume">' +
+        this._resumeTexteLegacy +
+        '</pre><p><a href="#" id="rejouer-infini-bouton">Rejouer en mode ∞</a></p><p><a href="#" id="rejouer-devinette-bouton">Rejouer en mode 🕵️</a></p><p><a href="#" id="rejouer-desordre-bouton">Rejouer en mode 👀</a></p>';
     }
 
     let stats = Sauvegardeur.chargerSauvegardeStats();
     if (stats) {
-      contenu += StatistiquesDisplayer.genererHtmlStats(stats).outerHTML;
+      contenu +=
+        '<p>Statistiques</p><div class="stats-area"><div class="stats-ligne"><div class="stats-cellule">Parties :</div>' +
+        `<div class="stats-cellule">${stats.partiesGagnees}/${stats.partiesJouees}</div>` +
+        "</div>" +
+        `<div class="stats-ligne"><div class="stats-cellule">1/6 :</div><div class="stats-cellule">${stats.repartition[1]}</div></div>` +
+        `<div class="stats-ligne"><div class="stats-cellule">2/6 :</div><div class="stats-cellule">${stats.repartition[2]}</div></div>` +
+        `<div class="stats-ligne"><div class="stats-cellule">3/6 :</div><div class="stats-cellule">${stats.repartition[3]}</div></div>` +
+        `<div class="stats-ligne"><div class="stats-cellule">4/6 :</div><div class="stats-cellule">${stats.repartition[4]}</div></div>` +
+        `<div class="stats-ligne"><div class="stats-cellule">5/6 :</div><div class="stats-cellule">${stats.repartition[5]}</div></div>` +
+        `<div class="stats-ligne"><div class="stats-cellule">6/6 :</div><div class="stats-cellule">${stats.repartition[6]}</div></div>` +
+        `<div class="stats-ligne"><div class="stats-cellule">-/6 :</div><div class="stats-cellule">${stats.repartition["-"]}</div></div>` +
+        `<div class="stats-ligne"><div class="stats-cellule">Moyenne :</div><div class="stats-cellule">${this.getMoyenne(stats.repartition)}</div></div>` +
+        '<div class="stats-ligne"><div class="stats-cellule">Lettres :</div>' +
+        '<div class="stats-cellule">' +
+        `${stats.lettresRepartitions.bienPlace} 🟥 ` +
+        `${stats.lettresRepartitions.malPlace} 🟡 ` +
+        `${stats.lettresRepartitions.nonTrouve} 🟦` +
+        "</div>" +
+        "</div>" +
+        "</div>";
     }
 
     this._panelManager.setContenu(titre, contenu);
     this._panelManager.setClasses(["fin-de-partie-panel"]);
     if (this._partieEstFinie) this.attacherPartage();
-    if (stats) this.attacherPartageStats(stats);
     this._panelManager.afficherPanel();
   }
-  
-  private attacherPartageStats(stats: SauvegardeStats): void {
-    const resumeBouton = document.getElementById("fin-de-partie-panel-stats-bouton") as HTMLElement;
 
-    let resumeTexte = StatistiquesDisplayer.genererResumeTexteStatistiques(stats);
-
-    CopieHelper.attacheBoutonCopieLien(resumeBouton, resumeTexte + "\n\nhttps://fog.gy/pokenigme", "Résumé copié dans le presse-papiers.");
+  private getMoyenne(repartition: { 1: number; 2: number; 3: number; 4: number; 5: number; 6: number; "-": number }): string {
+    return (
+      (repartition[1] * 1 + repartition[2] * 2 + repartition[3] * 3 + repartition[4] * 4 + repartition[5] * 5 + repartition[6] * 6 + repartition["-"] * 6) /
+      (repartition[1] + repartition[2] + repartition[3] + repartition[4] + repartition[5] + repartition[6] + repartition["-"])
+    ).toLocaleString("fr-FR", { maximumFractionDigits: 2 });
   }
-
 }
