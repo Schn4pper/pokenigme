@@ -70,6 +70,7 @@ export default class Gestionnaire {
     }
 	
 	if (this._modeJeu === ModeJeu.Course) {
+        partieEnCours = new PartieEnCours();
 		this._secondesCourse = this._config.secondesCourse ?? Configuration.Default.secondesCourse;
 		this._manchesCourse = this._config.nbManches ?? Configuration.Default.nbManches;
 	}
@@ -108,7 +109,7 @@ export default class Gestionnaire {
 
   private chargerPartieEnCours(): PartieEnCours {
 	  
-	if (this._config.modeJeu == ModeJeu.Course) return new PartieEnCours();
+	//if (this._config.modeJeu == ModeJeu.Course) return new PartieEnCours();
 	
     this._stats = Sauvegardeur.chargerSauvegardeStats() ?? SauvegardeStats.Default;
 
@@ -200,7 +201,7 @@ export default class Gestionnaire {
  			NotificationMessage.decompterTemps(this._secondesCourse).then((estTermine) => {
 				if (estTermine) {
 					// Effectuer une action spécifique, par exemple afficher un panneau de fin de partie
-					this._finDePartiePanel.genererResume(false, "", new Array(), 0);
+					this._finDePartiePanel.genererResume(false, this._motATrouver, new Array(), 0);
 					this._finDePartiePanel.afficher();  
 					Sauvegardeur.purgerPartieEnCours();
 					this._courseEnCours = false;
@@ -258,7 +259,7 @@ export default class Gestionnaire {
     this._resultats.push(resultats);
 
     if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
-      if (!this._dateFinPartie) this._dateFinPartie = new Date();
+      if (!this._dateFinPartie || this._modeJeu == ModeJeu.Course) this._dateFinPartie = new Date();
       let duree = this._dateFinPartie.getTime() - this._datePartieEnCours.getTime();
       this._finDePartiePanel.genererResume(isBonneReponse, this._motATrouver, this._resultats, duree);
       if (!chargementPartie && (this._modeJeu == ModeJeu.DuJour || this._modeJeu == ModeJeu.Infini)) this.enregistrerPartieDansStats();
@@ -272,16 +273,20 @@ export default class Gestionnaire {
 			  if (this._modeJeu !== ModeJeu.Course || (isBonneReponse && this._mancheEnCours == this._manchesCourse)) {
 				NotificationMessage.stopperTemps();
 				this._finDePartiePanel.afficher();  
+				Sauvegardeur.purgerPartieEnCours();
 			  }
 			  
-            if (this._modeJeu !== ModeJeu.DuJour) {
-              Sauvegardeur.purgerPartieEnCours();
+            if (this._modeJeu !== ModeJeu.DuJour && this._modeJeu !== ModeJeu.Course) {
+				Sauvegardeur.purgerPartieEnCours();
             }
 			
 			  if (this._modeJeu == ModeJeu.Course && this._mancheEnCours != this._manchesCourse) {
 				if (isBonneReponse) this._mancheEnCours++;
 				this._propositions.length = 0;
-				this.initialiserChoisirMot(new PartieEnCours());  
+				let partieEnCours = this.chargerPartieEnCours();
+				partieEnCours.solution = "";
+				if (partieEnCours.propositions !== undefined) partieEnCours.propositions.length = 0;
+				this.initialiserChoisirMot(partieEnCours);  
 			  }
           } else {
             // La partie n'est pas finie, on débloque

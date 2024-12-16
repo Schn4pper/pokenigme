@@ -36,6 +36,8 @@ export default class FinDePartiePanel {
 
   public genererResume(estBonneReponse: boolean, motATrouver: string, resultats: Array<Array<LettreResultat>>, dureeMs: number): void {
 	var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+	var nbManches = config.nbManches ?? Configuration.Default.nbManches;
+	var secondesCourse = config.secondesCourse ?? Configuration.Default.secondesCourse;
 	let dateGrille = this._datePartie.getTime();
     let origine = InstanceConfiguration.dateOrigine.getTime();
     this._motATrouver = motATrouver;
@@ -46,9 +48,9 @@ export default class FinDePartiePanel {
 	if (config.modeJeu == ModeJeu.Course) {
 		let entete = "";
 		if (estBonneReponse) {
-			entete = "Challenge ️⏱️ remporté:<br/>" + config.nbManches + " Pokémon trouvés en moins de " + this.genererTempsHumain(config.secondesCourse*1000);
+			entete = "Challenge ️⏱️ remporté:<br/>" + nbManches + " Pokémon trouvés en moins de " + this.genererTempsHumain(secondesCourse*1000) + (afficherChrono ? " (en " + this.genererTempsHumain(dureeMs) +")" : "");
 		} else {
-			entete = "Challenge ️⏱️ non remporté:<br/>" + config.nbManches + " Pokémon à trouver en moins de " + this.genererTempsHumain(config.secondesCourse*1000);
+			entete = "Challenge ️⏱️ non remporté:<br/>" + nbManches + " Pokémon à trouver en moins de " + this.genererTempsHumain(secondesCourse*1000);
 		}
 		this._resumeTexte = entete.replace("<br/>","");
 		this._resumeTexteLegacy = entete;
@@ -188,14 +190,14 @@ export default class FinDePartiePanel {
       } else {
         titre = "Perdu";
 		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
-		if (config.modeJeu !== ModeJeu.Course) {
+		//if (config.modeJeu !== ModeJeu.Course) {
 			contenu +=
 			'<details class="fin-de-partie-panel-phrase"> \
 			  <summary>Le Pokémon à trouver était...</summary> ' +
 			  this._motATrouver.toUpperCase() +
 			  "<br /> \
 			</details>";
-		}
+		//}
 	  }
 
       contenu += StatistiquesDisplayer.genererResumeTexte(this._resumeTexteLegacy).outerHTML;
