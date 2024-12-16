@@ -271,8 +271,7 @@ export default class Gestionnaire {
         if (this._input) {
           this._input.updateClavier(resultats);
           if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
-			  // TODO Mode Course
-			  if (this._modeJeu !== ModeJeu.Course || this._mancheEnCours == this._manchesCourse) {
+			  if (this._modeJeu !== ModeJeu.Course || (isBonneReponse && this._mancheEnCours == this._manchesCourse)) {
 				NotificationMessage.stopperTemps();
 				this._finDePartiePanel.afficher();  
 			  }
