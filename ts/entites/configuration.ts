@@ -17,7 +17,7 @@ export default class Configuration {
     police: Police.Humaine,
     modeJeu: ModeJeu.DuJour,
 	nbManches: 3,
-	secondesCourse: 180
+	secondesCourse: 300
   };
 
   hasAudio: boolean = false;
@@ -31,5 +31,5 @@ export default class Configuration {
   police: Police = Police.Humaine;
   modeJeu: ModeJeu = ModeJeu.DuJour;
   nbManches: number = 3;
-  secondesCourse: number = 180;
+  secondesCourse: number = 300;
 }
