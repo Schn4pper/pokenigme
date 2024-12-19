@@ -199,7 +199,7 @@ export default class FinDePartiePanel {
 	  }
 
       contenu += StatistiquesDisplayer.genererResumeTexte(this._resumeTexteLegacy).outerHTML;
-      contenu += '<p><a href="#" id="rejouer-infini-bouton">Rejouer en mode ∞</a></p><p><a href="#" id="rejouer-devinette-bouton">Rejouer en mode 🕵️</a></p><p><a href="#" id="rejouer-desordre-bouton">Rejouer en mode 👀</a></p><p><a href="#" id="rejouer-course-bouton">Rejouer en mode ⏱️</a></p>';
+      contenu += '<p>Rejouer en mode :<br/><a href="#" id="rejouer-infini-bouton" class="rejouer-bouton">∞</a> <a href="#" id="rejouer-devinette-bouton" class="rejouer-bouton">🕵️</a> <a href="#" id="rejouer-desordre-bouton" class="rejouer-bouton">👀</a> <a href="#" id="rejouer-course-bouton" class="rejouer-bouton">⏱️</a></p>';
     }
 
     let stats = Sauvegardeur.chargerSauvegardeStats();

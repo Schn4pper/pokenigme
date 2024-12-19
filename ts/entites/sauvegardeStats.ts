@@ -2,7 +2,6 @@ export default class SauvegardeStats {
   public static Default: SauvegardeStats = {
     partiesJouees: 0,
     partiesGagnees: 0,
-    dernierePartie: null,
     repartition: {
       1: 0,
       2: 0,
@@ -19,7 +18,6 @@ export default class SauvegardeStats {
     },
   };
 
-  dernierePartie: Date | null = null;
   partiesJouees: number = 0;
   partiesGagnees: number = 0;
   repartition: {

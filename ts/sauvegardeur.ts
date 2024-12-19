@@ -40,7 +40,6 @@ export default class Sauvegardeur {
     if (!dataStats) return;
 
     let stats = JSON.parse(dataStats) as SauvegardeStats;
-    if (stats.dernierePartie !== null) stats.dernierePartie = new Date(stats.dernierePartie);
     return stats;
   }
 
@@ -171,7 +170,6 @@ export default class Sauvegardeur {
       stats.lettresRepartitions.bienPlace,
       stats.lettresRepartitions.malPlace,
       stats.lettresRepartitions.nonTrouve,
-      stats.dernierePartie ? stats.dernierePartie.toISOString() : "null",
     ].join(",");
   }
 
@@ -186,8 +184,7 @@ export default class Sauvegardeur {
       PerduString,
       LettresBienPlaceesString,
       LettresMalPlaceesString,
-      LettresNonTrouveString,
-      dernierePartie,
+      LettresNonTrouveString
     ] = contenu.split(",");
 
     const UnCoup = parseInt(UnCoupString);
@@ -202,7 +199,6 @@ export default class Sauvegardeur {
     const LettresNonTrouve = parseInt(LettresNonTrouveString);
 
     return {
-      dernierePartie: dernierePartie === "null" ? null : new Date(dernierePartie),
       partiesJouees: UnCoup + DeuxCoups + TroisCoups + QuatreCoups + CinqCoups + SixCoups + Perdu,
       partiesGagnees: UnCoup + DeuxCoups + TroisCoups + QuatreCoups + CinqCoups + SixCoups,
       repartition: {

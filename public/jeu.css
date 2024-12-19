@@ -530,6 +530,11 @@ notification-course {
   position: relative;
 }
 
+.rejouer-bouton {
+  text-decoration: none;
+  font-size: 40px;
+}
+
 .bouton-partage-texte {
   bottom: 4px;
   position: absolute;

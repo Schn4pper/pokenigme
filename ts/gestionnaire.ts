@@ -107,10 +107,7 @@ export default class Gestionnaire {
     return InstanceConfiguration.idPartieParDefaut;
   }
 
-  private chargerPartieEnCours(): PartieEnCours {
-	  
-	//if (this._config.modeJeu == ModeJeu.Course) return new PartieEnCours();
-	
+  private chargerPartieEnCours(): PartieEnCours {	
     this._stats = Sauvegardeur.chargerSauvegardeStats() ?? SauvegardeStats.Default;
 
     let sauvegardePartieEnCours = Sauvegardeur.chargerSauvegardePartieEnCours();
@@ -128,16 +125,6 @@ export default class Gestionnaire {
   }
 
   private enregistrerPartieDansStats(): void {
-    // On regarde si c'est le même jour que la dernière partie dans les stats.
-    // Si c'est identique, on ne sauvegarde pas
-    if (
-      this._stats.dernierePartie &&
-      this._stats.dernierePartie.getFullYear() === this._datePartieEnCours.getFullYear() &&
-      this._stats.dernierePartie.getMonth() === this._datePartieEnCours.getMonth() &&
-      this._stats.dernierePartie.getDate() === this._datePartieEnCours.getDate()
-    )
-      return;
-
     this._stats.partiesJouees++;
     let estVictoire = this._resultats.some((resultat) => resultat.every((item) => item.statut === LettreStatut.BienPlace));
     if (estVictoire) {
@@ -161,7 +148,6 @@ export default class Gestionnaire {
       accumulateur += mot.filter((item) => item.statut == LettreStatut.NonTrouve).length;
       return accumulateur;
     }, 0);
-    this._stats.dernierePartie = this._datePartieEnCours;
 
     Sauvegardeur.sauvegarderStats(this._stats);
   }
