@@ -8,6 +8,12 @@ export default class NotesMaJPanel {
 
   private readonly _notes = [
     {
+      version: 4,
+      notes: [
+        "Mode de jeu 🕵️:️ nombre de propositions préremplies désormais configurable (cinq par défaut).",
+      ],
+    },
+    {
       version: 3,
       notes: [
         "Nouveau mode de jeu ⏱.️",

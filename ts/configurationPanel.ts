@@ -180,6 +180,7 @@ export default class ConfigurationPanel {
       this.genererConfigSaisieNumerique(
         "️⏱️ Pokémon à trouver",
         config.nbManches ?? Configuration.Default.nbManches,
+		'',
         (event: Event) => {
 			event.stopPropagation();
 			let nbManches = (event.target as HTMLInputElement).value;
@@ -196,6 +197,7 @@ export default class ConfigurationPanel {
       this.genererConfigSaisieNumerique(
         "⏱️ Temps imparti (secondes)",
         config.secondesCourse ?? Configuration.Default.secondesCourse,
+		'',
         (event: Event) => {
 			event.stopPropagation();
 			let secondesCourse = (event.target as HTMLInputElement).value;
@@ -203,6 +205,23 @@ export default class ConfigurationPanel {
           Sauvegardeur.sauvegarderConfig({
             ...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
             secondesCourse : Number(secondesCourse)
+          });
+        }
+      )
+    );
+	
+	contenu.appendChild(
+      this.genererConfigSaisieNumerique(
+        "🕵️ Propositions préremplies",
+        config.nbIndices ?? Configuration.Default.nbIndices,
+		'5',
+        (event: Event) => {
+			event.stopPropagation();
+			let nbIndices = (event.target as HTMLInputElement).value;
+
+          Sauvegardeur.sauvegarderConfig({
+            ...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
+            nbIndices : Number(nbIndices)
           });
         }
       )
@@ -245,6 +264,7 @@ export default class ConfigurationPanel {
   private genererConfigSaisieNumerique(
     nomConfig: string,
     valeurChoisie: number,
+	maxVal: string,
     onChange?: (event: Event) => void
   ): HTMLElement {
     let div = document.createElement("div");
@@ -258,6 +278,9 @@ export default class ConfigurationPanel {
 	input.type = "number";
 	input.min = "1";
 	input.step = "1";
+	if (maxVal !== '') {
+		input.max = maxVal;
+	}
 	input.value = valeurChoisie.toString();
 	input.oninput = () => {
 	  if (Number(input.value) < 1) {

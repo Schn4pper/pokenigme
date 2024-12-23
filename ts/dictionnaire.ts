@@ -1,6 +1,8 @@
 import InstanceConfiguration from "./instanceConfiguration";
 import ListeMotsProposables from "./mots/listeMotsProposables";
 import { ModeJeu } from "./entites/modeJeu";
+import Configuration from "./entites/configuration";
+import Sauvegardeur from "./sauvegardeur";
 
 export default class Dictionnaire {
   public constructor() {}
@@ -22,10 +24,12 @@ export default class Dictionnaire {
   }
 
   public static async getDevinette(solution: string): Promise<Array<string>> {
+    let config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+
     var nbLettres = solution.length;
     var choix = new Array<string>();
     var choixPossibles = ListeMotsProposables.Dictionnaire.filter(pokemon => pokemon.length === nbLettres && pokemon !== solution);
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < (config.nbIndices ?? Configuration.Default.nbIndices); i++) {
       let rand = Math.floor(Math.random() * choixPossibles.length);
       let ligne = choixPossibles[rand];
       choix.push(ligne);
