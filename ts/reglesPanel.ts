@@ -23,7 +23,7 @@ export default class ReglesPanel {
     let contenu =
       "<p>" +
       "Vous avez six essais pour deviner le Pokémon du jour, entre 4 et 12 lettres, commun à tous.<br />" +
-      "Vous ne pouvez proposer que des noms de Pokémon en français de la même longueur que le mot recherché.<br />" +
+      "Vous ne pouvez proposer que des noms de Pokémon (en français, anglais ou allemand) de la même longueur que la solution (uniquement en français).<br />" +
       "Le mot change chaque jour. Prière donc d'éviter le divulgâchage et de privilégier le partage du résumé.<br />" +
       "</p>" +
       '<div class="grille">' +
@@ -46,7 +46,6 @@ export default class ReglesPanel {
       "Le mode 🕵️ génère aléatoirement et de manière illimitée une Pokénigme avec des propositions préremplies (cinq par défaut, exclu des statistiques).<br/>" +
       "Le mode 👀 génère aléatoirement et de manière illimitée une Pokénigme dont les lettres la composant sont indiquées sur le clavier (exclu des statistiques).<br/>" +
       "Le mode ⏱️ permet de jouer en contre-la-montre (exclu des statistiques).<br/>" +
-      "Les noms anglais et allemands sont acceptés, uniquement comme propositions." +
       "</div>" +
       "<p>" +
       '<a target="_blank" href="https://github.com/Schn4pper/pokenigme">Projet</a> créé par <a href="mailto:schnapper@fog.gy">Schnapper</a>. Basé sur l\'excellent <a target="_blank" href="https://framagit.org/JonathanMM/sutom">SUTOM</a> créé par <a target="_blank" href="https://twitter.com/Jonamaths">Jonamaths</a>.<br />' +

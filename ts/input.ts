@@ -81,27 +81,22 @@ export default class Input {
     switch (clavier) {
       case ClavierDisposition.Bépo:
         return [
-          ["B", "E", "P", "O", "W", "V", "D", "L", "J", "Z"],
+          ["-", "B", "E", "P", "O", "W", "V", "D", "L", "J", "Z"],
           ["A", "U", "I", "C", "T", "S", "R", "N", "M"],
           ["_effacer", "Y", "X", ".", "K", "Q", "G", "H", "F", "_entree"],
-        ];
-      case ClavierDisposition.Qwerty:
-        return [
-          ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
-          ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
-          [".", "Z", "X", "C", "V", "B", "N", "M", "_effacer", "_entree"],
         ];
       case ClavierDisposition.Qwertz:
         return [
           ["Q", "W", "E", "R", "T", "Z", "U", "I", "O", "P"],
           ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
-          [".", "Y", "X", "C", "V", "B", "N", "M", "_effacer", "_entree"],
+          [".", "Y", "X", "C", "V", "B", "N", "M", "-", "_effacer", "_entree"],
         ];
-      default:
+      case ClavierDisposition.Qwerty:
+	  default:
         return [
-          ["A", "Z", "E", "R", "T", "Y", "U", "I", "O", "P"],
-          ["Q", "S", "D", "F", "G", "H", "J", "K", "L", "M"],
-          ["_vide", ".", "W", "X", "C", "V", "B", "N", "_effacer", "_entree"],
+          ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "-"],
+          ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
+          ["Z", "X", "C", "V", "B", "N", "M", ".", "_effacer", "_entree"],
         ];
     }
   }
@@ -136,7 +131,7 @@ export default class Input {
 
         if (touche === "Enter") {
           this.validerMot();
-        } else if (/^[A-Z.]$/.test(Dictionnaire.nettoyerMot(touche))) {
+        } else if (/^[A-Z.\-]$/.test(Dictionnaire.nettoyerMot(touche))) {
           this.saisirLettre(touche);
         }
       }).bind(this)
@@ -231,7 +226,6 @@ export default class Input {
 
   public updateClavierAvecProposition(resultats: Array<LettreResultat>, markBienPlaceAsMalPlace: boolean): void {
     let statutLettres: { [lettre: string]: LettreStatut } = {};
-    // console.log(statutLettres);
     for (let resultat of resultats) {
       if (!statutLettres[resultat.lettre]) statutLettres[resultat.lettre] = resultat.statut;
       else {

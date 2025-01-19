@@ -7,6 +7,12 @@ export default class NotesMaJPanel {
   private readonly _panelManager: PanelManager;
 
   private readonly _notes = [
+      {
+      version: 5,
+      notes: [
+        "L'utilisation du trait d'union est désormais supportée, rendant ainsi 24 Pokémon devinables de plus pour un total de 1015. Retrouvez entre autres Ho-Oh, Porygon-Z et les Pokémon paradoxes dans vos grilles !",
+      ],
+    },
     {
       version: 4,
       notes: [
