@@ -32,6 +32,10 @@ export default class Grille {
     for (let nbMot = 0; nbMot < this._maxPropositions; nbMot++) {
       let ligne = document.createElement("tr");
       let mot = this._propositions.length <= nbMot ? "" : this._propositions[nbMot];
+      if (mot.length > 0) {
+        ligne.setAttribute("role", "group");
+        ligne.setAttribute("aria-label", `Mot ${nbMot + 1} sur 6`);
+      }
       for (let nbLettre = 0; nbLettre < this._longueurMot; nbLettre++) {
         let cellule = document.createElement("td");
         let contenuCellule: string = "";
@@ -60,14 +64,17 @@ export default class Grille {
             case LettreStatut.BienPlace:
               emoji = "🟥";
               cellule.classList.add("bien-place", "resultat");
+              cellule.setAttribute("aria-label", `Lettre ${resultat.lettre} bien placée`);
               break;
             case LettreStatut.MalPlace:
               emoji = "🟡";
               cellule.classList.add("mal-place", "resultat");
+              cellule.setAttribute("aria-label", `Lettre ${resultat.lettre} mal placée`);
               break;
             default:
               emoji = "🟦";
               cellule.classList.add("non-trouve", "resultat");
+              cellule.setAttribute("aria-label", `Lettre ${resultat.lettre} non présente`);
           }
         }
         cellule.innerText = contenuCellule;
@@ -137,14 +144,17 @@ export default class Grille {
     switch (resultat.statut) {
       case LettreStatut.BienPlace:
         cellule.classList.add("bien-place", "resultat");
+        cellule.setAttribute("aria-label", `Lettre ${resultat.lettre} bien placée`);
         this._audioPanel.jouerSonLettreBienPlace(callback);
         break;
       case LettreStatut.MalPlace:
         cellule.classList.add("mal-place", "resultat");
+        cellule.setAttribute("aria-label", `Lettre ${resultat.lettre} mal placée`);
         this._audioPanel.jouerSonLettreMalPlace(callback);
         break;
       default:
         cellule.classList.add("non-trouve", "resultat");
+        cellule.setAttribute("aria-label", `Lettre ${resultat.lettre} non présente`);
         this._audioPanel.jouerSonLettreNonTrouve(callback);
     }
   }

@@ -42,6 +42,7 @@ export default class ConfigurationPanel {
     let config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
     contenu.appendChild(
       this.genererConfigItem(
+	    "volume",
         "Volume du son (si activé)",
         [
           { value: VolumeSon.Faible.toString(), label: "Faible" },
@@ -65,6 +66,7 @@ export default class ConfigurationPanel {
 
     contenu.appendChild(
       this.genererConfigItem(
+        "disposition-clavier",
         "Disposition du clavier",
         [
           { value: ClavierDisposition.Azerty.toString(), label: "AZERTY" },
@@ -89,6 +91,7 @@ export default class ConfigurationPanel {
 
         contenu.appendChild(
           this.genererConfigItem(
+		    "police-ecriture",
             "Police d'écriture",
             [
               { value: Police.Humaine.toString(), label: "Humaine" },
@@ -111,6 +114,7 @@ export default class ConfigurationPanel {
 
     contenu.appendChild(
       this.genererConfigItem(
+	    "theme",
         "Thème",
         [
           { value: Theme.Sombre.toString(), label: "Sombre" },
@@ -135,7 +139,8 @@ export default class ConfigurationPanel {
 
     contenu.appendChild(
       this.genererConfigItem(
-        "Afficher le temps sur le résumé (à la prochaine partie)",
+	    "afficher-temps",
+        "Afficher le temps sur le résumé",
         [
           { value: false.toString(), label: "Non" },
           { value: true.toString(), label: "Oui" },
@@ -155,6 +160,7 @@ export default class ConfigurationPanel {
 
     contenu.appendChild(
       this.genererConfigItem(
+        "haptique",
         "Retour haptique (si votre navigateur est compatible)",
         [
           { value: false.toString(), label: "Non" },
@@ -178,6 +184,7 @@ export default class ConfigurationPanel {
 	
 	contenu.appendChild(
       this.genererConfigSaisieNumerique(
+		"course-pokemon-a-trouver",
         "️⏱️ Pokémon à trouver",
         config.nbManches ?? Configuration.Default.nbManches,
 		'',
@@ -195,6 +202,7 @@ export default class ConfigurationPanel {
 	
 	contenu.appendChild(
       this.genererConfigSaisieNumerique(
+ 		"course-temps-imparti",
         "⏱️ Temps imparti (secondes)",
         config.secondesCourse ?? Configuration.Default.secondesCourse,
 		'',
@@ -212,6 +220,7 @@ export default class ConfigurationPanel {
 	
 	contenu.appendChild(
       this.genererConfigSaisieNumerique(
+ 		"detective-propositions-preremplies",
         "🕵️ Propositions préremplies",
         config.nbIndices ?? Configuration.Default.nbIndices,
 		'5',
@@ -235,6 +244,7 @@ export default class ConfigurationPanel {
   }
 
   private genererConfigItem(
+    idConfig: string,
     nomConfig: string,
     options: Array<{ value: string; label: string }>,
     valeurChoisie: string,
@@ -245,9 +255,11 @@ export default class ConfigurationPanel {
 
     let label = document.createElement("label");
     label.innerText = nomConfig;
+	label.setAttribute("for", `config-${idConfig}`);
     div.appendChild(label);
 
     let select = document.createElement("select");
+	select.id = `config-${idConfig}`;
     for (let optionItem of options) {
       let optionElement = document.createElement("option");
       optionElement.value = optionItem.value;
@@ -262,6 +274,7 @@ export default class ConfigurationPanel {
   }
 
   private genererConfigSaisieNumerique(
+    idConfig: string,
     nomConfig: string,
     valeurChoisie: number,
 	maxVal: string,
@@ -272,9 +285,11 @@ export default class ConfigurationPanel {
 
     let label = document.createElement("label");
     label.innerText = nomConfig;
+	label.setAttribute("for", `config-${idConfig}`);
     div.appendChild(label);
 
 	const input = document.createElement("input");
+	input.id = `config-${idConfig}`;
 	input.type = "number";
 	input.min = "1";
 	input.step = "1";

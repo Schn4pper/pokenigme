@@ -3,6 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pokénigme</title>
     <script data-main="js/main" type="text/javascript" src="./node_modules/requirejs/require.js"></script>
@@ -16,12 +19,12 @@
     <div id="contenu">
       <header>
         <div class="header-icones">
-          <a href="#" id="configuration-regles-bouton">
+          <a href="#" id="configuration-regles-bouton" aria-label="Afficher les règles" role="button">
             <svg id="configuration-regles-icone">
               <use href="#icone-regles" stroke="var(--couleur-icone)" fill="var(--couleur-icone)"></use>
             </svg>
           </a>
-          <a href="#" id="configuration-stats-bouton">
+          <a href="#" id="configuration-stats-bouton" aria-label="Afficher les statistiques" role="button">
             <svg id="configuration-stats-icone">
               <use href="#icone-stats" stroke="var(--couleur-icone)"></use>
             </svg>
@@ -29,12 +32,12 @@
         </div>
         <h2><a href="#" id="configuration-mode-jeu-bouton">Pokénigme</a></h2>
         <div class="header-icones">
-          <a href="#" id="configuration-audio-bouton">
+          <a href="#" id="configuration-audio-bouton" aria-label="Activer les bruitages sonores" role="button">
             <svg id="configuration-audio-icone">
               <use href="#icone-son-active" fill="var(--couleur-icone)"></use>
             </svg>
           </a>
-          <a href="#" id="configuration-config-bouton">
+          <a href="#" id="configuration-config-bouton"  aria-label="Ouvrir le panneau de configuration" role="button">
             <svg id="configuration-config-icone">
               <use href="#icone-config" fill="var(--couleur-icone)"></use>
             </svg>
@@ -48,7 +51,7 @@
           <div id="panel-fenetre-header">
             <h2 id="panel-fenetre-titre">Règles</h2>
             <div>
-              <a href="#" id="panel-fenetre-bouton-fermeture">
+              <a href="#" id="panel-fenetre-bouton-fermeture" aria-label="Fermer le panneau">
                 <svg id="panel-fenetre-bouton-fermeture-icone">
                   <use href="#icone-croix" stroke="var(--couleur-icone)"></use>
                 </svg>

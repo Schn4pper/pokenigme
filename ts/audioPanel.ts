@@ -41,8 +41,10 @@ export default class AudioPanel {
     this._hasAudio = hasAudio;
     if (!hasAudio) {
       this._iconeAudio.innerHTML = '<use href="#icone-son-desactive" fill="var(--couleur-icone)"></use>';
+      this._configAudioBouton.setAttribute("aria-label", "Activer les bruitages sonores");
     } else {
       this._iconeAudio.innerHTML = '<use href="#icone-son-active" fill="var(--couleur-icone)"></use>';
+      this._configAudioBouton.setAttribute("aria-label", "Désactiver les bruitages sonores");
       this._audioLettreBienPlace.preload = "auto";
       if (!chargement) this.jouerSonLettreBienPlace();
       this._audioLettreMalPlace.preload = "auto";

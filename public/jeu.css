@@ -274,6 +274,12 @@ h2 {
   font-size: 32px;
 }
 
+.regles-panel table caption,
+.grille table caption {
+  font-size: 16px;
+  caption-side: bottom;
+}
+
 .regles-panel #panel-fenetre,
 .notes-panel #panel-fenetre {
   font-size: 14px;

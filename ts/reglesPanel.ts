@@ -27,15 +27,15 @@ export default class ReglesPanel {
       "Le mot change chaque jour. Prière donc d'éviter le divulgâchage et de privilégier le partage du résumé.<br />" +
       "</p>" +
       '<div class="grille">' +
-      "<table>" +
-      "<tr>" +
-      '<td class="resultat bien-place">P</td>' +
-      '<td class="resultat non-trouve">I</td>' +
-      '<td class="resultat non-trouve">K</td>' +
-      '<td class="resultat mal-place">A</td>' +
-      '<td class="resultat bien-place">C</td>' +
-      '<td class="resultat non-trouve">H</td>' +
-      '<td class="resultat mal-place">U</td>' +
+      '<table role="presentation">' +
+      '<tr role="group" aria-label="Mot 1 sur 1">' +
+      '<td class="resultat bien-place" aria-label="Lettre P bien placée">P</td>' +
+      '<td class="resultat bien-place" aria-label="Lettre I bien placée">I</td>' +
+      '<td class="resultat non-trouve" aria-label="Lettre K non présente">K</td>' +
+      '<td class="resultat non-trouve" aria-label="Lettre A non présente">A</td>' +
+      '<td class="resultat non-trouve" aria-label="Lettre C non présente">C</td>' +
+      '<td class="resultat non-trouve" aria-label="Lettre H non présente">H</td>' +
+      '<td class="resultat mal-place" aria-label="Lettre U mal placée">U</td>' +
       "</tr>" +
       "</table>" +
       "Les lettres entourées d'un carré rouge sont bien placées.<br />" +
