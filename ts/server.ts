@@ -10,7 +10,6 @@ const port = 4000;
   app.use("/", express.static("public/"));
   app.use("/js", express.static("public/js/"));
   app.use("/ts", express.static("ts/"));
-  app.use("/mots", express.static("public/mots/"));
   app.use("/node_modules/requirejs/require.js", express.static("node_modules/requirejs/require.js"));
 
   app.use(express.json());

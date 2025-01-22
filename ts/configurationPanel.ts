@@ -183,6 +183,30 @@ export default class ConfigurationPanel {
     );
 	
 	contenu.appendChild(
+      this.genererConfigItem(
+ 		"detective-propositions-preremplies",
+        "🕵️ Propositions préremplies",
+		[
+          { value: "1", label: "1" },
+          { value: "2", label: "2" },
+          { value: "3", label: "3" },
+          { value: "4", label: "4" },
+          { value: "5", label: "5" }
+        ],
+        config.nbIndices.toString() ?? Configuration.Default.nbIndices.toString(),
+        (event: Event) => {
+			event.stopPropagation();
+			let nbIndices = (event.target as HTMLInputElement).value;
+
+          Sauvegardeur.sauvegarderConfig({
+            ...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
+            nbIndices : Number(nbIndices)
+          });
+        }
+      )
+    );
+	
+	contenu.appendChild(
       this.genererConfigSaisieNumerique(
 		"course-pokemon-a-trouver",
         "️⏱️ Pokémon à trouver",
@@ -217,25 +241,7 @@ export default class ConfigurationPanel {
         }
       )
     );
-	
-	contenu.appendChild(
-      this.genererConfigSaisieNumerique(
- 		"detective-propositions-preremplies",
-        "🕵️ Propositions préremplies",
-        config.nbIndices ?? Configuration.Default.nbIndices,
-		'5',
-        (event: Event) => {
-			event.stopPropagation();
-			let nbIndices = (event.target as HTMLInputElement).value;
-
-          Sauvegardeur.sauvegarderConfig({
-            ...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
-            nbIndices : Number(nbIndices)
-          });
-        }
-      )
-    );
-		
+			
     if (Sauvegardeur.chargerSauvegardeStats()) contenu.appendChild(this.genererZoneExportSauvegarde());
 
     this._panelManager.setContenuHtmlElement(titre, contenu);

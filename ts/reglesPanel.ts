@@ -29,13 +29,13 @@ export default class ReglesPanel {
       '<div class="grille">' +
       '<table role="presentation">' +
       '<tr role="group" aria-label="Mot 1 sur 1">' +
-      '<td class="resultat bien-place" aria-label="Lettre P bien placée">P</td>' +
-      '<td class="resultat bien-place" aria-label="Lettre I bien placée">I</td>' +
-      '<td class="resultat non-trouve" aria-label="Lettre K non présente">K</td>' +
+      '<td class="resultat non-trouve" aria-label="Lettre N non présente non présente">N</td>' +
+      '<td class="resultat bien-place" aria-label="Lettre O bien placée">O</td>' +
+      '<td class="resultat mal-place" aria-label="Lettre C mal placée">C</td>' +
+      '<td class="resultat non-trouve" aria-label="Lettre T non présente">T</td>' +
       '<td class="resultat non-trouve" aria-label="Lettre A non présente">A</td>' +
-      '<td class="resultat non-trouve" aria-label="Lettre C non présente">C</td>' +
-      '<td class="resultat non-trouve" aria-label="Lettre H non présente">H</td>' +
-      '<td class="resultat mal-place" aria-label="Lettre U mal placée">U</td>' +
+      '<td class="resultat mal-place" aria-label="Lettre L mal placée">L</td>' +
+      '<td class="resultat bien-place" aria-label="Lettre I bien placée">I</td>' +
       "</tr>" +
       "</table>" +
       "Les lettres entourées d'un carré rouge sont bien placées.<br />" +
