@@ -231,6 +231,14 @@ export default class ConfigurationPanel {
 	
 	contenu.appendChild(div); 
 
+	if (config.nbIndices === undefined) {
+         Sauvegardeur.sauvegarderConfig({
+            ...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
+            nbIndices : Number(5)
+          });
+		config.nbIndices = Configuration.Default.nbIndices;
+	}
+
 	contenu.appendChild(
       this.genererConfigItem(
  		"detective-propositions-preremplies",
