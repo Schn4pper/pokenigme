@@ -161,7 +161,7 @@ export default class ConfigurationPanel {
     contenu.appendChild(
       this.genererConfigItem(
         "haptique",
-        "Retour haptique (si votre navigateur est compatible)",
+        "Retour haptique (si compatible)",
         [
           { value: false.toString(), label: "Non" },
           { value: true.toString(), label: "Oui" },
@@ -182,6 +182,55 @@ export default class ConfigurationPanel {
       )
     );
 	
+	let div = document.createElement("div");
+    div.className = "config-item";
+
+    let label = document.createElement("label");
+    label.innerText = "∞ 🕵️ 👀 ⏱️ Générations";
+	label.setAttribute("for", "config-generations");
+    div.appendChild(label);
+	
+	let divGen = document.createElement("div");
+	divGen.id = "config-generations-div";
+	div.appendChild(divGen);
+
+	if (config.generations === undefined) {
+		Sauvegardeur.sauvegarderConfig({
+		...config,
+		generations: Configuration.Default.generations
+		});
+		config.generations = Configuration.Default.generations;
+	}
+
+	for (let i = 1; i <= 9; i++) {
+		let gen = document.createElement("label");
+		gen.className = "generation-label";
+		gen.innerText = `${i}`;
+		gen.setAttribute("for", "config-generations");
+		gen.style.textDecoration = config.generations.includes(i) ? "underline" : "line-through";
+		divGen.appendChild(gen);
+		gen.addEventListener("click", (event: Event) => {
+			event.stopPropagation();
+			const config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+			if ((event.target as HTMLLabelElement).style.textDecoration === "line-through") {
+				(event.target as HTMLLabelElement).style.textDecoration = "underline";
+				Sauvegardeur.sauvegarderConfig({
+				...config,
+				generations: [...(config.generations || []), i]
+				});
+
+			} else if (config.generations.length > 1) {
+				(event.target as HTMLLabelElement).style.textDecoration = "line-through";
+				Sauvegardeur.sauvegarderConfig({
+				...config,
+				generations: config.generations?.filter(num => num !== i) || []
+				});
+			}
+		});		
+	}
+	
+	contenu.appendChild(div); 
+
 	contenu.appendChild(
       this.genererConfigItem(
  		"detective-propositions-preremplies",

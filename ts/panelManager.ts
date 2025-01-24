@@ -47,7 +47,7 @@ export default class PanelManager {
           this.cacherPanel();
         } else if (event.key === "Tab") {
           if (!document.activeElement) return;
-          const elementsWithFocus = this._panelArea.querySelectorAll("a[href], select, input");
+          const elementsWithFocus = this._panelArea.querySelectorAll("a[href], select, input, label.generation-label");
           let elementsFocusable = [];
           for (let elementIndex = 0; elementIndex < elementsWithFocus.length; elementIndex++) {
             elementsFocusable.push(elementsWithFocus.item(elementIndex));

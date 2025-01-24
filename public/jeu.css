@@ -429,6 +429,14 @@ notification-course {
   height: min-content;
 }
 
+#config-generations-div {
+	display:block;
+}
+
+.generation-label {
+  padding: 1px;
+}
+
 .stats-parties {
   display: flex;
   padding: 0 0.5em;

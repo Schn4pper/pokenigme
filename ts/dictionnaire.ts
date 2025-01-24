@@ -12,15 +12,21 @@ export default class Dictionnaire {
     var today = new Date();
 
     if (modeJeu !== ModeJeu.DuJour) {
-      choix = Math.floor(today.getTime()) % ListeMotsProposables.Dictionnaire.length;
+		
+	const listeNoms = this.filtrerGenerations(false);
+
+      choix = Math.floor(today.getTime()) % listeNoms.length;
+	      return listeNoms[choix];
     } else {
       let origine = InstanceConfiguration.dateOrigine;
       let utc1 = Date.UTC(origine.getFullYear(), origine.getMonth(), origine.getDate());
       let utc2 = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
       let diffDays = Math.floor((utc2 - utc1)/(1000*3600*24));
-      choix = diffDays%ListeMotsProposables.Dictionnaire.length;
+	  const listeNoms = this.filtrerGenerations(true);
+
+      choix = diffDays%listeNoms.length;
+      return listeNoms[choix];
     }
-    return ListeMotsProposables.Dictionnaire[choix];
   }
 
   public static async getDevinette(solution: string): Promise<Array<string>> {
@@ -28,7 +34,11 @@ export default class Dictionnaire {
 
     var nbLettres = solution.length;
     var choix = new Array<string>();
-    var choixPossibles = ListeMotsProposables.Dictionnaire.filter(pokemon => pokemon.length === nbLettres && pokemon !== solution);
+	
+	const listeNoms = this.filtrerGenerations(true);
+	
+	
+    var choixPossibles = listeNoms.filter(pokemon => pokemon.length === nbLettres && pokemon !== solution);
     for (var i = 0; i < (config.nbIndices ?? Configuration.Default.nbIndices); i++) {
       let rand = Math.floor(Math.random() * choixPossibles.length);
       let ligne = choixPossibles[rand];
@@ -41,7 +51,7 @@ export default class Dictionnaire {
   public static async estMotValide(mot: string): Promise<boolean> {
     mot = this.nettoyerMot(mot);
     let ListeMotsProposables = await import("./mots/listeMotsProposables");
-    return ListeMotsProposables.default.Dictionnaire.includes(mot) || ListeMotsProposables.default.EN.includes(mot) || ListeMotsProposables.default.DE.includes(mot);
+    return this.filtrerGenerations(true).includes(mot) || ListeMotsProposables.default.EN.includes(mot) || ListeMotsProposables.default.DE.includes(mot);
   }
 
  public static async estMotMissingno(mot: string): Promise<boolean> {
@@ -53,5 +63,14 @@ export default class Dictionnaire {
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .toUpperCase();
+  }
+  
+  private static filtrerGenerations(toutesGenerations: boolean) : string[] {
+    let config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+	const generationsVoulues = config.generations ?? Configuration.Default.generations;
+	const listeNoms: string[] = Array.from(ListeMotsProposables.Dictionnaire.entries())
+		.filter(([key, value]) => toutesGenerations || generationsVoulues.includes(value))
+		.map(([key]) => key);
+	return listeNoms;
   }
 }
