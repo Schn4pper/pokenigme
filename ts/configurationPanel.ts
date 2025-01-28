@@ -250,7 +250,7 @@ export default class ConfigurationPanel {
           { value: "4", label: "4" },
           { value: "5", label: "5" }
         ],
-        config.nbIndices.toString() ?? Configuration.Default.nbIndices.toString(),
+        config.nbIndices.toString(),
         (event: Event) => {
 			event.stopPropagation();
 			let nbIndices = (event.target as HTMLInputElement).value;

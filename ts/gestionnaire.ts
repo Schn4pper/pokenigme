@@ -259,7 +259,6 @@ export default class Gestionnaire {
 			  if (this._modeJeu !== ModeJeu.Course || (isBonneReponse && this._mancheEnCours == this._manchesCourse)) {
 				NotificationMessage.stopperTemps();
 				this._finDePartiePanel.afficher();  
-				Sauvegardeur.purgerPartieEnCours();
 			  }
 			  
             if (this._modeJeu !== ModeJeu.DuJour && this._modeJeu !== ModeJeu.Course) {
