@@ -192,10 +192,10 @@ export default class Gestionnaire {
 					Sauvegardeur.purgerPartieEnCours();
 					this._courseEnCours = false;
 					this._propositions.length = 0;
-					this.initialiserChoisirMot(new PartieEnCours());  
+					//this.initialiserChoisirMot(new PartieEnCours());
+					 if (this._input) this._input.bloquer(ContexteBloquage.ValidationMot);
 				}
 			});
-			notificationCourse.style.opacity = "1";
 			notificationCourse.style.opacity = "1";
 			this._courseEnCours = true;
 			}

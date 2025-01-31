@@ -45,10 +45,6 @@ public static stopperTemps(): void {
 		clearTimeout(this._tempsTimeout);
 		this._tempsTimeout = undefined;
 	}
-	/*
-    this._notificationAreaTemps.style.opacity = "1";
-    this._notificationTemps.style.opacity = "1";
-    this._notificationTemps.innerHTML = message;*/
 }
 
 
