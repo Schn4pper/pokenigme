@@ -13,7 +13,7 @@ export default class Configuration {
     disposition: ClavierDisposition.Azerty,
     theme: Theme.Sombre,
     haptique: false,
-    changelog: 6,
+    changelog: 7,
     police: Police.Humaine,
     modeJeu: ModeJeu.DuJour,
 	generations: [1,2,3,4,5,6,7,8,9],

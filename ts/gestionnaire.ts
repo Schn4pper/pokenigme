@@ -173,6 +173,8 @@ export default class Gestionnaire {
         this._configurationPanel.setInput(this._input);
         this._compositionMotATrouver = this.decompose(this._motATrouver);
 		
+      this._input.debloquer(ContexteBloquage.ValidationMot);
+        
 		switch(this._modeJeu) {
           case ModeJeu.Devinette:
             if (partieEnCours.idPartie !== undefined) {
@@ -192,7 +194,7 @@ export default class Gestionnaire {
 					Sauvegardeur.purgerPartieEnCours();
 					this._courseEnCours = false;
 					this._propositions.length = 0;
-					 if (this._input) this._input.bloquer(ContexteBloquage.ValidationMot);
+                    if (this._input) this._input.bloquer(ContexteBloquage.ValidationMot);
 				}
 			});
 			notificationCourse.style.opacity = "1";
@@ -256,7 +258,6 @@ export default class Gestionnaire {
           this._input.updateClavier(resultats);
           if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
 			  if (this._modeJeu !== ModeJeu.Course || (isBonneReponse && this._mancheEnCours == this._manchesCourse)) {
-				NotificationMessage.stopperTemps();
 				this._finDePartiePanel.afficher();  
 			  }
 			  
@@ -270,7 +271,7 @@ export default class Gestionnaire {
 				let partieEnCours = this.chargerPartieEnCours();
 				partieEnCours.solution = "";
 				if (partieEnCours.propositions !== undefined) partieEnCours.propositions.length = 0;
-				this.initialiserChoisirMot(partieEnCours);  
+				this.initialiserChoisirMot(partieEnCours);
 			  }
           } else {
             // La partie n'est pas finie, on débloque

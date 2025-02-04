@@ -7,6 +7,7 @@ export default class NotificationMessage {
   private static _notificationTemps: HTMLElement = document.getElementById("notification-temps") as HTMLElement;
   private static _notificationPanelArea: HTMLElement = document.getElementById("panel-fenetre-notification-area") as HTMLElement;
   private static _notificationPanelLabel: HTMLElement = document.getElementById("panel-fenetre-notification-label") as HTMLElement;
+  private static _tempsRestant: number | null = null;
 
   private static _tempsTimeout: NodeJS.Timeout | undefined; // Timeout pour le chronomètre
   private static _notificationTimeout: NodeJS.Timeout | undefined; // Timeout pour les notifications
@@ -17,20 +18,25 @@ export default class NotificationMessage {
   
 public static decompterTemps(secondes: number): Promise<boolean> {
   return new Promise((resolve) => {
+  this._tempsRestant = secondes;
+      
   const afficherTemps = () => {
-    const minutes = Math.floor(secondes / 60);
-    const secondesRestantes = secondes % 60;
+    if (this._tempsRestant === null) return; // Vérifie si le chrono est en pause
+
+    const minutes = Math.floor(this._tempsRestant / 60);
+    const secondesRestantes = this._tempsRestant % 60;
     const message = `${minutes}:${secondesRestantes.toString().padStart(2, '0')}`;
 
     this._notificationAreaTemps.style.opacity = "1";
     this._notificationTemps.style.opacity = "1";
     this._notificationTemps.innerHTML = message;
 	
-    if (secondes > 0) {
-      secondes--;
+    if (this._tempsRestant > 0) {
+      this._tempsRestant--;
       this._tempsTimeout = setTimeout(afficherTemps, 1000);
     } else {
         this._tempsTimeout = undefined;
+        this._tempsRestant = null;
         resolve(true);
 	}
   };
@@ -47,6 +53,11 @@ public static stopperTemps(): void {
 	}
 }
 
+public static reprendreTemps(): void {
+  if (this._tempsRestant !== null && this._tempsTimeout === undefined) {
+    this.decompterTemps(this._tempsRestant);
+  }
+}
 
   public static ajouterNotificationPanel(message: string, origine: HTMLElement): void {
     this.ajouterNotificationDiv(this._notificationPanelArea, this._notificationPanelLabel, message);

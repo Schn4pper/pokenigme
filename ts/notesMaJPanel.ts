@@ -8,6 +8,12 @@ export default class NotesMaJPanel {
 
   private readonly _notes = [
     {
+      version: 7,
+      notes: [
+        "Mode de jeu ⏱ : le chronomètre est désormais mis en pause durant la validation des mots.",
+      ],
+    },
+    {
       version: 6,
       notes: [
         "Le filtrage des générations est désormais possible (hors Pokémon du jour) !",

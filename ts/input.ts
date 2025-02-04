@@ -5,6 +5,7 @@ import { ClavierDisposition } from "./entites/clavierDisposition";
 import Configuration from "./entites/configuration";
 import Dictionnaire from "./dictionnaire";
 import Sauvegardeur from "./sauvegardeur";
+import NotificationMessage from "./notificationMessage";
 
 export enum ContexteBloquage {
   ValidationMot,
@@ -199,6 +200,7 @@ export default class Input {
   private async validerMot(): Promise<void> {
     if (this.estBloque()) return;
     this.bloquer(ContexteBloquage.ValidationMot);
+
     let mot = this._motSaisi;
     // Cas particulier : Si le préremplissage donne un mot complet
     let statutJeu = this.siPreremplissageEstReponse();
@@ -238,11 +240,19 @@ export default class Input {
   }
 
   public bloquer(contexte: ContexteBloquage): void {
-    if (!this._estBloque.includes(contexte)) this._estBloque.push(contexte);
+    if (!this._estBloque.includes(contexte)) {
+        this._estBloque.push(contexte);
+    }
+    NotificationMessage.stopperTemps();
   }
 
   public debloquer(contexte: ContexteBloquage): void {
-    if (this._estBloque.includes(contexte)) this._estBloque.splice(this._estBloque.indexOf(contexte), 1);
+    if (this._estBloque.includes(contexte)) {
+        this._estBloque.splice(this._estBloque.indexOf(contexte), 1);
+    }
+    if (contexte == ContexteBloquage.ValidationMot) {
+      NotificationMessage.reprendreTemps();
+    }
   }
 
   private estBloque(): boolean {

@@ -192,7 +192,7 @@ export default class FinDePartiePanel {
 		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
 			contenu +=
 			'<details class="fin-de-partie-panel-phrase"> \
-			  <summary>Le Pokémon à trouver était...</summary> ' +
+			  <summary>Le Pokémon à trouver était…</summary> ' +
 			  this._motATrouver.toUpperCase() +
 			  "<br /> \
 			</details>";
