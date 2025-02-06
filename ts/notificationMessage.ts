@@ -23,6 +23,12 @@ public static decompterTemps(secondes: number): Promise<boolean> {
       
   const afficherTemps = () => {
     if (this._tempsRestant === null) return;
+    
+    if (this._pause) {
+      setTimeout(afficherTemps, 1000);
+      return;
+    }
+    
     const minutes = Math.floor(this._tempsRestant / 60);
     const secondesRestantes = this._tempsRestant % 60;
     const message = `${minutes}:${secondesRestantes.toString().padStart(2, '0')}`;
@@ -31,16 +37,12 @@ public static decompterTemps(secondes: number): Promise<boolean> {
     this._notificationTemps.style.opacity = "1";
     this._notificationTemps.innerHTML = message;
     if (this._tempsRestant > 0) {
-      if (!this._pause) this._tempsRestant--;
+      this._tempsRestant--;
       this._tempsTimeout = setTimeout(afficherTemps, 1000);
     } else {
-        if (!this._pause) { // Si le joueur valide à la dernière seconde
           this._tempsTimeout = undefined;
           this._tempsRestant = null;
           resolve(true);
-        } else {
-            setTimeout(afficherTemps, 1000);
-        }
 	}
   };
 
