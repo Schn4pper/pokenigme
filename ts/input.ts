@@ -243,7 +243,7 @@ export default class Input {
     if (!this._estBloque.includes(contexte)) {
         this._estBloque.push(contexte);
     }
-    NotificationMessage.stopperTemps();
+    NotificationMessage.mettreEnPauseTemps();
   }
 
   public debloquer(contexte: ContexteBloquage): void {
