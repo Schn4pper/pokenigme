@@ -29,7 +29,7 @@ export default class ReglesPanel {
       '<div class="grille">' +
       '<table role="presentation">' +
       '<tr role="group" aria-label="Mot 1 sur 1">' +
-      '<td class="resultat non-trouve" aria-label="Lettre N non présente non présente">N</td>' +
+      '<td class="resultat non-trouve" aria-label="Lettre N non présente">N</td>' +
       '<td class="resultat bien-place" aria-label="Lettre O bien placée">O</td>' +
       '<td class="resultat mal-place" aria-label="Lettre C mal placée">C</td>' +
       '<td class="resultat non-trouve" aria-label="Lettre T non présente">T</td>' +
