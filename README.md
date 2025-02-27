@@ -4,7 +4,7 @@ Jeu de lettres en ligne (et en français) basé sur Wordle. Le jeu se trouve à 
 
 ## Contact
 
-Pour toute question, remarque ou suggestion: schnapper@fog.gy.
+Pour toute question, remarque ou suggestion: schnapper@hotmail.ch.
 
 ## Développement
 
