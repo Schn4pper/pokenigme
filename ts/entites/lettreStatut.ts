@@ -1,5 +1,5 @@
 export enum LettreStatut {
-  NonTrouve,
-  MalPlace,
-  BienPlace,
+	NonTrouve,
+	MalPlace,
+	BienPlace,
 }

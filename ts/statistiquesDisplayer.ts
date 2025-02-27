@@ -1,132 +1,140 @@
 import CopieHelper from "./copieHelper";
+import Configuration from "./entites/configuration";
 import SauvegardeStats from "./entites/sauvegardeStats";
+import { i18n } from "./i18n/i18n";
+import Sauvegardeur from "./sauvegardeur";
 
 export default class StatistiquesDisplayer {
-    
-  public static genererResumeTexte(texte: string): HTMLElement {
-    const area = document.createElement("div");
 
-    const titre = document.createElement("h3");
-    titre.innerText = "Résumé de la partie";
+	public static genererResumeTexte(texte: string): HTMLElement {
+		var langue = Sauvegardeur.chargerConfig()?.langue ?? Configuration.Default.langue;
 
-    titre.appendChild(CopieHelper.creerBoutonPartage("fin-de-partie-panel-resume-bouton", "Partager"));
-    area.appendChild(titre);
-    
-    const resumeArea = document.createElement("pre");
-    resumeArea.id = "fin-de-partie-panel-resume";
-    resumeArea.innerHTML = texte;
-    area.appendChild(resumeArea);
+		const area = document.createElement("div");
 
-    return area;
-  }
+		const titre = document.createElement("h3");
+		titre.innerText = i18n[langue].statistiquesDisplayer.resume;
 
-  public static genererHtmlStats(stats: SauvegardeStats): HTMLElement {
-    const statsArea = document.createElement("div");
-    statsArea.className = "stats-area";
+		titre.appendChild(CopieHelper.creerBoutonPartage("fin-de-partie-panel-resume-bouton", i18n[langue].statistiquesDisplayer.partager));
+		area.appendChild(titre);
 
-    const titre = document.createElement("h3");
-    titre.innerText = "Statistiques";
-    titre.appendChild(CopieHelper.creerBoutonPartage("fin-de-partie-panel-stats-bouton", "Partager"));
-    statsArea.appendChild(titre);
+		const resumeArea = document.createElement("pre");
+		resumeArea.id = "fin-de-partie-panel-resume";
+		resumeArea.innerHTML = texte;
+		area.appendChild(resumeArea);
 
-    const statsParties = document.createElement("div");
-    statsParties.className = "stats-parties";
+		return area;
+	}
 
-    const max = this.getMax(stats.repartition);
+	public static genererHtmlStats(stats: SauvegardeStats): HTMLElement {
+		var langue = Sauvegardeur.chargerConfig()?.langue ?? Configuration.Default.langue;
+		const statsArea = document.createElement("div");
+		statsArea.className = "stats-area";
 
-    statsParties.appendChild(this.creerBar("1", stats.repartition[1], max));
-    statsParties.appendChild(this.creerBar("2", stats.repartition[2], max));
-    statsParties.appendChild(this.creerBar("3", stats.repartition[3], max));
-    statsParties.appendChild(this.creerBar("4", stats.repartition[4], max));
-    statsParties.appendChild(this.creerBar("5", stats.repartition[5], max));
-    statsParties.appendChild(this.creerBar("6", stats.repartition[6], max));
-    statsParties.appendChild(this.creerBar("-", stats.repartition["-"], max));
+		const titre = document.createElement("h3");
+		titre.innerText = i18n[langue].statistiquesDisplayer.stats;
+		titre.appendChild(CopieHelper.creerBoutonPartage("fin-de-partie-panel-stats-bouton", i18n[langue].statistiquesDisplayer.partager));
+		statsArea.appendChild(titre);
 
-    statsArea.appendChild(statsParties);
+		const statsParties = document.createElement("div");
+		statsParties.className = "stats-parties";
 
-    const statsNumeriques = document.createElement("div");
-    statsNumeriques.className = "stats-numeriques-area";
+		const max = this.getMax(stats.repartition);
 
-    statsNumeriques.appendChild(this.creerStatNumerique("Victoires", stats.partiesGagnees, stats.partiesJouees));
-    statsNumeriques.appendChild(this.creerStatNumerique("Moyenne", this.getMoyenne(stats.repartition)));
-    statsNumeriques.appendChild(this.creerStatNumerique('Lettres <span class="emoji-carre-rouge">🟥</span>', stats.lettresRepartitions.bienPlace));
-    statsNumeriques.appendChild(this.creerStatNumerique('Lettres <span class="emoji-cercle-jaune">🟡</span>', stats.lettresRepartitions.malPlace));
-    statsNumeriques.appendChild(this.creerStatNumerique('Lettres <span class="emoji-carre-bleu">🟦</span>', stats.lettresRepartitions.nonTrouve));
+		statsParties.appendChild(this.creerBar("1", stats.repartition[1], max));
+		statsParties.appendChild(this.creerBar("2", stats.repartition[2], max));
+		statsParties.appendChild(this.creerBar("3", stats.repartition[3], max));
+		statsParties.appendChild(this.creerBar("4", stats.repartition[4], max));
+		statsParties.appendChild(this.creerBar("5", stats.repartition[5], max));
+		statsParties.appendChild(this.creerBar("6", stats.repartition[6], max));
+		statsParties.appendChild(this.creerBar("-", stats.repartition["-"], max));
 
-    statsArea.appendChild(statsNumeriques);
+		statsArea.appendChild(statsParties);
 
-    return statsArea;
-  }
+		const statsNumeriques = document.createElement("div");
+		statsNumeriques.className = "stats-numeriques-area";
 
-  private static creerBar(label: string, valeur: number, max: number): HTMLElement {
-    const ligne = document.createElement("div");
-    ligne.className = "stats-ligne";
+		statsNumeriques.appendChild(this.creerStatNumerique(i18n[langue].statistiquesDisplayer.victoires, stats.partiesGagnees, stats.partiesJouees));
+		statsNumeriques.appendChild(this.creerStatNumerique(i18n[langue].statistiquesDisplayer.moyenne, this.getMoyenne(stats.repartition)));
+		statsNumeriques.appendChild(this.creerStatNumerique(i18n[langue].statistiquesDisplayer.lettres + ' <span class="emoji-carre-rouge">🟥</span>', stats.lettresRepartitions.bienPlace));
+		statsNumeriques.appendChild(this.creerStatNumerique(i18n[langue].statistiquesDisplayer.lettres + ' <span class="emoji-cercle-jaune">🟡</span>', stats.lettresRepartitions.malPlace));
+		statsNumeriques.appendChild(this.creerStatNumerique(i18n[langue].statistiquesDisplayer.lettres + ' <span class="emoji-carre-bleu">🟦</span>', stats.lettresRepartitions.nonTrouve));
 
-    const labelDiv = document.createElement("div");
-    labelDiv.className = "stats-label";
-    labelDiv.innerText = label;
-    ligne.appendChild(labelDiv);
+		statsArea.appendChild(statsNumeriques);
 
-    const barAreaDiv = document.createElement("div");
-    barAreaDiv.className = "stats-bar-area";
+		return statsArea;
+	}
 
-    const barDiv = document.createElement("div");
-    barDiv.className = "stats-bar";
+	private static creerBar(label: string, valeur: number, max: number): HTMLElement {
+		const ligne = document.createElement("div");
+		ligne.className = "stats-ligne";
 
-    const longueurEnPourcent = Math.round((valeur / max) * 100);
-    if (valeur === max) barDiv.classList.add("bar-max");
+		const labelDiv = document.createElement("div");
+		labelDiv.className = "stats-label";
+		labelDiv.innerText = label;
+		ligne.appendChild(labelDiv);
 
-    barDiv.style.width = longueurEnPourcent === 0 ? "0px" : `calc(${longueurEnPourcent}% - 2px)`;
-    barAreaDiv.appendChild(barDiv);
-    ligne.appendChild(barAreaDiv);
+		const barAreaDiv = document.createElement("div");
+		barAreaDiv.className = "stats-bar-area";
 
-    const valeurDiv = document.createElement("div");
-    valeurDiv.className = "stats-valeur";
-    valeurDiv.innerText = valeur.toString();
-    ligne.appendChild(valeurDiv);
+		const barDiv = document.createElement("div");
+		barDiv.className = "stats-bar";
 
-    return ligne;
-  }
+		const longueurEnPourcent = Math.round((valeur / max) * 100);
+		if (valeur === max) barDiv.classList.add("bar-max");
 
-  private static creerStatNumerique(label: string, valeur: number, valeurSecondaire?: number): HTMLElement {
-    const caseDiv = document.createElement("div");
-    caseDiv.className = "stats-numerique-case";
+		barDiv.style.width = longueurEnPourcent === 0 ? "0px" : `calc(${longueurEnPourcent}% - 2px)`;
+		barAreaDiv.appendChild(barDiv);
+		ligne.appendChild(barAreaDiv);
 
-    const valeurDiv = document.createElement("div");
-    valeurDiv.className = "stats-numerique-case-valeur";
-    valeurDiv.innerText = valeur.toLocaleString("fr-FR", { maximumFractionDigits: 2 });
-    caseDiv.appendChild(valeurDiv);
+		const valeurDiv = document.createElement("div");
+		valeurDiv.className = "stats-valeur";
+		valeurDiv.innerText = valeur.toString();
+		ligne.appendChild(valeurDiv);
 
-    if (valeurSecondaire !== undefined) {
-      const secondaireDiv = document.createElement("div");
-      secondaireDiv.className = "stats-numerique-case-secondaire";
-      secondaireDiv.innerText = valeurSecondaire.toLocaleString("fr-FR", { maximumFractionDigits: 2 });
-      caseDiv.appendChild(secondaireDiv);
-    }
+		return ligne;
+	}
 
-    const labelDiv = document.createElement("div");
-    labelDiv.className = "stats-numerique-case-label";
-    labelDiv.innerHTML = label;
-    caseDiv.appendChild(labelDiv);
+	private static creerStatNumerique(label: string, valeur: number, valeurSecondaire?: number): HTMLElement {
+		const caseDiv = document.createElement("div");
+		caseDiv.className = "stats-numerique-case";
 
-    return caseDiv;
-  }
+		const valeurDiv = document.createElement("div");
+		valeurDiv.className = "stats-numerique-case-valeur";
+		valeurDiv.innerText = valeur.toLocaleString("fr-FR", { maximumFractionDigits: 2 });
+		caseDiv.appendChild(valeurDiv);
 
-  private static getMax(repartition: { 1: number; 2: number; 3: number; 4: number; 5: number; 6: number; "-": number }): number {
-    return Math.max(repartition[1], repartition[2], repartition[3], repartition[4], repartition[5], repartition[6], repartition["-"]);
-  }
+		if (valeurSecondaire !== undefined) {
+			const secondaireDiv = document.createElement("div");
+			secondaireDiv.className = "stats-numerique-case-secondaire";
+			secondaireDiv.innerText = valeurSecondaire.toLocaleString("fr-FR", { maximumFractionDigits: 2 });
+			caseDiv.appendChild(secondaireDiv);
+		}
 
-  private static getMoyenne(repartition: { 1: number; 2: number; 3: number; 4: number; 5: number; 6: number; "-": number }): number {
-    return (
-      (repartition[1] * 1 + repartition[2] * 2 + repartition[3] * 3 + repartition[4] * 4 + repartition[5] * 5 + repartition[6] * 6 + repartition["-"] * 6) /
-      (repartition[1] + repartition[2] + repartition[3] + repartition[4] + repartition[5] + repartition[6] + repartition["-"])
-    );
-  }
-  
-  public static genererResumeTexteStatistiques(stats: SauvegardeStats): string {
-    const max = this.getMax(stats.repartition);
+		const labelDiv = document.createElement("div");
+		labelDiv.className = "stats-numerique-case-label";
+		labelDiv.innerHTML = label;
+		caseDiv.appendChild(labelDiv);
 
-    return `🟡 Statistiques de Pokénigme 🟡
+		return caseDiv;
+	}
+
+	private static getMax(repartition: { 1: number; 2: number; 3: number; 4: number; 5: number; 6: number; "-": number }): number {
+		return Math.max(repartition[1], repartition[2], repartition[3], repartition[4], repartition[5], repartition[6], repartition["-"]);
+	}
+
+	private static getMoyenne(repartition: { 1: number; 2: number; 3: number; 4: number; 5: number; 6: number; "-": number }): number {
+		return (
+			(repartition[1] * 1 + repartition[2] * 2 + repartition[3] * 3 + repartition[4] * 4 + repartition[5] * 5 + repartition[6] * 6 + repartition["-"] * 6) /
+			(repartition[1] + repartition[2] + repartition[3] + repartition[4] + repartition[5] + repartition[6] + repartition["-"])
+		);
+	}
+
+	public static genererResumeTexteStatistiques(stats: SauvegardeStats): string {
+		var langue = Sauvegardeur.chargerConfig()?.langue ?? Configuration.Default.langue;
+
+		const max = this.getMax(stats.repartition);
+
+		return i18n[langue].statistiquesDisplayer.stats_pokenigme + `
 
 1/6 - ${this.genererBarTexte(stats.repartition[1], max)} ${stats.repartition[1]}
 2/6 - ${this.genererBarTexte(stats.repartition[2], max)} ${stats.repartition[2]}
@@ -136,17 +144,17 @@ export default class StatistiquesDisplayer {
 6/6 - ${this.genererBarTexte(stats.repartition[6], max)} ${stats.repartition[6]}
 -/6 - ${this.genererBarTexte(stats.repartition["-"], max)} ${stats.repartition["-"]}
 
-Moy. : ${this.getMoyenne(stats.repartition).toLocaleString("fr-FR", { maximumFractionDigits: 2 })}
+${i18n[langue].statistiquesDisplayer.moy} ${this.getMoyenne(stats.repartition).toLocaleString("fr-FR", { maximumFractionDigits: 2 })}
 ${stats.lettresRepartitions.bienPlace}🟥- ${stats.lettresRepartitions.malPlace}🟡- ${stats.lettresRepartitions.nonTrouve}🟦`;
-  }
+	}
 
-  private static genererBarTexte(valeur: number, max: number): string {
-    if (valeur === 0) return "";
+	private static genererBarTexte(valeur: number, max: number): string {
+		if (valeur === 0) return "";
 
-    const caractere = valeur === max ? "🟥" : "🟦";
-    const longueurEnNbChars = Math.round((valeur / max) * 8);
+		const caractere = valeur === max ? "🟥" : "🟦";
+		const longueurEnNbChars = Math.round((valeur / max) * 8);
 
-    return longueurEnNbChars === 0 ? caractere : caractere.repeat(longueurEnNbChars);
-  }
+		return longueurEnNbChars === 0 ? caractere : caractere.repeat(longueurEnNbChars);
+	}
 
 }

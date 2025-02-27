@@ -1,4 +1,4 @@
 export enum Police {
-  Humaine,
-  Zarbi
+	Humaine,
+	Zarbi
 }

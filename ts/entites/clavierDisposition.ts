@@ -1,6 +1,6 @@
 export enum ClavierDisposition {
-  Azerty,
-  Bépo,
-  Qwerty,
-  Qwertz,
+	Azerty,
+	Bépo,
+	Qwerty,
+	Qwertz,
 }

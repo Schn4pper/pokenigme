@@ -1,5 +1,5 @@
 export enum VolumeSon {
-  Faible = 30,
-  Normal = 70,
-  Fort = 100,
+	Faible = 30,
+	Normal = 70,
+	Fort = 100,
 }
