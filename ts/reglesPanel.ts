@@ -52,7 +52,7 @@ export default class ReglesPanel {
 			"</div>" +
 			"<p>" +
 			'<a target="_blank" href="https://github.com/Schn4pper/pokenigme">' + i18n[config.langue].reglesPanel.projet + '</a> '
-			+ i18n[config.langue].reglesPanel.cree_par + ' <a href="mailto:schnapper@fog.gy">' + i18n[config.langue].reglesPanel.schnapper + '</a>. '
+			+ i18n[config.langue].reglesPanel.cree_par + ' <a href="mailto:schnapper@hotmail.ch">' + i18n[config.langue].reglesPanel.schnapper + '</a>. '
 			+ i18n[config.langue].reglesPanel.base_sur + ' <a target="_blank" href="https://framagit.org/JonathanMM/sutom">' + i18n[config.langue].reglesPanel.sutom + '</a> ' + i18n[config.langue].reglesPanel.cree_par + ' <a target="_blank" href="https://twitter.com/Jonamaths">' + i18n[config.langue].reglesPanel.jonamaths + '</a>.<br />' +
 			"</p>";
 
