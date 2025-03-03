@@ -1017,17 +1017,16 @@ export default class ListeMotsProposables {
 		["CHAPOTUS", 8],
 		["DELESTIN", 9]
 		/*
-		Désactivés :
-		"ABO",
-		"MEW",
-		"TIC",
-		"M. MIME",
-		"NIDORAN♀",
-		"NIDORAN♂",
-		"PORYGON2",
-		"TYPE:0",
-		"M. GLAQUETTE",
-		"MIME JR.",
+		["ABO", 1],
+		["MEW", 1],
+		["TIC", 5]
+		["M. MIME", 1],
+		["NIDORAN♀", 1],
+		["NIDORAN♂", 1],
+		["PORYGON2", 2],
+		["TYPE:0", 7]
+		["M. GLAQUETTE", 8]
+		["MIME JR.", 4]
 		*/
 	] as [string, number][]);
 
@@ -1241,7 +1240,6 @@ export default class ListeMotsProposables {
 		["CLAUNCHER",6],
 		["EELEKTROSS",5],
 		["PIGNITE",5],
-		["MEW",1],
 		["ZEKROM",5],
 		["COMBUSKEN",3],
 		["SALANDIT",7],
@@ -1445,7 +1443,6 @@ export default class ListeMotsProposables {
 		["LOKIX",9],
 		["YAMPER",8],
 		["MAGCARGO",2],
-		["MUK",1],
 		["PANCHAM",6],
 		["GIRAFARIG",2],
 		["TERAPAGOS",9],
@@ -2023,7 +2020,9 @@ export default class ListeMotsProposables {
 		/*["NIDORAN♀",1],
 		["NIDORAN♂",1],
 		["FARFETCH'D",1],
+		["MUK",1],
 		["MR. MIME",1],
+		["MEW",1],
 		["PORYGON2",2],
 		["MIME JR.",4],
 		["CRABOMINABLE",7],
@@ -2097,7 +2096,6 @@ export default class ListeMotsProposables {
 		["LECRYODON",8],
 		["EISENHALS",9],
 		["DAMHIRPLEX",2],
-		["KRIECHFLUEGEL",9],
 		["PIEPI",1],
 		["KLOPPTOPUS",8],
 		["HARIYAMA",3],
@@ -2209,7 +2207,6 @@ export default class ListeMotsProposables {
 		["DITTO",1],
 		["SPROXI",9],
 		["REPTAIN",3],
-		["PII",2],
 		["AFFITI",9],
 		["CLAVION",6],
 		["ADMURAI",5],
@@ -2256,7 +2253,6 @@ export default class ListeMotsProposables {
 		["MOBTIFF",9],
 		["SCHLAPOR",4],
 		["RAYQUAZA",3],
-		["BRUELLSCHWEIF",9],
 		["BOJELIN",4],
 		["BOREOS",5],
 		["QUIEKEL",2],
@@ -2952,7 +2948,6 @@ export default class ListeMotsProposables {
 		["BURMY",4],
 		["FLUFFELUFF",2],
 		["MELMETAL",7],
-		["MEW",1],
 		["AMONITAS",1],
 		["TENTACHA",1],
 		["IMANTIS",7],
@@ -3079,12 +3074,16 @@ export default class ListeMotsProposables {
 		["MONARGORAS",6],
 		/*["NIDORAN♀",1],
 		["NIDORAN♂",1],
+		["PII",2],
 		["PORYGON2",2],
+		["MEW",1],
 		["MANGUSPEKTOR",7],
 		["TYP:NULL",7],
 		["EISENBUENDEL",9],
 		["DONNERSICHEL",9],
-		["EISENKRIEGER",9],*/
+		["EISENKRIEGER",9],
+		["BRUELLSCHWEIF",9],
+		["KRIECHFLUEGEL",9],*/
 	] as [string, number][]);
 	
 	public static readonly PropositionsUniquement: Map<string, number> = new Map<string, number>([
