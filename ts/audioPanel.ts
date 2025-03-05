@@ -23,13 +23,13 @@ export default class AudioPanel {
 		this._audioLettreNonTrouve = document.getElementById("son-lettre-non-trouve") as HTMLAudioElement;
 
 		this.setVolumeSonore(configuration.volumeSon ?? Configuration.Default.volumeSon);
-		this.toggleSon(configuration.hasAudio, true, configuration.langue);
+		this.toggleSon(configuration.hasAudio, true, configuration.langue_interface);
 
 		this._configAudioBouton.addEventListener(
 			"click",
 			((event: MouseEvent) => {
 				event.stopPropagation();
-				this.toggleSon(!this._hasAudio, false, configuration.langue);
+				this.toggleSon(!this._hasAudio, false, configuration.langue_interface);
 				Sauvegardeur.sauvegarderConfig({
 					...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
 					hasAudio: this._hasAudio,

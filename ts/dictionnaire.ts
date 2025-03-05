@@ -54,11 +54,12 @@ export default class Dictionnaire {
 		return Array.from(ListeMotsProposables.DictionnaireFR.entries()).map(([key]) => key).includes(mot) ||
 			Array.from(ListeMotsProposables.DictionnaireDE.entries()).map(([key]) => key).includes(mot) ||
 			Array.from(ListeMotsProposables.DictionnaireEN.entries()).map(([key]) => key).includes(mot) ||
+			Array.from(ListeMotsProposables.DictionnaireJP.entries()).map(([key]) => key).includes(mot) ||
 			Array.from(ListeMotsProposables.PropositionsUniquement.entries()).map(([key]) => key).includes(mot);
 	}
 
 	public static async estMotMissingno(mot: string): Promise<boolean> {
-		return "MISSINGNO" === mot.toUpperCase() || "MISSINGNO." === mot.toUpperCase();
+		return "MISSINGNO" === mot || "MISSINGNO." === mot;
 	}
 
 	public static nettoyerMot(mot: string): string {
@@ -74,12 +75,15 @@ export default class Dictionnaire {
 
 		var propositions = new Map<string, number>;
 
-		switch (config.langue) {
+		switch (config.langue_jeu) {
 			case Langue.FR:
 				propositions = ListeMotsProposables.DictionnaireFR;
 				break;
 			case Langue.DE:
 				propositions = ListeMotsProposables.DictionnaireDE;
+				break;
+			case Langue.JP:
+				propositions = ListeMotsProposables.DictionnaireJP;
 				break;
 			case Langue.EN:
 			default:

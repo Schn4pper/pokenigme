@@ -20,7 +20,7 @@ export default class Grille {
 	public constructor(longueurMot: number, maxPropositions: number, audioPanel: AudioPanel) {
 		this._grille = document.getElementById("grille") as HTMLElement;
 		this._audioPanel = audioPanel;
-		this._langue = Sauvegardeur.chargerConfig()?.langue ?? Configuration.Default.langue;
+		this._langue = Sauvegardeur.chargerConfig()?.langue_interface ?? Configuration.Default.langue_interface;
 		this._longueurMot = longueurMot;
 		this._maxPropositions = maxPropositions;
 		this._indice = new Array<string | undefined>(longueurMot);
@@ -48,7 +48,7 @@ export default class Grille {
 						contenuCellule = ".";
 						cellule.classList.add("cellule-lettre-pas-curseur");
 					} else {
-						contenuCellule = mot[nbLettre].toUpperCase();
+						contenuCellule = mot[nbLettre];
 						cellule.classList.remove("cellule-lettre-pas-curseur");
 					}
 				} else if (nbMot === this._motActuel) {

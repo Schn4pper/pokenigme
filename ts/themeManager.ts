@@ -52,6 +52,7 @@ export default class ThemeManager {
 			case Theme.Clair:
 				root.style.setProperty("--couleur-lettre-survole-bien-place", "rgb(153, 0, 28)");
 				root.style.setProperty("--couleur-lettre-survole-mal-place", "rgb(153, 112, 0)");
+				break;
 			default:
 				root.style.setProperty("--couleur-lettre-survole-bien-place", "rgba(231, 0, 42, 0.65)");
 				root.style.setProperty("--couleur-lettre-survole-mal-place", "rgba(255, 189, 0, 0.65)");
@@ -69,7 +70,6 @@ export default class ThemeManager {
 			default:
 				root.style.setProperty("--police-grille", "Roboto, Ubuntu, Arial, Helvetica, sans-serif");
 				root.style.setProperty("--police-clavier", "monospace");
-
 		}
 	}
 }

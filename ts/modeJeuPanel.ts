@@ -56,7 +56,7 @@ export default class ModeJeuPanel {
 				modeJeuTexte = "⏱️";
 		}
 
-		this._modeJeuBouton.innerHTML = i18n[config.langue].modeJeuPanel.pokenigme + " " + modeJeuTexte;
+		this._modeJeuBouton.innerHTML = i18n[config.langue_interface].modeJeuPanel.pokenigme + " " + modeJeuTexte;
 
 
 
@@ -71,7 +71,7 @@ export default class ModeJeuPanel {
 
 	public afficher(): void {
 		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
-		let titre = i18n[config.langue].modeJeuPanel.mode_jeu;
+		let titre = i18n[config.langue_interface].modeJeuPanel.mode_jeu;
 		let contenu =
 			"<h2>" +
 			'<a href="#" id="mode-jeu-dujour">📅</a> <a href="#" id="mode-jeu-infini">∞</a> <a href="#" id="mode-jeu-devinette">🕵️</a> <a href="#" id="mode-jeu-desordre">👀</a> <a href="#" id="mode-jeu-course">⏱️</a>' +

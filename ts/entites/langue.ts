@@ -1,5 +1,6 @@
 export enum Langue {
 	FR,
 	DE,
-	EN
+	EN,
+	JP
 }

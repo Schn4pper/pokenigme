@@ -7,7 +7,7 @@ import Sauvegardeur from "./sauvegardeur";
 export default class StatistiquesDisplayer {
 
 	public static genererResumeTexte(texte: string): HTMLElement {
-		var langue = Sauvegardeur.chargerConfig()?.langue ?? Configuration.Default.langue;
+		var langue = Sauvegardeur.chargerConfig()?.langue_interface ?? Configuration.Default.langue_interface;
 
 		const area = document.createElement("div");
 
@@ -26,7 +26,7 @@ export default class StatistiquesDisplayer {
 	}
 
 	public static genererHtmlStats(stats: SauvegardeStats): HTMLElement {
-		var langue = Sauvegardeur.chargerConfig()?.langue ?? Configuration.Default.langue;
+		var langue = Sauvegardeur.chargerConfig()?.langue_interface ?? Configuration.Default.langue_interface;
 		const statsArea = document.createElement("div");
 		statsArea.className = "stats-area";
 
@@ -130,7 +130,7 @@ export default class StatistiquesDisplayer {
 	}
 
 	public static genererResumeTexteStatistiques(stats: SauvegardeStats): string {
-		var langue = Sauvegardeur.chargerConfig()?.langue ?? Configuration.Default.langue;
+		var langue = Sauvegardeur.chargerConfig()?.langue_interface ?? Configuration.Default.langue_interface;
 
 		const max = this.getMax(stats.repartition);
 

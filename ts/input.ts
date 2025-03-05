@@ -22,6 +22,15 @@ export default class Input {
 	private _resultats: Array<Array<LettreResultat>>;
 	private _haptiqueActive: boolean;
 
+	private _cars_allemands: Record<string, string> = {
+		"ß": "SS",
+		"ü": "UE",
+		"Ü": "UE",
+		"ä": "AE",
+		"Ä": "AE",
+		"ö": "OE",
+		"Ö": "OE"
+	};
 
 	public constructor(gestionnaire: Gestionnaire, configuration: Configuration, longueurMot: number) {
 		this._inputArea = document.getElementById("input-area") as HTMLElement;
@@ -166,11 +175,11 @@ export default class Input {
 
 				if (touche === "Enter") {
 					this.validerMot();
+				} else if (touche in this._cars_allemands) {
+					this.saisirLettre(this._cars_allemands[touche][0]);	
+					this.saisirLettre(this._cars_allemands[touche][1]);
 				} else if (/^[A-Z.\-]$/.test(Dictionnaire.nettoyerMot(touche))) {
 					this.saisirLettre(touche);
-				} else if (touche === "ß") {
-					this.saisirLettre("S");
-					this.saisirLettre("S");
 				}
 			}).bind(this)
 		);

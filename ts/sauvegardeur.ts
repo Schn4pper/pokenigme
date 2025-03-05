@@ -30,12 +30,12 @@ export default class Sauvegardeur {
 			const donneesDepuisLien = Sauvegardeur.chargerInformationDepuisLien(contenuLocation);
 			window.location.hash = "";
 			if (donneesDepuisLien) {
-				NotificationMessage.ajouterNotification(i18n[config.langue].sauvegardeur.stats_chargees);
+				NotificationMessage.ajouterNotification(i18n[config.langue_interface].sauvegardeur.stats_chargees);
 				Sauvegardeur.sauvegarderStats(donneesDepuisLien);
 				return donneesDepuisLien;
 			}
 
-			NotificationMessage.ajouterNotification(i18n[config.langue].sauvegardeur.stats_ko);
+			NotificationMessage.ajouterNotification(i18n[config.langue_interface].sauvegardeur.stats_ko);
 		}
 
 		const dataStats = localStorage.getItem(this._cleStats);
@@ -85,20 +85,20 @@ export default class Sauvegardeur {
 		let dataPartieEnCours;
 		switch (config.modeJeu) {
 			case ModeJeu.Infini:
-				dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursInfini + config.langue);
+				dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursInfini + config.langue_jeu);
 				break;
 			case ModeJeu.DuJour:
-				dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursDuJour + config.langue);
+				dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursDuJour + config.langue_jeu);
 				break;
 			case ModeJeu.Devinette:
-				dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursDevinette + config.langue);
+				dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursDevinette + config.langue_jeu);
 				break;
 			case ModeJeu.Desordre:
-				dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursDesordre + config.langue);
+				dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursDesordre + config.langue_jeu);
 				break;
 			case ModeJeu.Course:
 			default:
-				dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursCourse + config.langue);
+				dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursCourse + config.langue_jeu);
 		}
 
 		if (!dataPartieEnCours) return;
@@ -147,31 +147,31 @@ export default class Sauvegardeur {
 
 		switch (config.modeJeu) {
 			case ModeJeu.Infini:
-				localStorage.removeItem(this._clePartieEnCoursInfini + config.langue);
+				localStorage.removeItem(this._clePartieEnCoursInfini + config.langue_jeu);
 				break;
 			case ModeJeu.DuJour:
-				localStorage.removeItem(this._clePartieEnCoursDuJour + config.langue);
+				localStorage.removeItem(this._clePartieEnCoursDuJour + config.langue_jeu);
 				break;
 			case ModeJeu.Devinette:
-				localStorage.removeItem(this._clePartieEnCoursDevinette + config.langue);
+				localStorage.removeItem(this._clePartieEnCoursDevinette + config.langue_jeu);
 				break;
 			case ModeJeu.Desordre:
-				localStorage.removeItem(this._clePartieEnCoursDesordre + config.langue);
+				localStorage.removeItem(this._clePartieEnCoursDesordre + config.langue_jeu);
 				break;
 			case ModeJeu.Course:
 			default:
-				localStorage.removeItem(this._clePartieEnCoursCourse + config.langue);
+				localStorage.removeItem(this._clePartieEnCoursCourse + config.langue_jeu);
 		}
 	}
 
 	public static purgerPartiesEnCours(duJour : boolean): void {
 		let config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
 
-		localStorage.removeItem(this._clePartieEnCoursInfini + config.langue);
-		localStorage.removeItem(this._clePartieEnCoursDevinette + config.langue);
-		localStorage.removeItem(this._clePartieEnCoursDesordre + config.langue);
-		localStorage.removeItem(this._clePartieEnCoursCourse + config.langue);
-		if (duJour) localStorage.removeItem(this._clePartieEnCoursDuJour + config.langue);
+		localStorage.removeItem(this._clePartieEnCoursInfini + config.langue_jeu);
+		localStorage.removeItem(this._clePartieEnCoursDevinette + config.langue_jeu);
+		localStorage.removeItem(this._clePartieEnCoursDesordre + config.langue_jeu);
+		localStorage.removeItem(this._clePartieEnCoursCourse + config.langue_jeu);
+		if (duJour) localStorage.removeItem(this._clePartieEnCoursDuJour + config.langue_jeu);
 	}
 
 	public static genererLien(): string {
@@ -236,34 +236,50 @@ export default class Sauvegardeur {
 	}
 
 	private static cleanConfig(config: Configuration) {
-		if (config.langue === undefined) {
-			Sauvegardeur.sauvegarderConfig({
-				...config,
-				langue: Configuration.Default.langue
-			});
-			config.langue = Configuration.Default.langue;
-		}
-		
 		const langue = LienHelper.extraireInformationTexte("l");
 		if (langue) {
 			switch (langue) {
 				case "FR":
-					config.langue = Langue.FR;
+					config.langue_interface = Langue.FR;
+					config.langue_jeu = Langue.FR;
 					break;
 				case "DE":
-					config.langue = Langue.DE;
+					config.langue_interface = Langue.DE;
+					config.langue_jeu = Langue.DE;
+					break;
+				case "JP":
+					config.langue_interface = Langue.JP;
+					config.langue_jeu = Langue.JP;
 					break;
 				case "EN":
-					config.langue = Langue.EN;
-					break;
 				default:
+					config.langue_interface = Langue.EN;
+					config.langue_jeu = Langue.EN;
 			}
 			Sauvegardeur.sauvegarderConfig({
 				...config,
-				langue: config.langue
+				langue_interface: config.langue_interface,
+				langue_jeu: config.langue_jeu
+
 			});
 		}
 		
+		if (config.langue_interface === undefined) {
+			Sauvegardeur.sauvegarderConfig({
+				...config,
+				langue_interface: Configuration.Default.langue_interface
+			});
+			config.langue_interface = Configuration.Default.langue_interface;
+		}
+		
+		if (config.langue_jeu === undefined) {
+			Sauvegardeur.sauvegarderConfig({
+				...config,
+				langue_jeu: Configuration.Default.langue_jeu
+			});
+			config.langue_jeu = Configuration.Default.langue_jeu;
+		}
+				
 		if (config.generations === undefined) {
 			Sauvegardeur.sauvegarderConfig({
 				...config,

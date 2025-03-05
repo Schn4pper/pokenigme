@@ -9,9 +9,20 @@ export default class NotesMaJPanel {
 
 	private readonly _notes = [
 		{
+			version: 9,
+			notes: [
+				"FR : Pokénigme est désormais disponible entièrement en japonais ! La langue d'affichage est désormais distincte de celle de jeu. Résolvez des énigmes dans d'autres langues tout en conservant l'interface en français.",
+				"EN : Pokénigma available in Japanese !",
+				"DE : Pokénigma erhältlich auf Japanisch !",
+				"JP : ポケナゾが日本語で利用可能になりました！",
+			],
+		},
+		{
 			version: 8,
 			notes: [
-				"FR : Pokénigme est désormais disponible entièrement en anglais et en allemand !","EN : Pokénigma available in English !","DE : Pokénigma erhältlich auf Deutsch !",
+				"FR : Pokénigme est désormais disponible entièrement en anglais et en allemand !",
+				"EN : Pokénigma available in English !",
+				"DE : Pokénigma erhältlich auf Deutsch !",
 			],
 		},
 		{
@@ -58,7 +69,7 @@ export default class NotesMaJPanel {
 
 	public afficher(versionOrigine: number): void {
 		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
-		let titre = i18n[config.langue].notesMaJPanel.notes;
+		let titre = i18n[config.langue_interface].notesMaJPanel.notes;
 
 		// On affiche du plus récent au plus ancien
 		const notesAAfficher = this._notes
@@ -77,7 +88,7 @@ export default class NotesMaJPanel {
 			const divNote = document.createElement("div");
 
 			const titre = document.createElement("h3");
-			titre.innerText = `${i18n[config.langue].notesMaJPanel.version} ${note.version}`;
+			titre.innerText = `${i18n[config.langue_interface].notesMaJPanel.version} ${note.version}`;
 			divNote.appendChild(titre);
 
 			const listeNotes = document.createElement("ul");

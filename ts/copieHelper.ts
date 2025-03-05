@@ -17,7 +17,7 @@ export default class CopieHelper {
 						})
 				)
 				.then(() => { NotificationMessage.ajouterNotificationPanel(messageSucces, bouton) })
-				.catch(() => { NotificationMessage.ajouterNotificationPanel(i18n[Sauvegardeur.chargerConfig()?.langue ?? Configuration.Default.langue].copieHelper.pas_compatible, bouton) });
+				.catch(() => { NotificationMessage.ajouterNotificationPanel(i18n[Sauvegardeur.chargerConfig()?.langue_interface ?? Configuration.Default.langue_interface].copieHelper.pas_compatible, bouton) });
 		});
 	}
 

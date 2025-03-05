@@ -22,38 +22,40 @@ export default class ReglesPanel {
 	public afficher(): void {
 		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
 
-		let titre = i18n[config.langue].reglesPanel.regles;
+		let titre = i18n[config.langue_interface].reglesPanel.regles;
 		let contenu =
 			"<p>" +
-			i18n[config.langue].reglesPanel.regles_ligne_1 + "<br />" +
-			i18n[config.langue].reglesPanel.regles_ligne_2 + "<br />" +
-			i18n[config.langue].reglesPanel.regles_ligne_3 + "<br />" +
+			i18n[config.langue_interface].reglesPanel.regles_ligne_1 + "<br />" +
+			i18n[config.langue_interface].reglesPanel.regles_ligne_2 + "<br />" +
+			i18n[config.langue_interface].reglesPanel.regles_ligne_3 + "<br />" +
 			"</p>" +
 			'<div class="grille">' +
 			'<table role="presentation">' +
-			'<tr role="group" aria-label="' + i18n[config.langue].reglesPanel.mot_exemple + '">' +
-			'<td class="resultat non-trouve" aria-label="' + i18n[config.langue].reglesPanel.statut_lettre_1 + '">' + i18n[config.langue].reglesPanel.lettre_1 + '</td>' +
-			'<td class="resultat bien-place" aria-label="' + i18n[config.langue].reglesPanel.statut_lettre_2 + '">' + i18n[config.langue].reglesPanel.lettre_2 + '</td>' +
-			'<td class="resultat mal-place" aria-label="' + i18n[config.langue].reglesPanel.statut_lettre_3 + '">' + i18n[config.langue].reglesPanel.lettre_3 + '</td>' +
-			'<td class="resultat non-trouve" aria-label="' + i18n[config.langue].reglesPanel.statut_lettre_4 + '">' + i18n[config.langue].reglesPanel.lettre_4 + '</td>' +
-			'<td class="resultat non-trouve" aria-label="' + i18n[config.langue].reglesPanel.statut_lettre_5 + '">' + i18n[config.langue].reglesPanel.lettre_5 + '</td>' +
-			'<td class="resultat mal-place" aria-label="' + i18n[config.langue].reglesPanel.statut_lettre_6 + '">' + i18n[config.langue].reglesPanel.lettre_6 + '</td>' +
-			'<td class="resultat bien-place" aria-label="' + i18n[config.langue].reglesPanel.statut_lettre_7 + '">' + i18n[config.langue].reglesPanel.lettre_7 + '</td>' +
+			'<tr role="group" aria-label="' + i18n[config.langue_interface].reglesPanel.mot_exemple + '">' +
+			'<td class="resultat non-trouve" aria-label="' + i18n[config.langue_interface].reglesPanel.statut_lettre_1 + '">' + i18n[config.langue_interface].reglesPanel.lettre_1 + '</td>' +
+			'<td class="resultat bien-place" aria-label="' + i18n[config.langue_interface].reglesPanel.statut_lettre_2 + '">' + i18n[config.langue_interface].reglesPanel.lettre_2 + '</td>' +
+			'<td class="resultat mal-place" aria-label="' + i18n[config.langue_interface].reglesPanel.statut_lettre_3 + '">' + i18n[config.langue_interface].reglesPanel.lettre_3 + '</td>' +
+			'<td class="resultat non-trouve" aria-label="' + i18n[config.langue_interface].reglesPanel.statut_lettre_4 + '">' + i18n[config.langue_interface].reglesPanel.lettre_4 + '</td>' +
+			'<td class="resultat non-trouve" aria-label="' + i18n[config.langue_interface].reglesPanel.statut_lettre_5 + '">' + i18n[config.langue_interface].reglesPanel.lettre_5 + '</td>' +
+			'<td class="resultat mal-place" aria-label="' + i18n[config.langue_interface].reglesPanel.statut_lettre_6 + '">' + i18n[config.langue_interface].reglesPanel.lettre_6 + '</td>' +
+			'<td class="resultat bien-place" aria-label="' + i18n[config.langue_interface].reglesPanel.statut_lettre_7 + '">' + i18n[config.langue_interface].reglesPanel.lettre_7 + '</td>' +
 			"</tr>" +
 			"</table>" +
-			i18n[config.langue].reglesPanel.regles_ligne_4 + "<br />" +
-			i18n[config.langue].reglesPanel.regles_ligne_5 + "<br />" +
-			i18n[config.langue].reglesPanel.regles_ligne_6 + "<br /><br/>" +
-			i18n[config.langue].reglesPanel.regles_ligne_7 + "<br/>" +
-			i18n[config.langue].reglesPanel.regles_ligne_8 + "<br/>" +
-			i18n[config.langue].reglesPanel.regles_ligne_9 + "<br/>" +
-			i18n[config.langue].reglesPanel.regles_ligne_10 + "<br/>" +
-			i18n[config.langue].reglesPanel.regles_ligne_11 + "<br/>" +
+			i18n[config.langue_interface].reglesPanel.regles_ligne_4 + "<br />" +
+			i18n[config.langue_interface].reglesPanel.regles_ligne_5 + "<br />" +
+			i18n[config.langue_interface].reglesPanel.regles_ligne_6 + "<br /><br/>" +
+			i18n[config.langue_interface].reglesPanel.regles_ligne_7 + "<br/>" +
+			i18n[config.langue_interface].reglesPanel.regles_ligne_8 + "<br/>" +
+			i18n[config.langue_interface].reglesPanel.regles_ligne_9 + "<br/>" +
+			i18n[config.langue_interface].reglesPanel.regles_ligne_10 + "<br/>" +
+			i18n[config.langue_interface].reglesPanel.regles_ligne_11 + "<br/>" +
 			"</div>" +
 			"<p>" +
-			'<a target="_blank" href="https://github.com/Schn4pper/pokenigme">' + i18n[config.langue].reglesPanel.projet + '</a> '
-			+ i18n[config.langue].reglesPanel.cree_par + ' <a href="mailto:schnapper@hotmail.ch">' + i18n[config.langue].reglesPanel.schnapper + '</a>. '
-			+ i18n[config.langue].reglesPanel.base_sur + ' <a target="_blank" href="https://framagit.org/JonathanMM/sutom">' + i18n[config.langue].reglesPanel.sutom + '</a> ' + i18n[config.langue].reglesPanel.cree_par + ' <a target="_blank" href="https://twitter.com/Jonamaths">' + i18n[config.langue].reglesPanel.jonamaths + '</a>.<br />' +
+			'<a target="_blank" href="https://github.com/Schn4pper/pokenigme">' + i18n[config.langue_interface].reglesPanel.projet + '</a> '
+			+ i18n[config.langue_interface].reglesPanel.cree_par + ' <a href="mailto:schnapper@hotmail.ch">' + i18n[config.langue_interface].reglesPanel.schnapper + '</a>'
+			+ i18n[config.langue_interface].reglesPanel.point + ' ' + i18n[config.langue_interface].reglesPanel.base_sur + ' <a target="_blank" href="https://framagit.org/JonathanMM/sutom">'
+			+ i18n[config.langue_interface].reglesPanel.sutom + '</a> ' + i18n[config.langue_interface].reglesPanel.cree_par + ' <a target="_blank" href="https://bsky.app/profile/jonathanmm.nocle.fr">'
+			+ i18n[config.langue_interface].reglesPanel.jonamaths + '</a>' + i18n[config.langue_interface].reglesPanel.point + '<br />' +
 			"</p>";
 
 		this._panelManager.setContenu(titre, contenu);

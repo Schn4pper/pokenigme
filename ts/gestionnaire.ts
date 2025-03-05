@@ -57,11 +57,11 @@ export default class Gestionnaire {
 		let configurationStatsBouton: HTMLElement = document.getElementById("configuration-stats-bouton") as HTMLElement;
 		let btnFermeture: HTMLElement = document.getElementById("panel-fenetre-bouton-fermeture") as HTMLElement;
 
-		configurationReglesBouton.setAttribute("aria-label", i18n[this._config.langue].gestionnaire.afficher_regles);
-		configurationConfigBouton.setAttribute("aria-label", i18n[this._config.langue].gestionnaire.ouvrir_conf);
-		configurationStatsBouton.setAttribute("aria-label", i18n[this._config.langue].gestionnaire.afficher_stats);
-		btnFermeture.setAttribute("aria-label", i18n[this._config.langue].gestionnaire.fermer_panneau);
-		document.title = i18n[this._config.langue].modeJeuPanel.pokenigme;
+		configurationReglesBouton.setAttribute("aria-label", i18n[this._config.langue_interface].gestionnaire.afficher_regles);
+		configurationConfigBouton.setAttribute("aria-label", i18n[this._config.langue_interface].gestionnaire.ouvrir_conf);
+		configurationStatsBouton.setAttribute("aria-label", i18n[this._config.langue_interface].gestionnaire.afficher_stats);
+		btnFermeture.setAttribute("aria-label", i18n[this._config.langue_interface].gestionnaire.fermer_panneau);
+		document.title = i18n[this._config.langue_interface].modeJeuPanel.pokenigme;
 		
 		let partieEnCours = this.chargerPartieEnCours();
 
@@ -165,7 +165,7 @@ export default class Gestionnaire {
 	}
 
 	private sauvegarderPartieEnCours(): void {
-		Sauvegardeur.sauvegarderPartieEnCours(this._idPartieEnCours, this._datePartieEnCours, this._propositions, this._motATrouver, this._dateFinPartie, this._modeJeu, this._config.langue);
+		Sauvegardeur.sauvegarderPartieEnCours(this._idPartieEnCours, this._datePartieEnCours, this._propositions, this._motATrouver, this._dateFinPartie, this._modeJeu, this._config.langue_jeu);
 	}
 
 	private async choisirMot(modeJeu: ModeJeu, solution: string): Promise<string> {
@@ -222,7 +222,7 @@ export default class Gestionnaire {
 						await this.chargerPropositions(partieEnCours.propositions);
 				}
 			})
-			.catch(() => NotificationMessage.ajouterNotification(i18n[this._config.langue].gestionnaire.aucun_pokemon));
+			.catch(() => NotificationMessage.ajouterNotification(i18n[this._config.langue_interface].gestionnaire.aucun_pokemon));
 	}
 
 	private decompose(mot: string): { [lettre: string]: number } {
@@ -238,17 +238,17 @@ export default class Gestionnaire {
 	public async verifierMot(mot: string, chargementPartie: boolean = false): Promise<boolean> {
 		mot = Dictionnaire.nettoyerMot(mot);
 		if (mot.length !== this._motATrouver.length) {
-			NotificationMessage.ajouterNotification(i18n[this._config.langue].gestionnaire.trop_court);
+			NotificationMessage.ajouterNotification(i18n[this._config.langue_interface].gestionnaire.trop_court);
 			return false;
 		}
 
 		if (mot.includes(".")) {
-			NotificationMessage.ajouterNotification((await Dictionnaire.estMotMissingno(mot)) ? i18n[this._config.langue].gestionnaire.bien_essaye : i18n[this._config.langue].gestionnaire.incomplet);
+			NotificationMessage.ajouterNotification((await Dictionnaire.estMotMissingno(mot)) ? i18n[this._config.langue_interface].gestionnaire.bien_essaye : i18n[this._config.langue_interface].gestionnaire.incomplet);
 			return false;
 		}
 
 		if (!(await Dictionnaire.estMotValide(mot))) {
-			NotificationMessage.ajouterNotification((await Dictionnaire.estMotMissingno(mot)) ? i18n[this._config.langue].gestionnaire.bien_essaye : i18n[this._config.langue].gestionnaire.inconnu);
+			NotificationMessage.ajouterNotification((await Dictionnaire.estMotMissingno(mot)) ? i18n[this._config.langue_interface].gestionnaire.bien_essaye : i18n[this._config.langue_interface].gestionnaire.inconnu);
 			return false;
 		}
 

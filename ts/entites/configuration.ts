@@ -4,10 +4,12 @@ import { VolumeSon } from "./volumeSon";
 import { Police } from "./police";
 import { ModeJeu } from "./modeJeu";
 import { Langue } from "./langue";
+import InstanceConfiguration from "../instanceConfiguration";
 
 export default class Configuration {
 	public static Default: Configuration = {
-		langue: Langue.FR,
+		langue_interface: Langue.FR,
+		langue_jeu: Langue.FR,
 		hasAudio: false,
 		afficherRegles: true,
 		afficherChrono: false,
@@ -15,7 +17,7 @@ export default class Configuration {
 		disposition: ClavierDisposition.Azerty,
 		theme: Theme.Sombre,
 		haptique: false,
-		changelog: 8,
+		changelog: InstanceConfiguration.derniereMiseAJour,
 		police: Police.Humaine,
 		modeJeu: ModeJeu.DuJour,
 		generations: [1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -24,7 +26,8 @@ export default class Configuration {
 		nbIndices: 5
 	};
 
-	langue: Langue = Langue.FR;
+	langue_interface: Langue = Langue.FR;
+	langue_jeu: Langue = Langue.FR;
 	hasAudio: boolean = false;
 	afficherRegles: boolean = true;
 	afficherChrono: boolean = false;
