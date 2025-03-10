@@ -49,12 +49,16 @@ export default class Input {
 	public dessinerClavier(disposition: ClavierDisposition): void {
 		let clavier = this.getDisposition(disposition);
 		this._inputArea.innerHTML = "";
-
+		let ligneDiv;
+		
 		for (let ligne of clavier) {
-			let ligneDiv = document.createElement("div");
+			ligneDiv = document.createElement("div");
 			ligneDiv.className = "input-ligne";
 
 			for (let lettre of ligne) {
+				if (lettre == "_null") {
+					continue;
+				}
 				let lettreDiv = document.createElement("div");
 				lettreDiv.className = "input-lettre";
 				switch (lettre) {
@@ -72,6 +76,11 @@ export default class Input {
 						break;
 					case "_vide":
 						lettreDiv.classList.add("input-lettre-vide");
+						break;
+					case " ":
+						lettreDiv.setAttribute("style", "flex-grow: 20; color: transparent;");
+						lettreDiv.dataset["lettre"] = lettre;
+						lettreDiv.innerText = "_";
 						this.ajouterFocus(lettreDiv);
 						break;
 					default:
@@ -84,6 +93,9 @@ export default class Input {
 
 			this._inputArea.appendChild(ligneDiv);
 		}
+		
+		if (ligneDiv !== undefined) ligneDiv.className = "input-ligne-last";
+
 		this._haptiqueActive = Sauvegardeur.chargerConfig()?.haptique ?? Configuration.Default.haptique;
 		this.ajouterEvenementClavierVirtuel();
 		this.remettrePropositions();
@@ -98,28 +110,33 @@ export default class Input {
 		switch (clavier) {
 			case ClavierDisposition.Bépo:
 				return [
-					["-", "B", "E", "P", "O", "W", "V", "D", "L", "J", "Z"],
+					["B", "E", "P", "O", "W", "V", "D", "L", "J", "Z"],
 					["A", "U", "I", "C", "T", "S", "R", "N", "M"],
-					["_effacer", "Y", "X", ".", "K", "Q", "G", "H", "F", "_entree"],
+					["_effacer", "Y", "X", "K", "Q", "G", "H", "F", "_entree"],
+					["_vide", "_vide", "2","0","♀","♂"," ","-", ".",":","'","_vide", "_vide"],
 				];
 			case ClavierDisposition.Qwertz:
 				return [
 					["Q", "W", "E", "R", "T", "Z", "U", "I", "O", "P"],
 					["A", "S", "D", "F", "G", "H", "J", "K", "L"],
-					[".", "Y", "X", "C", "V", "B", "N", "M", "-", "_effacer", "_entree"],
+					["_vide", "Y", "X", "C", "V", "B", "N", "M", "_effacer", "_entree"],
+					["_vide", "_vide", "2","0","♀","♂"," ","-", ".",":","'","_vide", "_vide"],
+
 				];
 			case ClavierDisposition.Qwerty:
 				return [
-					["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "-"],
+					["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
 					["A", "S", "D", "F", "G", "H", "J", "K", "L"],
-					["Z", "X", "C", "V", "B", "N", "M", ".", "_effacer", "_entree"],
+					["_vide", "Z", "X", "C", "V", "B", "N", "M", "_effacer", "_entree", "_vide"],
+					["_vide", "_vide", "2","0","♀","♂"," ","-", ".",":","'","_vide", "_vide"],
 				];
 			case ClavierDisposition.Azerty:
 			default:
 				return [
-					["A", "Z", "E", "R", "T", "Y", "U", "I", "O", "P", "-"],
-					["_vide", "Q", "S", "D", "F", "G", "H", "J", "K", "L", "M"],
-					["_vide", ".", "W", "X", "C", "V", "B", "N", "_effacer", "_entree"]
+					["A", "Z", "E", "R", "T", "Y", "U", "I", "O", "P"],
+					["Q", "S", "D", "F", "G", "H", "J", "K", "L", "M"],
+					["_vide","W", "X", "C", "V", "B", "N", "_effacer", "_entree", "_vide", ],
+					["_vide", "_vide", "2","0","♀","♂"," ","-", ".",":","'","_vide", "_vide"],
 				];
 		}
 	}
@@ -178,7 +195,7 @@ export default class Input {
 				} else if (touche in this._cars_allemands) {
 					this.saisirLettre(this._cars_allemands[touche][0]);	
 					this.saisirLettre(this._cars_allemands[touche][1]);
-				} else if (/^[A-Z.\-]$/.test(Dictionnaire.nettoyerMot(touche))) {
+				} else if (/^[A-Z.\-20:'♀♂ ]$/.test(Dictionnaire.nettoyerMot(touche))) {
 					this.saisirLettre(touche);
 				}
 			}).bind(this)

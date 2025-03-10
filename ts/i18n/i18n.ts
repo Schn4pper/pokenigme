@@ -65,7 +65,6 @@ export const i18n = {
 		gestionnaire: {
 			aucun_pokemon: "Aucun Pokémon n'a été trouvé pour aujourd'hui.",
 			trop_court: "Proposition trop courte.",
-			incomplet: "Proposition incomplète.",
 			inconnu: "Pokémon inconnu.",
 			bien_essaye: "Bien essayé ! ;-)",
 			afficher_regles: "Afficher les règles",
@@ -204,7 +203,6 @@ export const i18n = {
 		gestionnaire: {
 			aucun_pokemon: "Heute wurde kein Pokémon gefunden.",
 			trop_court: "Vorschlag zu kurz.",
-			incomplet: "Unvollständiger Vorschlag.",
 			inconnu: "Unbekanntes Pokémon.",
 			bien_essaye: "Gut versucht ! ;-)",
 			afficher_regles: "Regeln anzeigen",
@@ -343,7 +341,6 @@ export const i18n = {
 		gestionnaire: {
 			aucun_pokemon: "No Pokémon found for today.",
 			trop_court: "Proposal too short.",
-			incomplet: "Incomplete proposal.",
 			inconnu: "Unknown Pokémon.",
 			bien_essaye: "Nice try ! ;-)",
 			afficher_regles: "Show rules",
@@ -482,7 +479,6 @@ export const i18n = {
 		gestionnaire: {
 			aucun_pokemon: "今日はポケモンが見つかりませんでした。",
 			trop_court: "提案が短すぎます。",
-			incomplet: "提案が不完全です。",
 			inconnu: "未知のポケモン。",
 			bien_essaye: "よくやった！ ;-)",
 			afficher_regles: "ルールを表示",

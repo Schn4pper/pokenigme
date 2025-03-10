@@ -242,11 +242,6 @@ export default class Gestionnaire {
 			return false;
 		}
 
-		if (mot.includes(".")) {
-			NotificationMessage.ajouterNotification((await Dictionnaire.estMotMissingno(mot)) ? i18n[this._config.langue_interface].gestionnaire.bien_essaye : i18n[this._config.langue_interface].gestionnaire.incomplet);
-			return false;
-		}
-
 		if (!(await Dictionnaire.estMotValide(mot))) {
 			NotificationMessage.ajouterNotification((await Dictionnaire.estMotMissingno(mot)) ? i18n[this._config.langue_interface].gestionnaire.bien_essaye : i18n[this._config.langue_interface].gestionnaire.inconnu);
 			return false;

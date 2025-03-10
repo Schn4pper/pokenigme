@@ -14,6 +14,7 @@ export default class Grille {
 	private readonly _maxPropositions: number;
 	private readonly _audioPanel: AudioPanel;
 	private readonly _langue: Langue;
+	private readonly _filler = "·";
 	private _indice: Array<string | undefined>;
 	private _motActuel: number;
 
@@ -45,7 +46,7 @@ export default class Grille {
 				let contenuCellule: string = "";
 				if (nbMot < this._motActuel || (nbMot === this._motActuel && mot.length !== 0)) {
 					if (mot.length <= nbLettre) {
-						contenuCellule = ".";
+						contenuCellule = this._filler;
 						cellule.classList.add("cellule-lettre-pas-curseur");
 					} else {
 						contenuCellule = mot[nbLettre];
@@ -57,7 +58,7 @@ export default class Grille {
 						contenuCellule = lettreIndice;
 						cellule.classList.remove("cellule-lettre-pas-curseur");
 					} else {
-						contenuCellule = ".";
+						contenuCellule = this._filler;
 						cellule.classList.add("cellule-lettre-pas-curseur");
 					}
 				}

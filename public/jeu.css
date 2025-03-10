@@ -177,14 +177,16 @@ h2 {
   user-select: none;
 }
 
-.input-ligne {
+.input-ligne,
+.input-ligne-last {
   display: flex;
   justify-content: space-between;
   gap: 0.25em;
   width: 100%;
 }
 
-.input-ligne + .input-ligne {
+.input-ligne + .input-ligne,
+.input-ligne + .input-ligne-last {
   margin-top: 0.25em;
 }
 
@@ -209,6 +211,10 @@ h2 {
 
 .input-lettre.input-lettre-entree {
   flex-grow: 2;
+}
+
+.input-ligne-last .input-lettre {
+    height: 70%;
 }
 
 .input-lettre.lettre-bien-place {
@@ -251,8 +257,7 @@ h2 {
 }
 
 .input-lettre.input-lettre-effacer,
-.input-lettre.input-lettre-entree,
-.input-lettre[data-lettre="."] {
+.input-lettre.input-lettre-entree {
   background-color: var(--couleur-lettre-speciale);
   border-color: var(--couleur-lettre-speciale);
 }
@@ -260,9 +265,7 @@ h2 {
 .input-lettre.input-lettre-effacer:active,
 .input-lettre.input-lettre-effacer:hover,
 .input-lettre.input-lettre-entree:active,
-.input-lettre.input-lettre-entree:hover,
-.input-lettre[data-lettre="."]:active,
-.input-lettre[data-lettre="."]:hover {
+.input-lettre.input-lettre-entree:hover {
   background-color: var(--couleur-lettre-speciale-survole);
 }
 

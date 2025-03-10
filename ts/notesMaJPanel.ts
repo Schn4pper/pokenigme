@@ -9,6 +9,15 @@ export default class NotesMaJPanel {
 
 	private readonly _notes = [
 		{
+			version: 10,
+			notes: [
+				"FR : L'utilisation des caractères spéciaux est désormais supportée, rendant ainsi des Pokémon comme M. Mime, Porygon2, les deux Nidoran et Type:0 devinables !",
+				"EN : The use of special characters is now supported, allowing Pokémon like Mr. Mime, Porygon 2 or the both Nidoran to be part of the game !",
+				"DE : Die Verwendung von Sonderzeichen wird nun unterstützt, sodass Pokémon wie M. Mime, Porygon2, die beiden Nidoran und Typ:Null erraten werden können !",
+				"JP : 特殊文字の使用がサポートされるようになり、ポケモン（ポリゴン2、ニドラン♂・ニドラン♀、タイプ：ヌル）を当てられるようになりました。",
+			],
+		},
+		{
 			version: 9,
 			notes: [
 				"FR : Pokénigme est désormais disponible entièrement en japonais ! La langue d'affichage est désormais distincte de celle de jeu. Résolvez des énigmes dans d'autres langues tout en conservant l'interface en français.",
