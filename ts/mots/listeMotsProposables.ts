@@ -3084,7 +3084,7 @@ export default class ListeMotsProposables {
 		["KRIECHFLUEGEL",9],*/
 	] as [string, number][]);
 	
-	public static readonly DictionnaireJP: Map<string, number> = new Map<string, number>([
+	public static readonly DictionnaireJA: Map<string, number> = new Map<string, number>([
 		["ONVERN",6],
 		["GARDIE",1],
 		["MAMEBATTA",9],

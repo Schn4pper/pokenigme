@@ -6,6 +6,7 @@ import Configuration from "./entites/configuration";
 import Dictionnaire from "./dictionnaire";
 import Sauvegardeur from "./sauvegardeur";
 import NotificationMessage from "./notificationMessage";
+import { Langue } from "./entites/langue";
 
 export enum ContexteBloquage {
 	ValidationMot,
@@ -21,7 +22,7 @@ export default class Input {
 	private _estBloque: Array<ContexteBloquage>;
 	private _resultats: Array<Array<LettreResultat>>;
 	private _haptiqueActive: boolean;
-
+	private _langueJeu: Langue;
 	private _cars_allemands: Record<string, string> = {
 		"ß": "SS",
 		"ü": "UE",
@@ -40,7 +41,8 @@ export default class Input {
 		this._estBloque = new Array<ContexteBloquage>();
 		this._resultats = new Array<Array<LettreResultat>>();
 		this._haptiqueActive = configuration.haptique ?? Configuration.Default.haptique;
-
+		this._langueJeu = configuration.langue_jeu ?? Configuration.Default.langue_jeu;
+		
 		this.ajouterEvenementClavierPhysique();
 
 		this.dessinerClavier(configuration.disposition ?? Configuration.Default.disposition);
@@ -56,9 +58,6 @@ export default class Input {
 			ligneDiv.className = "input-ligne";
 
 			for (let lettre of ligne) {
-				if (lettre == "_null") {
-					continue;
-				}
 				let lettreDiv = document.createElement("div");
 				lettreDiv.className = "input-lettre";
 				switch (lettre) {
@@ -78,9 +77,8 @@ export default class Input {
 						lettreDiv.classList.add("input-lettre-vide");
 						break;
 					case " ":
-						lettreDiv.setAttribute("style", "flex-grow: 20; color: transparent;");
 						lettreDiv.dataset["lettre"] = lettre;
-						lettreDiv.innerText = "_";
+						lettreDiv.innerText = Langue[this._langueJeu];
 						this.ajouterFocus(lettreDiv);
 						break;
 					default:

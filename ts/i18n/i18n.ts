@@ -85,7 +85,7 @@ export const i18n = {
 			mode_jeu: "Mode de jeu"
 		},
 		notesMaJPanel: {
-			notes: "Notes de mises à jour",
+			notes: "Notes de mise à jour",
 			version: "Version"
 		},
 		reglesPanel: {
@@ -415,7 +415,7 @@ export const i18n = {
 			stats_pokenigme: "🟡 Pokénigma Statistics 🟡",
 		},
 	},
-	[Langue.JP]: {
+	[Langue.JA]: {
 		audioPanel: {
 			activer: "サウンドエフェクトを有効にする",
 			desactiver: "サウンドエフェクトを無効にする"

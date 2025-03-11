@@ -9,6 +9,7 @@ import Sauvegardeur from "./sauvegardeur";
 import StatistiquesDisplayer from "./statistiquesDisplayer";
 import { ModeJeu } from "./entites/modeJeu";
 import { i18n } from "./i18n/i18n";
+import { Langue } from "./entites/langue";
 
 export default class FinDePartiePanel {
 	private readonly _datePartie: Date;
@@ -49,9 +50,14 @@ export default class FinDePartiePanel {
 		if (this._config.modeJeu == ModeJeu.Course) {
 			let entete = "";
 			if (estBonneReponse) {
-				entete = i18n[this._config.langue_interface].finDePartiePanel.challenge_remporte + "<br/>" + nbManches + " " + i18n[this._config.langue_interface].finDePartiePanel.challenge_remporte_pokemon_trouves + " " + this.genererTempsHumain(secondesCourse * 1000) + (afficherChrono ? " (" + i18n[this._config.langue_interface].finDePartiePanel.temps + " " + this.genererTempsHumain(dureeMs) + ")" : "");
+				entete = i18n[this._config.langue_interface].finDePartiePanel.challenge_remporte + "<br/>"
+				+ nbManches + " " + i18n[this._config.langue_interface].finDePartiePanel.challenge_remporte_pokemon_trouves + " " + this.genererTempsHumain(secondesCourse * 1000)
+				+ (afficherChrono ? " (" + i18n[this._config.langue_interface].finDePartiePanel.temps + " " + this.genererTempsHumain(dureeMs) + ") " : " ")
+				+ " (" + Langue[this._config.langue_jeu] + ")";
 			} else {
-				entete = i18n[this._config.langue_interface].finDePartiePanel.challenge_non_remporte + "<br/>" + nbManches + " " + i18n[this._config.langue_interface].finDePartiePanel.challenge_non_remporte_pokemon + " " + this.genererTempsHumain(secondesCourse * 1000);
+				entete = i18n[this._config.langue_interface].finDePartiePanel.challenge_non_remporte + "<br/>"
+				+ nbManches + " " + i18n[this._config.langue_interface].finDePartiePanel.challenge_non_remporte_pokemon + " " + this.genererTempsHumain(secondesCourse * 1000)
+				+ " (" + Langue[this._config.langue_jeu] + ")";
 			}
 			this._resumeTexte = entete.replace("<br/>", " ");
 			this._resumeTexteLegacy = entete;
@@ -110,7 +116,7 @@ export default class FinDePartiePanel {
 		const entete =
 			i18n[this._config.langue_interface].finDePartiePanel.pokenigme + " " +
 			numeroGrille +
-			" " +
+			" (" + Langue[this._config.langue_jeu] + ") " +
 			(estBonneReponse ? resultats.length : "-") +
 			"/6" +
 			(afficherChrono ? " " + i18n[this._config.langue_interface].finDePartiePanel.temps + " " + this.genererTempsHumain(dureeMs) : "") +

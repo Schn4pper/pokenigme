@@ -64,7 +64,7 @@ export default class ThemeManager {
 		switch (police) {
 			case Police.Zarbi:
 				root.style.setProperty("--police-grille", "Zarbi, Roboto, Ubuntu, Arial, Helvetica, sans-serif");
-				root.style.setProperty("--police-clavier", "Zarbi, Roboto, Ubuntu, Arial, Helvetica, sans-serif");
+				root.style.setProperty("--police-clavier", "Zarbi, monospace");
 				break;
 			case Police.Humaine:
 			default:

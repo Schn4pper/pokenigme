@@ -39,7 +39,6 @@ export default class Gestionnaire {
 	private _compositionMotATrouver: { [lettre: string]: number } = {};
 	private _maxNbPropositions: number = 6;
 	private _datePartieEnCours: Date;
-	private _idPartieEnCours: string;
 	private _dateFinPartie: Date | undefined;
 	private _modeJeu: ModeJeu;
 	private _stats: SauvegardeStats = SauvegardeStats.Default;
@@ -64,8 +63,6 @@ export default class Gestionnaire {
 		document.title = i18n[this._config.langue_interface].modeJeuPanel.pokenigme;
 		
 		let partieEnCours = this.chargerPartieEnCours();
-
-		this._idPartieEnCours = this.getIdPartie(partieEnCours);
 
 		this._modeJeu = this._config.modeJeu;
 
@@ -107,16 +104,6 @@ export default class Gestionnaire {
 		this.initialiserChoisirMot(partieEnCours);
 
 		this.afficherReglesSiNecessaire();
-	}
-
-	private getIdPartie(partieEnCours: PartieEnCours) {
-		const infoDansLocation = LienHelper.extraireInformation("p");
-
-		if (infoDansLocation !== null) return infoDansLocation;
-
-		if (partieEnCours.idPartie !== undefined) return partieEnCours.idPartie;
-
-		return InstanceConfiguration.idPartieParDefaut;
 	}
 
 	private chargerPartieEnCours(): PartieEnCours {
@@ -165,7 +152,7 @@ export default class Gestionnaire {
 	}
 
 	private sauvegarderPartieEnCours(): void {
-		Sauvegardeur.sauvegarderPartieEnCours(this._idPartieEnCours, this._datePartieEnCours, this._propositions, this._motATrouver, this._dateFinPartie, this._modeJeu, this._config.langue_jeu);
+		Sauvegardeur.sauvegarderPartieEnCours(this._datePartieEnCours, this._propositions, this._motATrouver, this._dateFinPartie, this._modeJeu, this._config.langue_jeu);
 	}
 
 	private async choisirMot(modeJeu: ModeJeu, solution: string): Promise<string> {
@@ -189,7 +176,8 @@ export default class Gestionnaire {
 
 				switch (this._modeJeu) {
 					case ModeJeu.Devinette:
-						if (partieEnCours.idPartie !== undefined) {
+						// Sans ça, l'actualisation de la page génère des propositions différentes pour la même solution
+						if (partieEnCours.datePartie !== undefined) {
 							await this.chargerPropositions(partieEnCours.propositions);
 						} else {
 							Dictionnaire.getDevinette(this._motATrouver).then(async (propositions) => await this.chargerPropositions(propositions));
@@ -217,10 +205,10 @@ export default class Gestionnaire {
 						break;
 					case ModeJeu.Desordre:
 						this._input.updateClavierAvecProposition(this.analyserMot(this._motATrouver, true), true);
-						this.sauvegarderPartieEnCours();
 					default:
 						await this.chargerPropositions(partieEnCours.propositions);
 				}
+				this.sauvegarderPartieEnCours();
 			})
 			.catch(() => NotificationMessage.ajouterNotification(i18n[this._config.langue_interface].gestionnaire.aucun_pokemon));
 	}

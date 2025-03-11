@@ -2,6 +2,7 @@ import Configuration from "./entites/configuration";
 import PanelManager from "./panelManager";
 import Sauvegardeur from "./sauvegardeur";
 import { i18n } from "./i18n/i18n";
+import NotesMaJPanel from "./notesMaJPanel";
 
 export default class ReglesPanel {
 	private readonly _panelManager: PanelManager;
@@ -55,8 +56,9 @@ export default class ReglesPanel {
 			+ i18n[config.langue_interface].reglesPanel.cree_par + ' <a href="mailto:schnapper@hotmail.ch">' + i18n[config.langue_interface].reglesPanel.schnapper + '</a>'
 			+ i18n[config.langue_interface].reglesPanel.point + ' ' + i18n[config.langue_interface].reglesPanel.base_sur + ' <a target="_blank" href="https://framagit.org/JonathanMM/sutom">'
 			+ i18n[config.langue_interface].reglesPanel.sutom + '</a> ' + i18n[config.langue_interface].reglesPanel.cree_par + ' <a target="_blank" href="https://bsky.app/profile/jonathanmm.nocle.fr">'
-			+ i18n[config.langue_interface].reglesPanel.jonamaths + '</a>' + i18n[config.langue_interface].reglesPanel.point + '<br />' +
-			"</p>";
+			+ i18n[config.langue_interface].reglesPanel.jonamaths + '</a>' + i18n[config.langue_interface].reglesPanel.point + '<br /><br />'
+			+ '<a href="#" id="changelog">' + i18n[config.langue_interface].notesMaJPanel.notes + '</a>' + i18n[config.langue_interface].reglesPanel.point
+			+ "</p>";
 
 		this._panelManager.setContenu(titre, contenu);
 		this._panelManager.setClasses(["regles-panel"]);
@@ -66,6 +68,13 @@ export default class ReglesPanel {
 				afficherRegles: false,
 			});
 		});
+		
+		var notesMaJPanel = new NotesMaJPanel(this._panelManager);
+		var changelog = document.getElementById("changelog");
+		 if (changelog !== null) changelog.addEventListener("click", (function () {
+			notesMaJPanel.afficher(0);
+		}).bind(this));
+		
 		this._panelManager.afficherPanel();
 	}
 }

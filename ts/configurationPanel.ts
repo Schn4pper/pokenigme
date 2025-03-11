@@ -49,7 +49,7 @@ export default class ConfigurationPanel {
 					{ value: Langue.FR.toString(), label: i18n[config.langue_interface].configurationPanel.francais },
 					{ value: Langue.DE.toString(), label: i18n[config.langue_interface].configurationPanel.allemand },
 					{ value: Langue.EN.toString(), label: i18n[config.langue_interface].configurationPanel.anglais },
-					{ value: Langue.JP.toString(), label: i18n[config.langue_interface].configurationPanel.japonais },
+					{ value: Langue.JA.toString(), label: i18n[config.langue_interface].configurationPanel.japonais },
 				],
 				(config.langue_interface ?? Configuration.Default.langue_interface).toString(),
 				(event: Event) => {
@@ -73,7 +73,7 @@ export default class ConfigurationPanel {
 					{ value: Langue.FR.toString(), label: i18n[config.langue_interface].configurationPanel.francais },
 					{ value: Langue.DE.toString(), label: i18n[config.langue_interface].configurationPanel.allemand },
 					{ value: Langue.EN.toString(), label: i18n[config.langue_interface].configurationPanel.anglais },
-					{ value: Langue.JP.toString(), label: i18n[config.langue_interface].configurationPanel.japonais_romaji },
+					{ value: Langue.JA.toString(), label: i18n[config.langue_interface].configurationPanel.japonais_romaji },
 				],
 				(config.langue_jeu ?? Configuration.Default.langue_jeu).toString(),
 				(event: Event) => {

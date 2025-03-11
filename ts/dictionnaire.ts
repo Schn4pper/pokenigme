@@ -54,7 +54,7 @@ export default class Dictionnaire {
 		return Array.from(ListeMotsProposables.DictionnaireFR.entries()).map(([key]) => key).includes(mot) ||
 			Array.from(ListeMotsProposables.DictionnaireDE.entries()).map(([key]) => key).includes(mot) ||
 			Array.from(ListeMotsProposables.DictionnaireEN.entries()).map(([key]) => key).includes(mot) ||
-			Array.from(ListeMotsProposables.DictionnaireJP.entries()).map(([key]) => key).includes(mot) ||
+			Array.from(ListeMotsProposables.DictionnaireJA.entries()).map(([key]) => key).includes(mot) ||
 			Array.from(ListeMotsProposables.PropositionsUniquement.entries()).map(([key]) => key).includes(mot);
 	}
 
@@ -82,8 +82,8 @@ export default class Dictionnaire {
 			case Langue.DE:
 				propositions = ListeMotsProposables.DictionnaireDE;
 				break;
-			case Langue.JP:
-				propositions = ListeMotsProposables.DictionnaireJP;
+			case Langue.JA:
+				propositions = ListeMotsProposables.DictionnaireJA;
 				break;
 			case Langue.EN:
 			default:

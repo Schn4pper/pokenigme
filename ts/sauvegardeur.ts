@@ -45,12 +45,11 @@ export default class Sauvegardeur {
 		return stats;
 	}
 
-	public static sauvegarderPartieEnCours(idPartie: string, datePartie: Date, propositions: Array<string>, solution: string, dateFinPartie?: Date, modeJeu?: ModeJeu, langue?: Langue): void {
+	public static sauvegarderPartieEnCours(datePartie: Date, propositions: Array<string>, solution: string, dateFinPartie?: Date, modeJeu?: ModeJeu, langue?: Langue): void {
 		let partieEnCours: SauvegardePartie = {
 			propositions: propositions,
 			datePartie,
 			dateFinPartie,
-			idPartie,
 			modeJeu,
 			solution,
 			langue
@@ -120,7 +119,6 @@ export default class Sauvegardeur {
 			datePartie: datePartieEnCours,
 			dateFinPartie: dateFinPartie,
 			propositions: partieEnCours.propositions,
-			idPartie: partieEnCours.idPartie,
 			modeJeu: partieEnCours.modeJeu,
 			solution: partieEnCours.solution,
 			langue: partieEnCours.langue,
@@ -234,6 +232,44 @@ export default class Sauvegardeur {
 			},
 		};
 	}
+	
+	public static genererLienPartie(): string {
+		const partie = new PartieEnCours;
+		return [
+			partie.propositions,
+			partie.datePartie,
+			partie.dateFinPartie,
+			partie.modeJeu,
+			partie.solution,
+			partie.langue,
+		].join(",");
+	}
+
+	private static chargerPartieDepuisLien(partie: string): PartieEnCours | null {
+		const [
+			propositions,
+			datePartie,
+			dateFinPartie,
+			modeJeu,
+			solution,
+			langue,
+		] = partie.split(",");
+
+		const parsedPropositions: string[] = propositions ? propositions.split(',') : [];
+		const parsedDatePartie: Date = datePartie ? new Date(datePartie) : new Date();
+		const parsedDateFinPartie: Date = dateFinPartie ? new Date(dateFinPartie) : new Date();
+		const parsedModeJeu: ModeJeu | undefined = modeJeu as unknown as ModeJeu | undefined;
+		const parsedLangue: Langue | undefined = langue as unknown as Langue | undefined;
+
+		return {
+			propositions: parsedPropositions,
+			datePartie: parsedDatePartie,
+			dateFinPartie: parsedDateFinPartie,
+			modeJeu: parsedModeJeu,
+			solution: solution,
+			langue: parsedLangue,
+		};
+	}
 
 	private static cleanConfig(config: Configuration) {
 		const langue = LienHelper.extraireInformationTexte("l");
@@ -247,9 +283,9 @@ export default class Sauvegardeur {
 					config.langue_interface = Langue.DE;
 					config.langue_jeu = Langue.DE;
 					break;
-				case "JP":
-					config.langue_interface = Langue.JP;
-					config.langue_jeu = Langue.JP;
+				case "JA":
+					config.langue_interface = Langue.JA;
+					config.langue_jeu = Langue.JA;
 					break;
 				case "EN":
 				default:
@@ -260,7 +296,6 @@ export default class Sauvegardeur {
 				...config,
 				langue_interface: config.langue_interface,
 				langue_jeu: config.langue_jeu
-
 			});
 		}
 		
