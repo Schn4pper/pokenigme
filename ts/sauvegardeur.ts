@@ -15,6 +15,7 @@ export default class Sauvegardeur {
 	private static readonly _clePartieEnCoursDevinette = "partieEnCoursDevinette";
 	private static readonly _clePartieEnCoursDesordre = "partieEnCoursDesordre";
 	private static readonly _clePartieEnCoursCourse = "partieEnCoursCourse";
+	private static readonly _clePartieEnCoursPartage = "partieEnCoursPartage";
 
 	private static readonly _cleConfiguration = "configuration";
 
@@ -45,18 +46,24 @@ export default class Sauvegardeur {
 		return stats;
 	}
 
-	public static sauvegarderPartieEnCours(datePartie: Date, propositions: Array<string>, solution: string, dateFinPartie?: Date, modeJeu?: ModeJeu, langue?: Langue): void {
+	public static sauvegarderPartieEnCours(datePartie: Date, propositions: Array<string>, solution: string, dateFinPartie?: Date, modeJeu?: ModeJeu, langue?: Langue, partage?: boolean): void {
 		let partieEnCours: SauvegardePartie = {
 			propositions: propositions,
 			datePartie,
 			dateFinPartie,
 			modeJeu,
 			solution,
-			langue
+			langue,
+			partage
 		};
 
 		let clePartie;
 
+		if (partage) {
+			localStorage.setItem(this._clePartieEnCoursPartage, JSON.stringify(partieEnCours));
+			return;
+		}		
+				
 		switch (modeJeu) {
 			case ModeJeu.Infini:
 				clePartie = this._clePartieEnCoursInfini;
@@ -74,7 +81,7 @@ export default class Sauvegardeur {
 			default:
 				clePartie = this._clePartieEnCoursCourse;
 		}
-
+			
 		localStorage.setItem(clePartie + langue, JSON.stringify(partieEnCours));
 	}
 
@@ -82,22 +89,27 @@ export default class Sauvegardeur {
 		let config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
 
 		let dataPartieEnCours;
-		switch (config.modeJeu) {
-			case ModeJeu.Infini:
-				dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursInfini + config.langue_jeu);
-				break;
-			case ModeJeu.DuJour:
-				dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursDuJour + config.langue_jeu);
-				break;
-			case ModeJeu.Devinette:
-				dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursDevinette + config.langue_jeu);
-				break;
-			case ModeJeu.Desordre:
-				dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursDesordre + config.langue_jeu);
-				break;
-			case ModeJeu.Course:
-			default:
-				dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursCourse + config.langue_jeu);
+		
+		if (localStorage.getItem(this._clePartieEnCoursPartage)) {
+			dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursPartage);
+		} else {
+			switch (config.modeJeu) {
+				case ModeJeu.Infini:
+					dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursInfini + config.langue_jeu);
+					break;
+				case ModeJeu.DuJour:
+					dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursDuJour + config.langue_jeu);
+					break;
+				case ModeJeu.Devinette:
+					dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursDevinette + config.langue_jeu);
+					break;
+				case ModeJeu.Desordre:
+					dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursDesordre + config.langue_jeu);
+					break;
+				case ModeJeu.Course:
+				default:
+					dataPartieEnCours = localStorage.getItem(this._clePartieEnCoursCourse + config.langue_jeu);
+			}
 		}
 
 		if (!dataPartieEnCours) return;
@@ -122,6 +134,7 @@ export default class Sauvegardeur {
 			modeJeu: partieEnCours.modeJeu,
 			solution: partieEnCours.solution,
 			langue: partieEnCours.langue,
+			partage: partieEnCours.partage ?? false
 		};
 	}
 
@@ -141,24 +154,34 @@ export default class Sauvegardeur {
 	}
 
 	public static purgerPartieEnCours(): void {
-		let config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+		if (localStorage.getItem(this._clePartieEnCoursPartage)) {
+			localStorage.removeItem(this._clePartieEnCoursPartage);
+		} else {
+			let config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
 
-		switch (config.modeJeu) {
-			case ModeJeu.Infini:
-				localStorage.removeItem(this._clePartieEnCoursInfini + config.langue_jeu);
-				break;
-			case ModeJeu.DuJour:
-				localStorage.removeItem(this._clePartieEnCoursDuJour + config.langue_jeu);
-				break;
-			case ModeJeu.Devinette:
-				localStorage.removeItem(this._clePartieEnCoursDevinette + config.langue_jeu);
-				break;
-			case ModeJeu.Desordre:
-				localStorage.removeItem(this._clePartieEnCoursDesordre + config.langue_jeu);
-				break;
-			case ModeJeu.Course:
-			default:
-				localStorage.removeItem(this._clePartieEnCoursCourse + config.langue_jeu);
+			switch (config.modeJeu) {
+				case ModeJeu.Infini:
+					localStorage.removeItem(this._clePartieEnCoursInfini + config.langue_jeu);
+					break;
+				case ModeJeu.DuJour:
+					localStorage.removeItem(this._clePartieEnCoursDuJour + config.langue_jeu);
+					break;
+				case ModeJeu.Devinette:
+					localStorage.removeItem(this._clePartieEnCoursDevinette + config.langue_jeu);
+					break;
+				case ModeJeu.Desordre:
+					localStorage.removeItem(this._clePartieEnCoursDesordre + config.langue_jeu);
+					break;
+				case ModeJeu.Course:
+				default:
+					localStorage.removeItem(this._clePartieEnCoursCourse + config.langue_jeu);
+			}
+		}
+	}
+	
+	public static purgerPartiePartage(): void {
+		if (localStorage.getItem(this._clePartieEnCoursPartage)) {
+			localStorage.removeItem(this._clePartieEnCoursPartage);
 		}
 	}
 
@@ -169,6 +192,7 @@ export default class Sauvegardeur {
 		localStorage.removeItem(this._clePartieEnCoursDevinette + config.langue_jeu);
 		localStorage.removeItem(this._clePartieEnCoursDesordre + config.langue_jeu);
 		localStorage.removeItem(this._clePartieEnCoursCourse + config.langue_jeu);
+		localStorage.removeItem(this._clePartieEnCoursPartage);
 		if (duJour) localStorage.removeItem(this._clePartieEnCoursDuJour + config.langue_jeu);
 	}
 
@@ -233,41 +257,67 @@ export default class Sauvegardeur {
 		};
 	}
 	
+	
+	public static chargerSauvegardePartiePartagee(): PartieEnCours | null {
+		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+		const contenuLocation = LienHelper.extraireInformation("p");
+
+		if (contenuLocation) {
+			const partieDepuisLien = Sauvegardeur.chargerPartieDepuisLien(contenuLocation);
+			window.location.hash = "";
+			if (partieDepuisLien) {
+				NotificationMessage.ajouterNotification(i18n[config.langue_interface].sauvegardeur.partie_partage_ok);
+				return partieDepuisLien;
+			}
+
+			NotificationMessage.ajouterNotification(i18n[config.langue_interface].sauvegardeur.partie_partage_ko);
+		}
+
+		return null;
+	}
+	
 	public static genererLienPartie(): string {
-		const partie = new PartieEnCours;
+		const partie = this.chargerSauvegardePartieEnCours() ?? new PartieEnCours();
 		return [
-			partie.propositions,
-			partie.datePartie,
-			partie.dateFinPartie,
+			JSON.stringify(partie.propositions),
 			partie.modeJeu,
 			partie.solution,
 			partie.langue,
-		].join(",");
+		].join("|");
 	}
 
 	private static chargerPartieDepuisLien(partie: string): PartieEnCours | null {
 		const [
 			propositions,
-			datePartie,
-			dateFinPartie,
 			modeJeu,
 			solution,
 			langue,
-		] = partie.split(",");
+		] = partie.split("|");
+		
+		var parsedPropositions: string[] = propositions ? JSON.parse(propositions) : [];
+		var parsedModeJeu: ModeJeu = modeJeu ? Number(modeJeu) as ModeJeu : ModeJeu.Infini;
+		var parsedLangue: Langue = langue ? Number(langue) as Langue : Langue.FR;
 
-		const parsedPropositions: string[] = propositions ? propositions.split(',') : [];
-		const parsedDatePartie: Date = datePartie ? new Date(datePartie) : new Date();
-		const parsedDateFinPartie: Date = dateFinPartie ? new Date(dateFinPartie) : new Date();
-		const parsedModeJeu: ModeJeu | undefined = modeJeu as unknown as ModeJeu | undefined;
-		const parsedLangue: Langue | undefined = langue as unknown as Langue | undefined;
+		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
 
+		if (parsedModeJeu != ModeJeu.Desordre) {
+			parsedModeJeu = ModeJeu.Devinette;
+		} else {
+			parsedModeJeu = ModeJeu.Desordre;
+		}
+				
+		if (parsedPropositions.length == 6 || parsedPropositions.includes(solution)) {
+			parsedPropositions = new Array<string>;
+		}
+				
 		return {
 			propositions: parsedPropositions,
-			datePartie: parsedDatePartie,
-			dateFinPartie: parsedDateFinPartie,
+			datePartie: new Date(),
+			dateFinPartie: undefined,
 			modeJeu: parsedModeJeu,
 			solution: solution,
 			langue: parsedLangue,
+			partage: true
 		};
 	}
 

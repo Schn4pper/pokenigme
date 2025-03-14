@@ -57,9 +57,6 @@ export default class ModeJeuPanel {
 		}
 
 		this._modeJeuBouton.innerHTML = i18n[config.langue_interface].modeJeuPanel.pokenigme + " " + modeJeuTexte;
-
-
-
 	}
 
 	public sauvegarderModeJeu(mode: ModeJeu): void {
@@ -89,42 +86,33 @@ export default class ModeJeuPanel {
 
 		this._modeJeuDuJour.addEventListener(
 			"click",
-			(() => {
-				this.sauvegarderModeJeu(ModeJeu.DuJour);
-				location.reload();
-			}).bind(this)
+			(() => this.clicEvent(ModeJeu.DuJour)).bind(this)
 		);
 
 		this._modeJeuInfini.addEventListener(
 			"click",
-			(() => {
-				this.sauvegarderModeJeu(ModeJeu.Infini);
-				location.reload();
-			}).bind(this)
+			(() => this.clicEvent(ModeJeu.Infini)).bind(this)
 		);
 
 		this._modeJeuDevinette.addEventListener(
 			"click",
-			(() => {
-				this.sauvegarderModeJeu(ModeJeu.Devinette);
-				location.reload();
-			}).bind(this)
+			(() => this.clicEvent(ModeJeu.Devinette)).bind(this)
 		);
 
 		this._modeJeuDesordre.addEventListener(
 			"click",
-			(() => {
-				this.sauvegarderModeJeu(ModeJeu.Desordre);
-				location.reload();
-			}).bind(this)
+			(() => this.clicEvent(ModeJeu.Desordre)).bind(this)
 		);
 
 		this._modeJeuCourse.addEventListener(
 			"click",
-			(() => {
-				this.sauvegarderModeJeu(ModeJeu.Course);
-				location.reload();
-			}).bind(this)
+			(() => this.clicEvent(ModeJeu.Course)).bind(this)
 		);
+	}
+	
+	private clicEvent(mode : ModeJeu): void {
+		Sauvegardeur.purgerPartiePartage();
+		this.sauvegarderModeJeu(mode);
+		location.reload();
 	}
 }

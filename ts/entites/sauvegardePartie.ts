@@ -8,4 +8,5 @@ export default class SauvegardePartie {
 	modeJeu?: ModeJeu;
 	solution: string = "";
 	langue?: Langue;
+	partage?: boolean;
 }

@@ -6,7 +6,6 @@ import Configuration from "./entites/configuration";
 import Dictionnaire from "./dictionnaire";
 import Sauvegardeur from "./sauvegardeur";
 import NotificationMessage from "./notificationMessage";
-import { Langue } from "./entites/langue";
 
 export enum ContexteBloquage {
 	ValidationMot,
@@ -22,7 +21,6 @@ export default class Input {
 	private _estBloque: Array<ContexteBloquage>;
 	private _resultats: Array<Array<LettreResultat>>;
 	private _haptiqueActive: boolean;
-	private _langueJeu: Langue;
 	private _cars_allemands: Record<string, string> = {
 		"ß": "SS",
 		"ü": "UE",
@@ -41,7 +39,6 @@ export default class Input {
 		this._estBloque = new Array<ContexteBloquage>();
 		this._resultats = new Array<Array<LettreResultat>>();
 		this._haptiqueActive = configuration.haptique ?? Configuration.Default.haptique;
-		this._langueJeu = configuration.langue_jeu ?? Configuration.Default.langue_jeu;
 		
 		this.ajouterEvenementClavierPhysique();
 
@@ -78,7 +75,7 @@ export default class Input {
 						break;
 					case " ":
 						lettreDiv.dataset["lettre"] = lettre;
-						lettreDiv.innerText = Langue[this._langueJeu];
+						lettreDiv.id = "barre-espace";
 						this.ajouterFocus(lettreDiv);
 						break;
 					default:

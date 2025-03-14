@@ -41,6 +41,8 @@ export default class Gestionnaire {
 	private _datePartieEnCours: Date;
 	private _dateFinPartie: Date | undefined;
 	private _modeJeu: ModeJeu;
+	private _langue: Langue;
+	private _partage: boolean;
 	private _stats: SauvegardeStats = SauvegardeStats.Default;
 	private _config: Configuration = Configuration.Default;
 	private _courseEnCours: boolean = false;
@@ -49,6 +51,7 @@ export default class Gestionnaire {
 	private _mancheEnCours: number = 1;
 
 	public constructor() {
+				
 		this._config = Sauvegardeur.chargerConfig() ?? this._config;
 			
 		let configurationReglesBouton: HTMLElement = document.getElementById("configuration-regles-bouton") as HTMLElement;
@@ -64,8 +67,10 @@ export default class Gestionnaire {
 		
 		let partieEnCours = this.chargerPartieEnCours();
 
-		this._modeJeu = this._config.modeJeu;
-
+		this._partage = partieEnCours.partage;
+		this._modeJeu = this._partage && partieEnCours.modeJeu ? partieEnCours.modeJeu : this._config.modeJeu;
+		this._langue = partieEnCours.langue ?? this._config.langue_jeu;
+						
 		if (this._modeJeu === ModeJeu.DuJour) {
 			let today = new Date();
 			let datePartie = partieEnCours.datePartie ?? new Date();
@@ -100,15 +105,21 @@ export default class Gestionnaire {
 		this._finDePartiePanel = new FinDePartiePanel(this._datePartieEnCours, this._panelManager);
 		this._configurationPanel = new ConfigurationPanel(this._panelManager, this._audioPanel, this._themeManager);
 		this._notesMaJPanel = new NotesMaJPanel(this._panelManager);
-
+		
 		this.initialiserChoisirMot(partieEnCours);
 
 		this.afficherReglesSiNecessaire();
+		
+		if (this._partage) {
+			let modeJeu = document.getElementById("configuration-mode-jeu-bouton") as HTMLElement;
+			modeJeu.innerHTML = i18n[this._config.langue_interface].modeJeuPanel.pokenigme + " 🔗";
+		}
 	}
 
 	private chargerPartieEnCours(): PartieEnCours {
-		this._stats = Sauvegardeur.chargerSauvegardeStats() ?? SauvegardeStats.Default;
-
+		let partiePartage = Sauvegardeur.chargerSauvegardePartiePartagee();
+		if (partiePartage) return partiePartage;
+		
 		let sauvegardePartieEnCours = Sauvegardeur.chargerSauvegardePartieEnCours();
 		if (sauvegardePartieEnCours) return sauvegardePartieEnCours;
 
@@ -152,7 +163,7 @@ export default class Gestionnaire {
 	}
 
 	private sauvegarderPartieEnCours(): void {
-		Sauvegardeur.sauvegarderPartieEnCours(this._datePartieEnCours, this._propositions, this._motATrouver, this._dateFinPartie, this._modeJeu, this._config.langue_jeu);
+		Sauvegardeur.sauvegarderPartieEnCours(this._datePartieEnCours, this._propositions, this._motATrouver, this._dateFinPartie, this._modeJeu, this._langue, this._partage);
 	}
 
 	private async choisirMot(modeJeu: ModeJeu, solution: string): Promise<string> {
@@ -174,6 +185,16 @@ export default class Gestionnaire {
 
 				this._input.debloquer(ContexteBloquage.ValidationMot);
 
+				if (this._langue !== undefined) {
+					let barreEspace = document.getElementById("barre-espace") as HTMLElement;
+					barreEspace.innerText = Langue[this._langue];
+				}
+				
+				if (this._partage) {
+					let modeJeu = document.getElementById("configuration-mode-jeu-bouton") as HTMLElement;
+					modeJeu.innerHTML = i18n[this._config.langue_interface].modeJeuPanel.pokenigme + " 🔗";
+				}
+				
 				switch (this._modeJeu) {
 					case ModeJeu.Devinette:
 						// Sans ça, l'actualisation de la page génère des propositions différentes pour la même solution
@@ -189,7 +210,7 @@ export default class Gestionnaire {
 							NotificationMessage.decompterTemps(this._secondesCourse).then((estTermine) => {
 								if (estTermine) {
 									// Effectuer une action spécifique, par exemple afficher un panneau de fin de partie
-									this._finDePartiePanel.genererResume(false, this._motATrouver, new Array(), 0);
+									this._finDePartiePanel.genererResume(false, this._motATrouver, new Array(), 0, false, this._langue);
 									this._finDePartiePanel.afficher();
 									Sauvegardeur.purgerPartieEnCours();
 									this._courseEnCours = false;
@@ -244,7 +265,7 @@ export default class Gestionnaire {
 		if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
 			if (!this._dateFinPartie || this._modeJeu == ModeJeu.Course) this._dateFinPartie = new Date();
 			let duree = this._dateFinPartie.getTime() - this._datePartieEnCours.getTime();
-			this._finDePartiePanel.genererResume(isBonneReponse, this._motATrouver, this._resultats, duree);
+			this._finDePartiePanel.genererResume(isBonneReponse, this._motATrouver, this._resultats, duree, this._partage, this._langue);
 			if (!chargementPartie && (this._modeJeu == ModeJeu.DuJour || this._modeJeu == ModeJeu.Infini)) this.enregistrerPartieDansStats();
 		}
 

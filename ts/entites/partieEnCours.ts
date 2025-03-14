@@ -8,4 +8,5 @@ export default class PartieEnCours {
 	public modeJeu: ModeJeu | undefined;
 	public solution: string = "";
 	public langue: Langue | undefined;
+	public partage: boolean = false;
 }

@@ -9,6 +9,15 @@ export default class NotesMaJPanel {
 
 	private readonly _notes = [
 		{
+			version: 11,
+			notes: [
+				"FR : Vous pouvez désormais sauvegarder l'état de votre grille et l'envoyer à vos amis pour qu'ils la complètent à leur tour (depuis la rubrique des statistiques) !",
+				"EN : You can now save the state of your game grid and send it to your friends for them to complete in turn !",
+				"DE : Sie können nun den Zustand Ihres Spielfeldes speichern und es an Ihre Freunde senden, damit sie es ihrerseits vervollständigen können !",
+				"JA : これで、ゲームグリッドの状態を保存して、友達に送り、彼らが順番に完成させることができます。",
+			],
+		},
+		{
 			version: 10,
 			notes: [
 				"FR : L'utilisation des caractères spéciaux est désormais supportée, rendant ainsi des Pokémon comme M. Mime, Porygon2, les deux Nidoran et Type:0 devinables !",

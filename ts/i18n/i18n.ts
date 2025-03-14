@@ -60,7 +60,8 @@ export const i18n = {
 			bravo: "Bravo, c'est gagné. Merci d'avoir joué.",
 			perdu: "Perdu",
 			pokemon_etait: "Le Pokémon à trouver était…",
-			rejouer: "Rejouer en mode :"
+			rejouer: "Rejouer en mode :",
+			partager_partie: "Partager votre partie",
 		},
 		gestionnaire: {
 			aucun_pokemon: "Aucun Pokémon n'a été trouvé pour aujourd'hui.",
@@ -126,7 +127,9 @@ export const i18n = {
 		},
 		sauvegardeur: {
 			stats_chargees: "Statistiques chargées avec succès.",
-			stats_ko: "Impossible de charger les statistiques depuis le lien."
+			stats_ko: "Impossible de charger les statistiques depuis le lien.",
+			partie_partage_ok: "Partie partagée.",
+			partie_partage_ko: "Impossible de charger la partie partagée depuis le lien."
 		},
 		statistiquesDisplayer: {
 			resume: "Résumé de la partie",
@@ -198,7 +201,8 @@ export const i18n = {
 			bravo: "Gut gemacht, Sie haben gewonnen. Danke fürs Spielen.",
 			perdu: "Verloren",
 			pokemon_etait: "Das zu findende Pokémon war…",
-			rejouer: "Erneut spielen im Modus :"
+			rejouer: "Erneut spielen im Modus :",
+			partager_partie: "Ihr Spiel teilen",
 		},
 		gestionnaire: {
 			aucun_pokemon: "Heute wurde kein Pokémon gefunden.",
@@ -264,7 +268,9 @@ export const i18n = {
 		},
 		sauvegardeur: {
 			stats_chargees: "Statistiken erfolgreich geladen.",
-			stats_ko: "Statistiken konnten nicht über den Link geladen werden."
+			stats_ko: "Statistiken konnten nicht über den Link geladen werden.",
+			partie_partage_ok: "Geteiltes Spiel.",
+			partie_partage_ko: "Geteiltes Spiel konnte nicht über den Link geladen werden."
 		},
 		statistiquesDisplayer: {
 			resume: "Spielzusammenfassung",
@@ -336,7 +342,8 @@ export const i18n = {
 			bravo: "Well done, you won. Thanks for playing.",
 			perdu: "Lost",
 			pokemon_etait: "The Pokémon to find was…",
-			rejouer: "Replay in mode :"
+			rejouer: "Replay in mode :",
+			partager_partie: "Share your game",
 		},
 		gestionnaire: {
 			aucun_pokemon: "No Pokémon found for today.",
@@ -402,7 +409,9 @@ export const i18n = {
 		},
 		sauvegardeur: {
 			stats_chargees: "Statistics loaded successfully.",
-			stats_ko: "Unable to load statistics from the link."
+			stats_ko: "Unable to load statistics from the link.",
+			partie_partage_ok: "Shared game.",
+			partie_partage_ko: "Unable to load the shared game from the link."
 		},
 		statistiquesDisplayer: {
 			resume: "Game summary",
@@ -474,7 +483,8 @@ export const i18n = {
 			bravo: "おめでとうございます、勝ちました。プレイしてくれてありがとう。",
 			perdu: "失敗",
 			pokemon_etait: "見つけるべきポケモンは・・・",
-			rejouer: "モードで再プレイ:"
+			rejouer: "モードで再プレイ:",
+			partager_partie: "ゲームを共有する",
 		},
 		gestionnaire: {
 			aucun_pokemon: "今日はポケモンが見つかりませんでした。",
@@ -540,7 +550,9 @@ export const i18n = {
 		},
 		sauvegardeur: {
 			stats_chargees: "統計が正常に読み込まれました。",
-			stats_ko: "リンクから統計を読み込めません。"
+			stats_ko: "リンクから統計を読み込めません。",
+			partie_partage_ok: "共有部分。",
+			partie_partage_ko: "リンクから共有部分を読み込むことができません。"
 		},
 		statistiquesDisplayer: {
 			resume: "ゲームの概要",

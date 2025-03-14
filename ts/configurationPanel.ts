@@ -417,7 +417,7 @@ export default class ConfigurationPanel {
 		let config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
 		let div = document.createElement("div");
 		div.id = "config-sauvegarde-area";
-
+		
 		const titreSection = document.createElement("h3");
 		titreSection.innerText = i18n[config.langue_interface].configurationPanel.exporter_stats;
 		div.appendChild(titreSection);
@@ -436,7 +436,7 @@ export default class ConfigurationPanel {
 
 		const etape1Input = document.createElement("input");
 		const contenuLien = Sauvegardeur.genererLien();
-		const lien = window.location.origin + window.location.pathname + "#" + btoa("s=" + contenuLien);
+		const lien = window.location.origin + window.location.pathname + "#" + btoa(unescape(encodeURIComponent("s=" + contenuLien)));
 		etape1Input.value = lien;
 		etape1Input.readOnly = true;
 		etape1.appendChild(etape1Input);

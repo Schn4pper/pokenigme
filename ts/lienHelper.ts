@@ -3,7 +3,7 @@ export default class LienHelper {
 		if (window.location.hash === "" || window.location.hash === "#") return null;
 
 		try {
-			let hashPart = atob(window.location.hash.substring(1)).split("/");
+			let hashPart = decodeURIComponent(escape(atob(window.location.hash.substring(1)))).split("/");
 			for (let infoPos in hashPart) {
 				let info = hashPart[infoPos];
 				if (!info.includes("=")) continue;
@@ -11,7 +11,6 @@ export default class LienHelper {
 				let infoKey = infoPart[0];
 
 				if (infoKey !== cle) continue;
-
 				return infoPart[1];
 			}
 		} catch (e) {

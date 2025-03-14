@@ -37,7 +37,7 @@ export default class FinDePartiePanel {
 		);
 	}
 
-	public genererResume(estBonneReponse: boolean, motATrouver: string, resultats: Array<Array<LettreResultat>>, dureeMs: number): void {
+	public genererResume(estBonneReponse: boolean, motATrouver: string, resultats: Array<Array<LettreResultat>>, dureeMs: number, partage : boolean, langue : Langue): void {
 		var nbManches = this._config.nbManches ?? Configuration.Default.nbManches;
 		var secondesCourse = this._config.secondesCourse ?? Configuration.Default.secondesCourse;
 		let dateGrille = this._datePartie.getTime();
@@ -53,11 +53,11 @@ export default class FinDePartiePanel {
 				entete = i18n[this._config.langue_interface].finDePartiePanel.challenge_remporte + "<br/>"
 				+ nbManches + " " + i18n[this._config.langue_interface].finDePartiePanel.challenge_remporte_pokemon_trouves + " " + this.genererTempsHumain(secondesCourse * 1000)
 				+ (afficherChrono ? " (" + i18n[this._config.langue_interface].finDePartiePanel.temps + " " + this.genererTempsHumain(dureeMs) + ") " : " ")
-				+ " (" + Langue[this._config.langue_jeu] + ")";
+				+ " (" + Langue[langue] + ")";
 			} else {
 				entete = i18n[this._config.langue_interface].finDePartiePanel.challenge_non_remporte + "<br/>"
 				+ nbManches + " " + i18n[this._config.langue_interface].finDePartiePanel.challenge_non_remporte_pokemon + " " + this.genererTempsHumain(secondesCourse * 1000)
-				+ " (" + Langue[this._config.langue_jeu] + ")";
+				+ " (" + Langue[langue] + ")";
 			}
 			this._resumeTexte = entete.replace("<br/>", " ");
 			this._resumeTexteLegacy = entete;
@@ -96,27 +96,30 @@ export default class FinDePartiePanel {
 
 		let numeroGrille;
 
-		switch (this._config.modeJeu) {
-			case ModeJeu.Infini:
-				numeroGrille = "∞";
-				break;
-			case ModeJeu.DuJour:
-				numeroGrille = "#" + (Math.round((dateGrille - origine) / (24 * 3600 * 1000)) + 1);
-				break;
-			case ModeJeu.Devinette:
-				numeroGrille = "🕵️";
-				break;
-			case ModeJeu.Desordre:
-				numeroGrille = "👀";
-				break;
-			default:
-				numeroGrille = "∞";
+		if (partage) {
+			numeroGrille = "🔗";
+		} else {
+			switch (this._config.modeJeu) {
+				case ModeJeu.Infini:
+					numeroGrille = "∞";
+					break;
+				case ModeJeu.DuJour:
+					numeroGrille = "#" + (Math.round((dateGrille - origine) / (24 * 3600 * 1000)) + 1);
+					break;
+				case ModeJeu.Devinette:
+					numeroGrille = "🕵️";
+					break;
+				case ModeJeu.Desordre:
+					numeroGrille = "👀";
+					break;
+				default:
+					numeroGrille = "∞";
+			}
 		}
-
 		const entete =
 			i18n[this._config.langue_interface].finDePartiePanel.pokenigme + " " +
 			numeroGrille +
-			" (" + Langue[this._config.langue_jeu] + ") " +
+			" (" + Langue[langue] + ") " +
 			(estBonneReponse ? resultats.length : "-") +
 			"/6" +
 			(afficherChrono ? " " + i18n[this._config.langue_interface].finDePartiePanel.temps + " " + this.genererTempsHumain(dureeMs) : "") +
@@ -206,6 +209,10 @@ export default class FinDePartiePanel {
 			contenu += StatistiquesDisplayer.genererResumeTexte(this._resumeTexteLegacy).outerHTML;
 			contenu += '<p>' + i18n[this._config.langue_interface].finDePartiePanel.rejouer + '<br/><a href="#" id="rejouer-infini-bouton" class="rejouer-bouton">∞</a> <a href="#" id="rejouer-devinette-bouton" class="rejouer-bouton">🕵️</a> <a href="#" id="rejouer-desordre-bouton" class="rejouer-bouton">👀</a> <a href="#" id="rejouer-course-bouton" class="rejouer-bouton">⏱️</a></p>';
 		}
+		
+		contenu += "<h3>" + i18n[this._config.langue_interface].finDePartiePanel.partager_partie;
+		const partagePartieBouton = CopieHelper.creerBoutonPartage("partage-partie");
+		contenu += partagePartieBouton.outerHTML + "</h3>";
 
 		let stats = Sauvegardeur.chargerSauvegardeStats();
 		if (stats) {
@@ -214,6 +221,9 @@ export default class FinDePartiePanel {
 
 		this._panelManager.setContenu(titre, contenu);
 		this._panelManager.setClasses(["fin-de-partie-panel"]);
+
+		this.attacherPartagePartie();
+
 		if (this._partieEstFinie) this.attacherPartage();
 		if (stats) this.attacherPartageStats(stats);
 		this._panelManager.afficherPanel();
@@ -225,6 +235,13 @@ export default class FinDePartiePanel {
 		let resumeTexte = StatistiquesDisplayer.genererResumeTexteStatistiques(stats);
 
 		CopieHelper.attacheBoutonCopieLien(resumeBouton, resumeTexte + "\n\nhttps://fog.gy/pokenigme", i18n[this._config.langue_interface].finDePartiePanel.resume_copie);
+	}
+	
+	private attacherPartagePartie(): void {
+		const resumeBouton = document.getElementById("partage-partie") as HTMLElement;
+		const contenuLien = Sauvegardeur.genererLienPartie();
+		const lien = window.location.origin + window.location.pathname + "#" + btoa(unescape(encodeURIComponent("p=" + contenuLien)));
+		CopieHelper.attacheBoutonCopieLien(resumeBouton, lien, i18n[this._config.langue_interface].configurationPanel.lien_copie);
 	}
 
 }
