@@ -278,6 +278,22 @@ export default class Sauvegardeur {
 	
 	public static genererLienPartie(): string {
 		const partie = this.chargerSauvegardePartieEnCours() ?? new PartieEnCours();
+		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+	
+		if (partie.propositions !== undefined && (partie.propositions.length == 6 || partie.propositions.includes(partie.solution))) {
+			if (partie.modeJeu != ModeJeu.Devinette) {
+				partie.propositions = new Array<string>;
+			} else {
+				for (let i = 6; i > config.nbIndices; i--) {
+					partie.propositions.pop();
+				}
+			}
+		}
+				
+		if (partie.modeJeu != ModeJeu.Desordre) {
+			partie.modeJeu = ModeJeu.Devinette;
+		}
+		
 		return [
 			JSON.stringify(partie.propositions),
 			partie.modeJeu,
@@ -304,10 +320,6 @@ export default class Sauvegardeur {
 			parsedModeJeu = ModeJeu.Devinette;
 		} else {
 			parsedModeJeu = ModeJeu.Desordre;
-		}
-				
-		if (parsedPropositions.length == 6 || parsedPropositions.includes(solution)) {
-			parsedPropositions = new Array<string>;
 		}
 				
 		return {
