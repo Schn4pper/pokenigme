@@ -21,6 +21,8 @@ import NotesMaJPanel from "./notesMaJPanel";
 import { ModeJeu } from "./entites/modeJeu";
 import { i18n } from "./i18n/i18n";
 import { Langue } from "./entites/langue";
+import ListeMotsProposables from "./mots/listeMotsProposables";
+import { Pokemon } from "./mots/listeMotsProposables";
 
 export default class Gestionnaire {
 	private _grille: Grille | null = null;
@@ -117,6 +119,8 @@ export default class Gestionnaire {
 	}
 
 	private chargerPartieEnCours(): PartieEnCours {
+		this._stats = Sauvegardeur.chargerSauvegardeStats() ?? SauvegardeStats.Default;
+		
 		let partiePartage = Sauvegardeur.chargerSauvegardePartiePartagee();
 		if (partiePartage) return partiePartage;
 		
@@ -135,9 +139,19 @@ export default class Gestionnaire {
 	}
 
 	private enregistrerPartieDansStats(): void {
-		this._stats.partiesJouees++;
 		let estVictoire = this._resultats.some((resultat) => resultat.every((item) => item.statut === LettreStatut.BienPlace));
+
+		if (this._modeJeu != ModeJeu.DuJour && this._modeJeu != ModeJeu.Infini) {
+			if (estVictoire) {
+				this.enregistrerPokemonDansStats();
+				Sauvegardeur.sauvegarderStats(this._stats);
+			}
+			return;
+		}
+		
+		this._stats.partiesJouees++;
 		if (estVictoire) {
+			this.enregistrerPokemonDansStats();
 			this._stats.partiesGagnees++;
 			let nbEssais = this._resultats.length;
 			if (nbEssais >= 1 && nbEssais <= 6) {
@@ -160,6 +174,16 @@ export default class Gestionnaire {
 		}, 0);
 
 		Sauvegardeur.sauvegarderStats(this._stats);
+	}
+	
+	private enregistrerPokemonDansStats(): void {
+		let noPokemon = Object.values(ListeMotsProposables.Pokedex)
+		  .filter((pokemon: Pokemon) => pokemon.noms[this._langue] === this._motATrouver)
+		  .map((p: Pokemon) => p.numero)[0];
+
+		if (!this._stats.pokemon.includes(noPokemon)) {
+			this._stats.pokemon.push(noPokemon);
+		}
 	}
 
 	private sauvegarderPartieEnCours(): void {
@@ -266,7 +290,7 @@ export default class Gestionnaire {
 			if (!this._dateFinPartie || this._modeJeu == ModeJeu.Course) this._dateFinPartie = new Date();
 			let duree = this._dateFinPartie.getTime() - this._datePartieEnCours.getTime();
 			this._finDePartiePanel.genererResume(isBonneReponse, this._motATrouver, this._resultats, duree, this._partage, this._langue);
-			if (!chargementPartie && (this._modeJeu == ModeJeu.DuJour || this._modeJeu == ModeJeu.Infini)) this.enregistrerPartieDansStats();
+			if (!chargementPartie) this.enregistrerPartieDansStats();
 		}
 
 		if (this._grille) {

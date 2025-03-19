@@ -9,6 +9,7 @@ export default class Dictionnaire {
 	public constructor() { }
 
 	public static async getMot(modeJeu: ModeJeu): Promise<string> {
+		let config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
 		var choix;
 		var today = new Date();
 
@@ -50,12 +51,7 @@ export default class Dictionnaire {
 
 	public static async estMotValide(mot: string): Promise<boolean> {
 		mot = this.nettoyerMot(mot);
-
-		return Array.from(ListeMotsProposables.DictionnaireFR.entries()).map(([key]) => key).includes(mot) ||
-			Array.from(ListeMotsProposables.DictionnaireDE.entries()).map(([key]) => key).includes(mot) ||
-			Array.from(ListeMotsProposables.DictionnaireEN.entries()).map(([key]) => key).includes(mot) ||
-			Array.from(ListeMotsProposables.DictionnaireJA.entries()).map(([key]) => key).includes(mot) ||
-			Array.from(ListeMotsProposables.PropositionsUniquement.entries()).map(([key]) => key).includes(mot);
+		return Object.values(ListeMotsProposables.Pokedex).flatMap(pokemon => Object.values(pokemon.noms)).includes(mot);
 	}
 
 	public static async estMotMissingno(mot: string): Promise<boolean> {
@@ -73,25 +69,11 @@ export default class Dictionnaire {
 		let config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
 		const generationsVoulues = config.generations ?? Configuration.Default.generations;
 
-		var propositions = new Map<string, number>;
+		var propositions = ListeMotsProposables.Ordre[config.langue_jeu];
 
-		switch (config.langue_jeu) {
-			case Langue.FR:
-				propositions = ListeMotsProposables.DictionnaireFR;
-				break;
-			case Langue.DE:
-				propositions = ListeMotsProposables.DictionnaireDE;
-				break;
-			case Langue.JA:
-				propositions = ListeMotsProposables.DictionnaireJA;
-				break;
-			case Langue.EN:
-			default:
-				propositions = ListeMotsProposables.DictionnaireEN;
-		}
-
-		return Array.from(propositions.entries())
-			.filter(([, value]) => toutesGenerations || generationsVoulues.includes(value))
-			.map(([key]) => key);
+		return propositions
+		  .map(id => ListeMotsProposables.Pokedex[id])
+		  .filter(pokemon => pokemon && (toutesGenerations || generationsVoulues.includes(pokemon.generation)))
+		  .map(pokemon => pokemon.noms[config.langue_jeu]);
 	}
 }

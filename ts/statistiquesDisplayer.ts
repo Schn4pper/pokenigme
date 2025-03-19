@@ -3,6 +3,7 @@ import Configuration from "./entites/configuration";
 import SauvegardeStats from "./entites/sauvegardeStats";
 import { i18n } from "./i18n/i18n";
 import Sauvegardeur from "./sauvegardeur";
+import ListeMotsProposables from "./mots/listeMotsProposables";
 
 export default class StatistiquesDisplayer {
 
@@ -53,6 +54,7 @@ export default class StatistiquesDisplayer {
 		const statsNumeriques = document.createElement("div");
 		statsNumeriques.className = "stats-numeriques-area";
 
+		statsNumeriques.appendChild(this.creerStatNumerique(i18n[langue].statistiquesDisplayer.pokemon, stats.pokemon.length, Object.keys(ListeMotsProposables.Pokedex).length));
 		statsNumeriques.appendChild(this.creerStatNumerique(i18n[langue].statistiquesDisplayer.victoires, stats.partiesGagnees, stats.partiesJouees));
 		statsNumeriques.appendChild(this.creerStatNumerique(i18n[langue].statistiquesDisplayer.moyenne, this.getMoyenne(stats.repartition)));
 		statsNumeriques.appendChild(this.creerStatNumerique(i18n[langue].statistiquesDisplayer.lettres + ' <span class="emoji-carre-rouge">🟥</span>', stats.lettresRepartitions.bienPlace));
@@ -136,12 +138,14 @@ export default class StatistiquesDisplayer {
 
 		return i18n[langue].statistiquesDisplayer.stats_pokenigme + `
 
+${i18n[langue].statistiquesDisplayer.pokemon} : ${stats.pokemon.length}/${Object.keys(ListeMotsProposables.Pokedex).length} 
 1/6 - ${this.genererBarTexte(stats.repartition[1], max)} ${stats.repartition[1]}
 2/6 - ${this.genererBarTexte(stats.repartition[2], max)} ${stats.repartition[2]}
 3/6 - ${this.genererBarTexte(stats.repartition[3], max)} ${stats.repartition[3]}
 4/6 - ${this.genererBarTexte(stats.repartition[4], max)} ${stats.repartition[4]}
 5/6 - ${this.genererBarTexte(stats.repartition[5], max)} ${stats.repartition[5]}
 6/6 - ${this.genererBarTexte(stats.repartition[6], max)} ${stats.repartition[6]}
+-/6 - ${this.genererBarTexte(stats.repartition["-"], max)} ${stats.repartition["-"]}
 -/6 - ${this.genererBarTexte(stats.repartition["-"], max)} ${stats.repartition["-"]}
 
 ${i18n[langue].statistiquesDisplayer.moy} ${this.getMoyenne(stats.repartition).toLocaleString("fr-FR", { maximumFractionDigits: 2 })}

@@ -43,6 +43,12 @@ export default class Sauvegardeur {
 		if (!dataStats) return;
 
 		let stats = JSON.parse(dataStats) as SauvegardeStats;
+		
+		if (!stats.pokemon) {
+			stats.pokemon = [];
+			this.sauvegarderStats(stats);
+		}
+		
 		return stats;
 	}
 
@@ -209,7 +215,8 @@ export default class Sauvegardeur {
 			stats.lettresRepartitions.bienPlace,
 			stats.lettresRepartitions.malPlace,
 			stats.lettresRepartitions.nonTrouve,
-		].join(",");
+			JSON.stringify(stats.pokemon),
+		].join("|");
 	}
 
 	private static chargerInformationDepuisLien(contenu: string): SauvegardeStats | null {
@@ -223,8 +230,9 @@ export default class Sauvegardeur {
 			PerduString,
 			LettresBienPlaceesString,
 			LettresMalPlaceesString,
-			LettresNonTrouveString
-		] = contenu.split(",");
+			LettresNonTrouveString,
+			pokemonString
+		] = contenu.split("|");
 
 		const UnCoup = parseInt(UnCoupString);
 		const DeuxCoups = parseInt(DeuxCoupsString);
@@ -236,6 +244,7 @@ export default class Sauvegardeur {
 		const LettresBienPlacees = parseInt(LettresBienPlaceesString);
 		const LettresMalPlacees = parseInt(LettresMalPlaceesString);
 		const LettresNonTrouve = parseInt(LettresNonTrouveString);
+		const Pokemon: number[] = pokemonString ? JSON.parse(pokemonString) : [];
 
 		return {
 			partiesJouees: UnCoup + DeuxCoups + TroisCoups + QuatreCoups + CinqCoups + SixCoups + Perdu,
@@ -254,6 +263,7 @@ export default class Sauvegardeur {
 				malPlace: LettresMalPlacees,
 				nonTrouve: LettresNonTrouve,
 			},
+			pokemon: Pokemon
 		};
 	}
 	

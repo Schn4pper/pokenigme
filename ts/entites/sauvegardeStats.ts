@@ -16,6 +16,7 @@ export default class SauvegardeStats {
 			malPlace: 0,
 			nonTrouve: 0,
 		},
+		pokemon: []
 	};
 
 	partiesJouees: number = 0;
@@ -46,4 +47,6 @@ export default class SauvegardeStats {
 			malPlace: 0,
 			nonTrouve: 0,
 		};
+	pokemon: number[] = [];
+
 }
