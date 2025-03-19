@@ -101,13 +101,12 @@ export default class PokedexPanel {
 				pkDiv.appendChild(generationDiv);
 				pkDiv.appendChild(namesDiv);
 				listePokemon.appendChild(pkDiv);
-				
-				this._contenu.appendChild(listePokemon);
-
-				this._panelManager.setContenuHtmlElement(i18n[config.langue_interface].pokedexPanel.collection, this._contenu);
-				this._panelManager.setClasses(["pokedex-panel"]);
-				this._panelManager.afficherPanel();
 			});
+			
+			this._contenu.appendChild(listePokemon);
+			this._panelManager.setContenuHtmlElement(i18n[config.langue_interface].pokedexPanel.collection, this._contenu);
+			this._panelManager.setClasses(["pokedex-panel"]);
+			this._panelManager.afficherPanel();
 	}
 	
 }
