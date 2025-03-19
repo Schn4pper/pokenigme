@@ -31,12 +31,12 @@ export default class PokedexPanel {
 		h3.innerText = `${nbPokemon} ${i18n[config.langue_interface].pokedexPanel.pokemon_attrapes}`;
 		this._contenu.appendChild(h3);
 
-		if (nbPokemon == nbTotalPokemon-1) {
+		if (nbPokemon == nbTotalPokemon-1024) {
 			const oh = document.createElement("h3");
 			const ohLien = document.createElement("a");
 			ohLien.href = "./#" +  btoa(unescape(encodeURIComponent("p=[]|2|MEW|" + config.langue_jeu)));
 			ohLien.target = "_blank";
-			ohLien.innerText = `Oh ?`;
+			ohLien.innerText = `🚚`;
 			oh.appendChild(ohLien);
 			this._contenu.appendChild(oh);
 		} else if (nbPokemon == nbTotalPokemon) {
