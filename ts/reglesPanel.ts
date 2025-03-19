@@ -68,8 +68,8 @@ export default class ReglesPanel {
 				afficherRegles: false,
 			});
 		});
-		
-		var notesMaJPanel = new NotesMaJPanel(this._panelManager);
+
+ 		var notesMaJPanel = new NotesMaJPanel(this._panelManager);		
 		var changelog = document.getElementById("changelog");
 		 if (changelog !== null) changelog.addEventListener("click", (function () {
 			notesMaJPanel.afficher(0);

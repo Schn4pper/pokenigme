@@ -10,6 +10,7 @@ import StatistiquesDisplayer from "./statistiquesDisplayer";
 import { ModeJeu } from "./entites/modeJeu";
 import { i18n } from "./i18n/i18n";
 import { Langue } from "./entites/langue";
+import PokedexPanel from "./pokedexPanel";
 
 export default class FinDePartiePanel {
 	private readonly _datePartie: Date;
@@ -226,6 +227,14 @@ export default class FinDePartiePanel {
 
 		if (this._partieEstFinie) this.attacherPartage();
 		if (stats) this.attacherPartageStats(stats);
+		
+		let pokemonStats = document.getElementById("pokemon") as HTMLElement;
+		pokemonStats.addEventListener("click", () => {
+	 		var pokedexPanel = new PokedexPanel(this._panelManager);
+			if (stats) pokedexPanel.afficher(stats);
+		});
+
+		
 		this._panelManager.afficherPanel();
 	}
 

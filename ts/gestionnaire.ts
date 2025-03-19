@@ -216,7 +216,7 @@ export default class Gestionnaire {
 				
 				if (this._partage) {
 					let modeJeu = document.getElementById("configuration-mode-jeu-bouton") as HTMLElement;
-					modeJeu.innerHTML = i18n[this._config.langue_interface].modeJeuPanel.pokenigme + " 🔗";
+					modeJeu.innerHTML = i18n[this._config.langue_interface].modeJeuPanel.pokenigme + (partieEnCours.solution == "MEW" ? " 🚚" : " 🔗");
 				}
 				
 				switch (this._modeJeu) {

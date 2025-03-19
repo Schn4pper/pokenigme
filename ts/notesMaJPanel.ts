@@ -9,6 +9,15 @@ export default class NotesMaJPanel {
 
 	private readonly _notes = [
 		{
+			version: 12,
+			notes: [
+				"FR : Capturez-les tous ! 👀",
+				"EN : Gotta catch 'em all ! 👀",
+				"DE : Schnapp sie dir alle ! 👀",
+				"JA : ゲットだぜー！ 👀",
+			],
+		},
+		{
 			version: 11,
 			notes: [
 				"FR : Vous pouvez désormais sauvegarder l'état de votre grille et l'envoyer à vos amis pour qu'ils la complètent à leur tour (depuis la rubrique des statistiques) !",

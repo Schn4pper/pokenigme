@@ -267,7 +267,6 @@ export default class Sauvegardeur {
 		};
 	}
 	
-	
 	public static chargerSauvegardePartiePartagee(): PartieEnCours | null {
 		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
 		const contenuLocation = LienHelper.extraireInformation("p");

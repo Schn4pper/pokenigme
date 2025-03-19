@@ -54,7 +54,7 @@ export default class StatistiquesDisplayer {
 		const statsNumeriques = document.createElement("div");
 		statsNumeriques.className = "stats-numeriques-area";
 
-		statsNumeriques.appendChild(this.creerStatNumerique(i18n[langue].statistiquesDisplayer.pokemon, stats.pokemon.length, Object.keys(ListeMotsProposables.Pokedex).length));
+		statsNumeriques.appendChild(this.creerStatNumerique(i18n[langue].statistiquesDisplayer.pokemon, stats.pokemon.length, Object.keys(ListeMotsProposables.Pokedex).length, "pokemon"));
 		statsNumeriques.appendChild(this.creerStatNumerique(i18n[langue].statistiquesDisplayer.victoires, stats.partiesGagnees, stats.partiesJouees));
 		statsNumeriques.appendChild(this.creerStatNumerique(i18n[langue].statistiquesDisplayer.moyenne, this.getMoyenne(stats.repartition)));
 		statsNumeriques.appendChild(this.creerStatNumerique(i18n[langue].statistiquesDisplayer.lettres + ' <span class="emoji-carre-rouge">🟥</span>', stats.lettresRepartitions.bienPlace));
@@ -96,9 +96,10 @@ export default class StatistiquesDisplayer {
 		return ligne;
 	}
 
-	private static creerStatNumerique(label: string, valeur: number, valeurSecondaire?: number): HTMLElement {
+	private static creerStatNumerique(label: string, valeur: number, valeurSecondaire?: number, id?: string): HTMLElement {
 		const caseDiv = document.createElement("div");
 		caseDiv.className = "stats-numerique-case";
+		if (id !== undefined) caseDiv.id = id;
 
 		const valeurDiv = document.createElement("div");
 		valeurDiv.className = "stats-numerique-case-valeur";

@@ -89,6 +89,17 @@ export const i18n = {
 			notes: "Notes de mise à jour",
 			version: "Version"
 		},
+		pokedexPanel: {
+			collection: "Progression",
+			pokemon_attrapes: "Pokémon attrapés",
+			toutes_generations: "Toutes générations",
+			generation: "Génération",
+			gen: "Gen",
+			tous: "Tous",
+			attrapes: "Attrapés",
+			non_attrapes: "Non attrapés",
+			felicitations: "Félicitations ! Vous avez complété Pokénigme à 100% !"
+		},
 		reglesPanel: {
 			regles: "Règles",
 			regles_ligne_1: "Vous avez six essais pour deviner le Pokémon du jour, entre 4 et 12 lettres, commun à tous.",
@@ -230,6 +241,17 @@ export const i18n = {
 		notesMaJPanel: {
 			notes: "Update-Notizen",
 			version: "Version"
+		},
+		pokedexPanel: {
+			collection: "Progression",
+			pokemon_attrapes: "gefangene Pokémon",
+			toutes_generations: "Alle Generationen",
+			generation: "Generation",
+			gen: "Gen",
+			tous: "Alle",
+			attrapes: "Gefangen",
+			non_attrapes: "Nicht gefangen",
+			felicitations: "Herzlichen Glückwunsch ! Sie haben Pokénigme zu 100% abgeschlossen !"
 		},
 		reglesPanel: {
 			regles: "Regeln",
@@ -373,6 +395,17 @@ export const i18n = {
 			notes: "Update notes",
 			version: "Version"
 		},
+		pokedexPanel: {
+			collection: "Collection",
+			pokemon_attrapes: "caught Pokémon",
+			toutes_generations: "All generations",
+			generation: "Generation",
+			gen: "Gen",
+			tous: "All",
+			attrapes: "Caught",
+			non_attrapes: "Not caught",
+			felicitations: "Congratulations ! You have 100% completed Pokénigma !"
+		},
 		reglesPanel: {
 			regles: "Rules",
 			regles_ligne_1: "You have six attempts to guess the Pokémon of the day, between 4 and 11 letters, common to all.",
@@ -514,6 +547,17 @@ export const i18n = {
 		notesMaJPanel: {
 			notes: "アップデートノート",
 			version: "バージョン"
+		},
+		pokedexPanel: {
+			collection: "進行",
+			pokemon_attrapes: "捕まえたポケモン",
+			toutes_generations: "すべての世代",
+			generation: "世代",
+			gen: "世代",
+			tous: "すべて",
+			attrapes: "捕まえた",
+			non_attrapes: "未捕獲",
+			felicitations: "おめでとうございます！ポケナゾを100％クリアしました！"
 		},
 		reglesPanel: {
 			regles: "ルール",
