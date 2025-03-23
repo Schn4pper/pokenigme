@@ -374,7 +374,7 @@ notification-course {
 	flex-direction: column;
 	padding: 0.5em;
 	overflow-y: auto;
-	max-height: calc(100vh - 4em - 2px);
+	max-height: 80dvh;
 }
 
 #panel-fenetre-header {

@@ -24,15 +24,15 @@ export default class Sauvegardeur {
 	}
 
 	public static chargerSauvegardeStats(): SauvegardeStats | undefined {
-		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+		var config = this.chargerConfig() ?? Configuration.Default;
 		const contenuLocation = LienHelper.extraireInformation("s");
 
 		if (contenuLocation) {
-			const donneesDepuisLien = Sauvegardeur.chargerInformationDepuisLien(contenuLocation);
+			const donneesDepuisLien = this.chargerInformationDepuisLien(contenuLocation);
 			window.location.hash = "";
 			if (donneesDepuisLien) {
 				NotificationMessage.ajouterNotification(i18n[config.langue_interface].sauvegardeur.stats_chargees);
-				Sauvegardeur.sauvegarderStats(donneesDepuisLien);
+				this.sauvegarderStats(donneesDepuisLien);
 				return donneesDepuisLien;
 			}
 
@@ -92,7 +92,7 @@ export default class Sauvegardeur {
 	}
 
 	public static chargerSauvegardePartieEnCours(): PartieEnCours | undefined {
-		let config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+		let config = this.chargerConfig() ?? Configuration.Default;
 
 		let dataPartieEnCours;
 		
@@ -163,7 +163,7 @@ export default class Sauvegardeur {
 		if (localStorage.getItem(this._clePartieEnCoursPartage)) {
 			localStorage.removeItem(this._clePartieEnCoursPartage);
 		} else {
-			let config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+			let config = this.chargerConfig() ?? Configuration.Default;
 
 			switch (config.modeJeu) {
 				case ModeJeu.Infini:
@@ -192,7 +192,7 @@ export default class Sauvegardeur {
 	}
 
 	public static purgerPartiesEnCours(duJour : boolean): void {
-		let config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+		let config = this.chargerConfig() ?? Configuration.Default;
 
 		localStorage.removeItem(this._clePartieEnCoursInfini + config.langue_jeu);
 		localStorage.removeItem(this._clePartieEnCoursDevinette + config.langue_jeu);
@@ -203,7 +203,7 @@ export default class Sauvegardeur {
 	}
 
 	public static genererLien(): string {
-		const stats = Sauvegardeur.chargerSauvegardeStats() ?? SauvegardeStats.Default;
+		const stats = this.chargerSauvegardeStats() ?? SauvegardeStats.Default;
 		return [
 			stats.repartition[1],
 			stats.repartition[2],
@@ -244,7 +244,19 @@ export default class Sauvegardeur {
 		const LettresBienPlacees = parseInt(LettresBienPlaceesString);
 		const LettresMalPlacees = parseInt(LettresMalPlaceesString);
 		const LettresNonTrouve = parseInt(LettresNonTrouveString);
-		const Pokemon: number[] = pokemonString ? JSON.parse(pokemonString) : [];
+		let pokemon: number[] = pokemonString ? JSON.parse(pokemonString) : [];
+		
+		const dataStats = localStorage.getItem(this._cleStats);
+		if (dataStats !== null) {
+			let stats = JSON.parse(dataStats) as SauvegardeStats;
+			if (stats !== null) {
+				stats.pokemon.forEach((noPokemon) => {
+					if (!pokemon.includes(noPokemon)) {
+						pokemon.push(noPokemon);
+					}
+				});
+			}
+		}
 
 		return {
 			partiesJouees: UnCoup + DeuxCoups + TroisCoups + QuatreCoups + CinqCoups + SixCoups + Perdu,
@@ -263,19 +275,19 @@ export default class Sauvegardeur {
 				malPlace: LettresMalPlacees,
 				nonTrouve: LettresNonTrouve,
 			},
-			pokemon: Pokemon
+			pokemon: pokemon
 		};
 	}
 	
 	public static chargerSauvegardePartiePartagee(): PartieEnCours | null {
-		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+		var config = this.chargerConfig() ?? Configuration.Default;
 		const contenuLocation = LienHelper.extraireInformation("p");
 
 		if (contenuLocation) {
-			const partieDepuisLien = Sauvegardeur.chargerPartieDepuisLien(contenuLocation);
+			const partieDepuisLien = this.chargerPartieDepuisLien(contenuLocation);
 			window.location.hash = "";
 			if (partieDepuisLien) {
-				NotificationMessage.ajouterNotification(i18n[config.langue_interface].sauvegardeur.partie_partage_ok);
+				if (partieDepuisLien.solution != "MEW") NotificationMessage.ajouterNotification(i18n[config.langue_interface].sauvegardeur.partie_partage_ok);
 				return partieDepuisLien;
 			}
 
@@ -287,7 +299,7 @@ export default class Sauvegardeur {
 	
 	public static genererLienPartie(): string {
 		const partie = this.chargerSauvegardePartieEnCours() ?? new PartieEnCours();
-		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+		var config = this.chargerConfig() ?? Configuration.Default;
 	
 		if (partie.propositions !== undefined && (partie.propositions.length == 6 || partie.propositions.includes(partie.solution))) {
 			if (partie.modeJeu != ModeJeu.Devinette) {
@@ -323,7 +335,7 @@ export default class Sauvegardeur {
 		var parsedModeJeu: ModeJeu = modeJeu ? Number(modeJeu) as ModeJeu : ModeJeu.Infini;
 		var parsedLangue: Langue = langue ? Number(langue) as Langue : Langue.FR;
 
-		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+		var config = this.chargerConfig() ?? Configuration.Default;
 
 		if (parsedModeJeu != ModeJeu.Desordre) {
 			parsedModeJeu = ModeJeu.Devinette;
@@ -363,7 +375,7 @@ export default class Sauvegardeur {
 					config.langue_interface = Langue.EN;
 					config.langue_jeu = Langue.EN;
 			}
-			Sauvegardeur.sauvegarderConfig({
+			this.sauvegarderConfig({
 				...config,
 				langue_interface: config.langue_interface,
 				langue_jeu: config.langue_jeu
@@ -371,7 +383,7 @@ export default class Sauvegardeur {
 		}
 		
 		if (config.langue_interface === undefined) {
-			Sauvegardeur.sauvegarderConfig({
+			this.sauvegarderConfig({
 				...config,
 				langue_interface: Configuration.Default.langue_interface
 			});
@@ -379,7 +391,7 @@ export default class Sauvegardeur {
 		}
 		
 		if (config.langue_jeu === undefined) {
-			Sauvegardeur.sauvegarderConfig({
+			this.sauvegarderConfig({
 				...config,
 				langue_jeu: Configuration.Default.langue_jeu
 			});
@@ -387,7 +399,7 @@ export default class Sauvegardeur {
 		}
 				
 		if (config.generations === undefined) {
-			Sauvegardeur.sauvegarderConfig({
+			this.sauvegarderConfig({
 				...config,
 				generations: Configuration.Default.generations
 			});
@@ -395,7 +407,7 @@ export default class Sauvegardeur {
 		}
 		
 		if (config.nbIndices === undefined) {
-			Sauvegardeur.sauvegarderConfig({
+			this.sauvegarderConfig({
 				...config,
 				nbIndices: Configuration.Default.nbIndices
 			});
@@ -403,7 +415,7 @@ export default class Sauvegardeur {
 		}
 		
 		if (config.nbManches === undefined) {
-			Sauvegardeur.sauvegarderConfig({
+			this.sauvegarderConfig({
 				...config,
 				nbManches: Configuration.Default.nbManches
 			});
@@ -411,7 +423,7 @@ export default class Sauvegardeur {
 		}
 		
 		if (config.secondesCourse === undefined) {
-			Sauvegardeur.sauvegarderConfig({
+			this.sauvegarderConfig({
 				...config,
 				secondesCourse: Configuration.Default.secondesCourse
 			});
