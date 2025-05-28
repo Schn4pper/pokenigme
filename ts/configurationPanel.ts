@@ -302,7 +302,7 @@ export default class ConfigurationPanel {
 				}
 			)
 		);
-		
+
 		contenu.appendChild(
 			this.genererConfigItem(
 				"detective-propositions-preremplies",
@@ -326,7 +326,7 @@ export default class ConfigurationPanel {
 				}
 			)
 		);
-		
+
 		contenu.appendChild(
 			this.genererConfigSaisieNumerique(
 				"course-pokemon-a-trouver",

@@ -280,8 +280,7 @@ export default class Sauvegardeur {
 			pokemon: pokemon
 		};
 	}
-	
-	
+
 	public static chargerSauvegardePartiePartagee(): PartieEnCours | null {
 		var config = this.chargerConfig() ?? Configuration.Default;
 		const contenuLocation = LienHelper.extraireInformation("p");
@@ -385,7 +384,7 @@ export default class Sauvegardeur {
 				langue_jeu: config.langue_jeu
 			});
 		}
-		
+
 		if (config.langue_interface === undefined) {
 			this.sauvegarderConfig({
 				...config,
@@ -393,7 +392,7 @@ export default class Sauvegardeur {
 			});
 			config.langue_interface = Configuration.Default.langue_interface;
 		}
-		
+
 		if (config.langue_jeu === undefined) {
 			this.sauvegarderConfig({
 				...config,
@@ -401,7 +400,7 @@ export default class Sauvegardeur {
 			});
 			config.langue_jeu = Configuration.Default.langue_jeu;
 		}
-				
+
 		if (config.generations === undefined) {
 			this.sauvegarderConfig({
 				...config,
@@ -409,7 +408,7 @@ export default class Sauvegardeur {
 			});
 			config.generations = Configuration.Default.generations;
 		}
-		
+
 		if (config.nbIndices === undefined) {
 			this.sauvegarderConfig({
 				...config,
@@ -417,7 +416,7 @@ export default class Sauvegardeur {
 			});
 			config.nbIndices = Configuration.Default.nbIndices;
 		}
-		
+
 		if (config.nbManches === undefined) {
 			this.sauvegarderConfig({
 				...config,
@@ -425,7 +424,7 @@ export default class Sauvegardeur {
 			});
 			config.nbManches = Configuration.Default.nbManches;
 		}
-		
+
 		if (config.secondesCourse === undefined) {
 			this.sauvegarderConfig({
 				...config,
@@ -433,7 +432,7 @@ export default class Sauvegardeur {
 			});
 			config.secondesCourse = Configuration.Default.secondesCourse;
 		}
-		
+
 		if (config.afficherIndice === undefined) {
 			this.sauvegarderConfig({
 				...config,
@@ -442,6 +441,4 @@ export default class Sauvegardeur {
 			config.afficherIndice = Configuration.Default.afficherIndice;
 		}
 	}
-
 }
-

@@ -264,11 +264,11 @@ export default class Gestionnaire {
 			.catch(() => NotificationMessage.ajouterNotification(i18n[this._config.langue_interface].gestionnaire.aucun_pokemon));
 	}
 	
-    private afficherIndice() : void {
+	private afficherIndice() : void {
 		let resultatIndice = this.analyserMot(this._indice, false);
 		if (this._input) this._input.updateClavierAvecProposition(resultatIndice, false);
 		if (this._grille) this._grille.validerMot(this._indice, resultatIndice, false, true, true);
-    }
+	}
 
 	private decompose(mot: string): { [lettre: string]: number } {
 		let composition: { [lettre: string]: number } = {};
@@ -339,10 +339,10 @@ export default class Gestionnaire {
 
 		return true;
 	}
-	
+
 	private genererIndice(solution: string): string {
 		let nbIndices = 4;
-		
+
 		if (solution.length < 4) {
 			nbIndices = 0;
 		} else if (solution.length < 7) {
