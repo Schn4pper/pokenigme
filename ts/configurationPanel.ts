@@ -282,6 +282,29 @@ export default class ConfigurationPanel {
 
 		contenu.appendChild(
 			this.genererConfigItem(
+				"afficher-indices",
+				i18n[config.langue_interface].configurationPanel.afficher_indices,
+				[
+					{ value: false.toString(), label: i18n[config.langue_interface].configurationPanel.non },
+					{ value: true.toString(), label: i18n[config.langue_interface].configurationPanel.oui }
+				],
+				(config.afficherIndice ?? Configuration.Default.afficherIndice).toString(),
+				(event: Event) => {					
+					event.stopPropagation();
+					let afficherIndice = (event.target as HTMLSelectElement).value === true.toString();
+
+					Sauvegardeur.sauvegarderConfig({
+						...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
+						afficherIndice,
+					});
+					
+					window.location.reload();
+				}
+			)
+		);
+		
+		contenu.appendChild(
+			this.genererConfigItem(
 				"detective-propositions-preremplies",
 				i18n[config.langue_interface].configurationPanel.propositions,
 				[
@@ -303,7 +326,7 @@ export default class ConfigurationPanel {
 				}
 			)
 		);
-
+		
 		contenu.appendChild(
 			this.genererConfigSaisieNumerique(
 				"course-pokemon-a-trouver",

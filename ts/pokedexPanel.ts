@@ -5,7 +5,6 @@ import Sauvegardeur from "./sauvegardeur";
 import { i18n } from "./i18n/i18n";
 import ListeMotsProposables from "./mots/listeMotsProposables";
 import { Pokemon } from "./mots/listeMotsProposables";
-import { Langue } from "./entites/langue";
 
 export default class PokedexPanel {
 	private readonly _panelManager: PanelManager;
@@ -31,7 +30,7 @@ export default class PokedexPanel {
 		h3.innerText = `${nbPokemon} ${i18n[config.langue_interface].pokedexPanel.pokemon_attrapes}`;
 		this._contenu.appendChild(h3);
 
-		if (nbPokemon == nbTotalPokemon-1) {
+		if (nbPokemon == nbTotalPokemon) {
 			const oh = document.createElement("h3");
 			const ohLien = document.createElement("a");
 			ohLien.href = "./#" +  btoa(unescape(encodeURIComponent("p=[]|2|MEW|" + config.langue_jeu)));
@@ -42,7 +41,7 @@ export default class PokedexPanel {
 		} else if (nbPokemon == nbTotalPokemon) {
 			h3.innerText = i18n[config.langue_interface].pokedexPanel.felicitations;
 		}
-				
+
 		const listePokemon = document.createElement("div");
 		listePokemon.classList.add("pokemon-list");
 
@@ -52,7 +51,7 @@ export default class PokedexPanel {
 		this._statusFilter.innerHTML = `<option value="all">${i18n[config.langue_interface].pokedexPanel.tous}</option>
 		<option value="caught" selected>${i18n[config.langue_interface].pokedexPanel.attrapes}</option>
 		<option value="uncaught">${i18n[config.langue_interface].pokedexPanel.non_attrapes}</option>`;
-		
+
 		this._filterContainer.appendChild(this._statusFilter);
 		this._filterContainer.appendChild(this._generationFilter);
 		this._contenu.appendChild(this._filterContainer);
@@ -61,9 +60,9 @@ export default class PokedexPanel {
 		this._statusFilter.addEventListener("change", () => this.renderPokemonList(listePokemon, stats));
 
 		this.renderPokemonList(listePokemon, stats);
-		
+
 	}
-	
+
 	private renderPokemonList(listePokemon : HTMLDivElement, stats: SauvegardeStats) {
 		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
 
@@ -102,11 +101,11 @@ export default class PokedexPanel {
 				pkDiv.appendChild(namesDiv);
 				listePokemon.appendChild(pkDiv);
 			});
-			
+
 			this._contenu.appendChild(listePokemon);
 			this._panelManager.setContenuHtmlElement(i18n[config.langue_interface].pokedexPanel.collection, this._contenu);
 			this._panelManager.setClasses(["pokedex-panel"]);
 			this._panelManager.afficherPanel();
 	}
-	
+
 }

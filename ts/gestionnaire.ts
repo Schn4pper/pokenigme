@@ -16,7 +16,6 @@ import ConfigurationPanel from "./configurationPanel";
 import AudioPanel from "./audioPanel";
 import ThemeManager from "./themeManager";
 import InstanceConfiguration from "./instanceConfiguration";
-import LienHelper from "./lienHelper";
 import NotesMaJPanel from "./notesMaJPanel";
 import { ModeJeu } from "./entites/modeJeu";
 import { i18n } from "./i18n/i18n";
@@ -45,6 +44,7 @@ export default class Gestionnaire {
 	private _modeJeu: ModeJeu;
 	private _langue: Langue;
 	private _partage: boolean;
+	private _indice: string = "";
 	private _stats: SauvegardeStats = SauvegardeStats.Default;
 	private _config: Configuration = Configuration.Default;
 	private _courseEnCours: boolean = false;
@@ -187,7 +187,7 @@ export default class Gestionnaire {
 	}
 
 	private sauvegarderPartieEnCours(): void {
-		Sauvegardeur.sauvegarderPartieEnCours(this._datePartieEnCours, this._propositions, this._motATrouver, this._dateFinPartie, this._modeJeu, this._langue, this._partage);
+		Sauvegardeur.sauvegarderPartieEnCours(this._datePartieEnCours, this._propositions, this._motATrouver, this._dateFinPartie, this._modeJeu, this._langue, this._partage, this._indice);
 	}
 
 	private async choisirMot(modeJeu: ModeJeu, solution: string): Promise<string> {
@@ -206,6 +206,7 @@ export default class Gestionnaire {
 				this._grille = new Grille(this._motATrouver.length, this._maxNbPropositions, this._audioPanel);
 				this._configurationPanel.setInput(this._input);
 				this._compositionMotATrouver = this.decompose(this._motATrouver);
+				this._indice = partieEnCours.indice == "" ? this.genererIndice(this._motATrouver) : partieEnCours.indice;
 
 				this._input.debloquer(ContexteBloquage.ValidationMot);
 
@@ -247,9 +248,14 @@ export default class Gestionnaire {
 						}
 						notificationCourse.innerHTML = this._mancheEnCours + "/" + this._manchesCourse;
 						await this.chargerPropositions(partieEnCours.propositions);
+						if(this._config.afficherIndice) this.afficherIndice();
 						break;
 					case ModeJeu.Desordre:
 						this._input.updateClavierAvecProposition(this.analyserMot(this._motATrouver, true), true);
+						await this.chargerPropositions(partieEnCours.propositions);
+						break;
+					case ModeJeu.Infini:
+						if(this._config.afficherIndice) this.afficherIndice();
 					default:
 						await this.chargerPropositions(partieEnCours.propositions);
 				}
@@ -257,6 +263,12 @@ export default class Gestionnaire {
 			})
 			.catch(() => NotificationMessage.ajouterNotification(i18n[this._config.langue_interface].gestionnaire.aucun_pokemon));
 	}
+	
+    private afficherIndice() : void {
+		let resultatIndice = this.analyserMot(this._indice, false);
+		if (this._input) this._input.updateClavierAvecProposition(resultatIndice, false);
+		if (this._grille) this._grille.validerMot(this._indice, resultatIndice, false, true, true);
+    }
 
 	private decompose(mot: string): { [lettre: string]: number } {
 		let composition: { [lettre: string]: number } = {};
@@ -294,7 +306,7 @@ export default class Gestionnaire {
 		}
 
 		if (this._grille) {
-			this._grille.validerMot(mot, resultats, isBonneReponse, chargementPartie, () => {
+			this._grille.validerMot(mot, resultats, isBonneReponse, chargementPartie, false, () => {
 				if (this._input) {
 					this._input.updateClavier(resultats);
 					if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
@@ -311,6 +323,7 @@ export default class Gestionnaire {
 							this._propositions.length = 0;
 							let partieEnCours = this.chargerPartieEnCours();
 							partieEnCours.solution = "";
+							partieEnCours.indice = "";
 							if (partieEnCours.propositions !== undefined) partieEnCours.propositions.length = 0;
 							this.initialiserChoisirMot(partieEnCours);
 						}
@@ -325,6 +338,32 @@ export default class Gestionnaire {
 		this.sauvegarderPartieEnCours();
 
 		return true;
+	}
+	
+	private genererIndice(solution: string): string {
+		let nbIndices = 4;
+		
+		if (solution.length < 4) {
+			nbIndices = 0;
+		} else if (solution.length < 7) {
+			nbIndices = 1;
+		} else if (solution.length < 9) {
+			nbIndices = 2;
+		} else if (solution.length < 11) {
+			nbIndices = 3;
+		}
+
+		// Générer des lettres uniques à afficher
+		const indices = new Set<number>();
+		while (indices.size < nbIndices) {
+		  const randomIndex = Math.floor(Math.random() * solution.length);
+		  indices.add(randomIndex);
+		}
+
+		// Construire la nouvelle chaîne d'indices
+		return solution.split('')
+		  .map((char, index) => (indices.has(index) ? char : '·'))
+		  .join('');
 	}
 
 	public actualiserAffichage(mot: string): void {

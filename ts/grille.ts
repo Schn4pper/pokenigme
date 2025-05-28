@@ -39,7 +39,7 @@ export default class Grille {
 			let mot = this._propositions.length <= nbMot ? "" : this._propositions[nbMot];
 			if (mot.length > 0) {
 				ligne.setAttribute("role", "group");
-				ligne.setAttribute("aria-label", `${i18n[this._langue].grille.mot} ${nbMot + 1} ${i18n[this._langue].grille.sur_6}`);
+				ligne.setAttribute("aria-label", `${i18n[this._langue].grille.mot} ${nbMot + 1} ${i18n[this._langue].grille.sur_6}, ${mot}`);
 			}
 			for (let nbLettre = 0; nbLettre < this._longueurMot; nbLettre++) {
 				let cellule = document.createElement("td");
@@ -94,16 +94,16 @@ export default class Grille {
 		this.afficherGrille();
 	}
 
-	public validerMot(mot: string, resultats: Array<LettreResultat>, isBonneReponse: boolean, skipAnimation: boolean = false, endCallback?: () => void): void {
-		this.saisirMot(this._motActuel, mot);
+	public validerMot(mot: string, resultats: Array<LettreResultat>, isBonneReponse: boolean, skipAnimation: boolean = false, estIndice: boolean, endCallback?: () => void): void {
+		if (!estIndice) this.saisirMot(this._motActuel, mot);
 		this.mettreAJourIndice(resultats);
-		this._resultats.push(resultats);
+		if (!estIndice) this._resultats.push(resultats);
 
 		if (!skipAnimation) this.animerResultats(resultats, endCallback);
 
 		if (isBonneReponse) {
 			this.bloquerGrille();
-		} else {
+		} else if (!estIndice) {
 			this._motActuel++;
 		}
 

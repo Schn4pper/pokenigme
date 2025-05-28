@@ -9,6 +9,15 @@ export default class NotesMaJPanel {
 
 	private readonly _notes = [
 		{
+			version: 13,
+			notes: [
+				"FR : Vous pouvez désormais jouer avec des indices initiaux dans certains modes de jeux (activables dans les paramètres).",
+				"EN : You can now play with cues at the start of some game modes (to be enabled in the settings).",
+				"DE : Sie können nun mit Hinweisen am Anfang bestimmter Spielmodi spielen (in den Einstellungen zu aktivieren).",
+				"JA : 設定で有効にすると、一部のゲームモードの開始時にキューを使って遊べます。",
+			],
+		},
+		{
 			version: 12,
 			notes: [
 				"FR : Capturez-les tous ! 👀",

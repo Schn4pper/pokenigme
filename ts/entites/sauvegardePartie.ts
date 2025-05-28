@@ -9,4 +9,5 @@ export default class SauvegardePartie {
 	solution: string = "";
 	langue?: Langue;
 	partage?: boolean;
+	indice?: string = "";
 }

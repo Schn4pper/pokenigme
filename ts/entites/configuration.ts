@@ -23,7 +23,8 @@ export default class Configuration {
 		generations: [1, 2, 3, 4, 5, 6, 7, 8, 9],
 		nbManches: 3,
 		secondesCourse: 300,
-		nbIndices: 5
+		nbIndices: 5,
+		afficherIndice: false
 	};
 
 	langue_interface: Langue = Langue.FR;
@@ -42,4 +43,5 @@ export default class Configuration {
 	nbManches: number = 3;
 	secondesCourse: number = 300;
 	nbIndices: number = 5;
+    afficherIndice: boolean = false;
 }

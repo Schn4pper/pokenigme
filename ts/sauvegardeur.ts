@@ -52,7 +52,7 @@ export default class Sauvegardeur {
 		return stats;
 	}
 
-	public static sauvegarderPartieEnCours(datePartie: Date, propositions: Array<string>, solution: string, dateFinPartie?: Date, modeJeu?: ModeJeu, langue?: Langue, partage?: boolean): void {
+	public static sauvegarderPartieEnCours(datePartie: Date, propositions: Array<string>, solution: string, dateFinPartie?: Date, modeJeu?: ModeJeu, langue?: Langue, partage?: boolean, indice?: string): void {
 		let partieEnCours: SauvegardePartie = {
 			propositions: propositions,
 			datePartie,
@@ -60,7 +60,8 @@ export default class Sauvegardeur {
 			modeJeu,
 			solution,
 			langue,
-			partage
+			partage,
+			indice
 		};
 
 		let clePartie;
@@ -140,7 +141,8 @@ export default class Sauvegardeur {
 			modeJeu: partieEnCours.modeJeu,
 			solution: partieEnCours.solution,
 			langue: partieEnCours.langue,
-			partage: partieEnCours.partage ?? false
+			partage: partieEnCours.partage ?? false,
+			indice: partieEnCours.indice ?? ""
 		};
 	}
 
@@ -245,7 +247,7 @@ export default class Sauvegardeur {
 		const LettresMalPlacees = parseInt(LettresMalPlaceesString);
 		const LettresNonTrouve = parseInt(LettresNonTrouveString);
 		let pokemon: number[] = pokemonString ? JSON.parse(pokemonString) : [];
-		
+
 		const dataStats = localStorage.getItem(this._cleStats);
 		if (dataStats !== null) {
 			let stats = JSON.parse(dataStats) as SauvegardeStats;
@@ -278,6 +280,7 @@ export default class Sauvegardeur {
 			pokemon: pokemon
 		};
 	}
+	
 	
 	public static chargerSauvegardePartiePartagee(): PartieEnCours | null {
 		var config = this.chargerConfig() ?? Configuration.Default;
@@ -320,6 +323,7 @@ export default class Sauvegardeur {
 			partie.modeJeu,
 			partie.solution,
 			partie.langue,
+			partie.indice
 		].join("|");
 	}
 
@@ -329,13 +333,12 @@ export default class Sauvegardeur {
 			modeJeu,
 			solution,
 			langue,
+			indice
 		] = partie.split("|");
 		
 		var parsedPropositions: string[] = propositions ? JSON.parse(propositions) : [];
 		var parsedModeJeu: ModeJeu = modeJeu ? Number(modeJeu) as ModeJeu : ModeJeu.Infini;
 		var parsedLangue: Langue = langue ? Number(langue) as Langue : Langue.FR;
-
-		var config = this.chargerConfig() ?? Configuration.Default;
 
 		if (parsedModeJeu != ModeJeu.Desordre) {
 			parsedModeJeu = ModeJeu.Devinette;
@@ -350,7 +353,8 @@ export default class Sauvegardeur {
 			modeJeu: parsedModeJeu,
 			solution: solution,
 			langue: parsedLangue,
-			partage: true
+			partage: true,
+			indice: indice ?? ""
 		};
 	}
 
@@ -428,6 +432,14 @@ export default class Sauvegardeur {
 				secondesCourse: Configuration.Default.secondesCourse
 			});
 			config.secondesCourse = Configuration.Default.secondesCourse;
+		}
+		
+		if (config.afficherIndice === undefined) {
+			this.sauvegarderConfig({
+				...config,
+				afficherIndice: Configuration.Default.afficherIndice
+			});
+			config.afficherIndice = Configuration.Default.afficherIndice;
 		}
 	}
 

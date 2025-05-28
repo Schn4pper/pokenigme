@@ -9,4 +9,5 @@ export default class PartieEnCours {
 	public solution: string = "";
 	public langue: Langue | undefined;
 	public partage: boolean = false;
+	public indice: string = "";
 }

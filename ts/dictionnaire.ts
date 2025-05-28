@@ -3,13 +3,11 @@ import ListeMotsProposables from "./mots/listeMotsProposables";
 import { ModeJeu } from "./entites/modeJeu";
 import Configuration from "./entites/configuration";
 import Sauvegardeur from "./sauvegardeur";
-import { Langue } from "./entites/langue";
 
 export default class Dictionnaire {
 	public constructor() { }
 
 	public static async getMot(modeJeu: ModeJeu): Promise<string> {
-		let config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
 		var choix;
 		var today = new Date();
 

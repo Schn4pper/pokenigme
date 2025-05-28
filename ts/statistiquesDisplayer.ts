@@ -147,7 +147,6 @@ ${i18n[langue].statistiquesDisplayer.pokemon} : ${stats.pokemon.length}/${Object
 5/6 - ${this.genererBarTexte(stats.repartition[5], max)} ${stats.repartition[5]}
 6/6 - ${this.genererBarTexte(stats.repartition[6], max)} ${stats.repartition[6]}
 -/6 - ${this.genererBarTexte(stats.repartition["-"], max)} ${stats.repartition["-"]}
--/6 - ${this.genererBarTexte(stats.repartition["-"], max)} ${stats.repartition["-"]}
 
 ${i18n[langue].statistiquesDisplayer.moy} ${this.getMoyenne(stats.repartition).toLocaleString("fr-FR", { maximumFractionDigits: 2 })}
 ${stats.lettresRepartitions.bienPlace}🟥- ${stats.lettresRepartitions.malPlace}🟡- ${stats.lettresRepartitions.nonTrouve}🟦`;

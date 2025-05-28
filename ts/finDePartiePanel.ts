@@ -230,7 +230,7 @@ export default class FinDePartiePanel {
 		
 		let pokemonStats = document.getElementById("pokemon") as HTMLElement;
 		if (pokemonStats) pokemonStats.addEventListener("click", () => {
-	 		var pokedexPanel = new PokedexPanel(this._panelManager);
+			var pokedexPanel = new PokedexPanel(this._panelManager);
 			if (stats) pokedexPanel.afficher(stats);
 		});
 		
