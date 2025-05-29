@@ -248,17 +248,13 @@ export default class Gestionnaire {
 						}
 						notificationCourse.innerHTML = this._mancheEnCours + "/" + this._manchesCourse;
 						await this.chargerPropositions(partieEnCours.propositions);
-						if(this._config.afficherIndice) this.afficherIndice();
 						break;
 					case ModeJeu.Desordre:
 						this._input.updateClavierAvecProposition(this.analyserMot(this._motATrouver, true), true);
-						await this.chargerPropositions(partieEnCours.propositions);
-						break;
-					case ModeJeu.Infini:
-						if(this._config.afficherIndice) this.afficherIndice();
 					default:
 						await this.chargerPropositions(partieEnCours.propositions);
 				}
+				this.afficherIndice();
 				this.sauvegarderPartieEnCours();
 			})
 			.catch(() => NotificationMessage.ajouterNotification(i18n[this._config.langue_interface].gestionnaire.aucun_pokemon));
@@ -343,7 +339,7 @@ export default class Gestionnaire {
 	private genererIndice(solution: string): string {
 		let nbIndices = 4;
 
-		if (solution.length < 4) {
+		if (solution.length < 4 || !this._config.afficherIndice || (this._modeJeu != ModeJeu.Infini && this._modeJeu != ModeJeu.Course)) {
 			nbIndices = 0;
 		} else if (solution.length < 7) {
 			nbIndices = 1;
