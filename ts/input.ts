@@ -6,6 +6,7 @@ import Configuration from "./entites/configuration";
 import Dictionnaire from "./dictionnaire";
 import Sauvegardeur from "./sauvegardeur";
 import NotificationMessage from "./notificationMessage";
+import { Langue } from "./entites/langue";
 
 export enum ContexteBloquage {
 	ValidationMot,
@@ -21,6 +22,7 @@ export default class Input {
 	private _estBloque: Array<ContexteBloquage>;
 	private _resultats: Array<Array<LettreResultat>>;
 	private _haptiqueActive: boolean;
+	private _langueJeu: Langue;
 	private _cars_allemands: Record<string, string> = {
 		"ß": "SS",
 		"ü": "UE",
@@ -31,6 +33,7 @@ export default class Input {
 		"Ö": "OE"
 	};
 
+
 	public constructor(gestionnaire: Gestionnaire, configuration: Configuration, longueurMot: number) {
 		this._inputArea = document.getElementById("input-area") as HTMLElement;
 		this._longueurMot = longueurMot;
@@ -39,6 +42,7 @@ export default class Input {
 		this._estBloque = new Array<ContexteBloquage>();
 		this._resultats = new Array<Array<LettreResultat>>();
 		this._haptiqueActive = configuration.haptique ?? Configuration.Default.haptique;
+		this._langueJeu = configuration.langue_jeu;
 		
 		this.ajouterEvenementClavierPhysique();
 
@@ -224,9 +228,9 @@ export default class Input {
 		this.bloquer(ContexteBloquage.ValidationMot);
 
 		let mot = this._motSaisi;
-		// Cas particulier : Si le préremplissage donne un mot complet
+		// Cas particulier : si le préremplissage donne un mot complet
 		let statutJeu = this.siPreremplissageEstReponse();
-		if (statutJeu.preRempli && statutJeu.mot) {
+		if (statutJeu.preRempli && statutJeu.mot && this._motSaisi.length == 0) {
 			mot = statutJeu.mot;
 		}
 		let isMotValide = await this._gestionnaire.verifierMot(mot);
@@ -292,6 +296,9 @@ export default class Input {
 		for (let resultat of this._resultats) {
 			this.updateClavierAvecProposition(resultat, false);
 		}
+		
+		let barreEspace = document.getElementById("barre-espace") as HTMLElement;
+		barreEspace.innerText = Langue[this._langueJeu] + "·" + this._longueurMot;
 	}
 
 	public updateClavierAvecProposition(resultats: Array<LettreResultat>, markBienPlaceAsMalPlace: boolean): void {

@@ -44,16 +44,16 @@ export default class Grille {
 			for (let nbLettre = 0; nbLettre < this._longueurMot; nbLettre++) {
 				let cellule = document.createElement("td");
 				let contenuCellule: string = "";
+				let lettreIndice = this._indice[nbLettre];
 				if (nbMot < this._motActuel || (nbMot === this._motActuel && mot.length !== 0)) {
 					if (mot.length <= nbLettre) {
-						contenuCellule = this._filler;
+						contenuCellule = lettreIndice !== undefined ? lettreIndice : this._filler;
 						cellule.classList.add("cellule-lettre-pas-curseur");
 					} else {
 						contenuCellule = mot[nbLettre];
 						cellule.classList.remove("cellule-lettre-pas-curseur");
 					}
 				} else if (nbMot === this._motActuel) {
-					let lettreIndice = this._indice[nbLettre];
 					if (lettreIndice !== undefined) {
 						contenuCellule = lettreIndice;
 						cellule.classList.remove("cellule-lettre-pas-curseur");

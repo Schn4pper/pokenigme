@@ -212,7 +212,7 @@ export default class Gestionnaire {
 
 				if (this._langue !== undefined) {
 					let barreEspace = document.getElementById("barre-espace") as HTMLElement;
-					barreEspace.innerText = Langue[this._langue];
+					barreEspace.innerText = Langue[this._langue] + "·" + this._motATrouver.length;
 				}
 				
 				if (this._partage) {
