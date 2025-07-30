@@ -441,7 +441,8 @@ notification-course {
 	display:block;
 }
 
-.generation-label {
+.generation-label,
+.longueur-label {
 	padding: 1px;
 }
 
