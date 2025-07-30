@@ -437,7 +437,8 @@ notification-course {
 	height: min-content;
 }
 
-#config-generations-div {
+#config-generations-div,
+#config-longueur-div {
 	display:block;
 }
 
