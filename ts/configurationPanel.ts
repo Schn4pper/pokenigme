@@ -4,7 +4,6 @@ import Sauvegardeur from "./sauvegardeur";
 import { VolumeSon } from "./entites/volumeSon";
 import AudioPanel from "./audioPanel";
 import { ClavierDisposition } from "./entites/clavierDisposition";
-import Input from "./input";
 import ThemeManager from "./themeManager";
 import { Theme } from "./entites/theme";
 import CopieHelper from "./copieHelper";
@@ -17,8 +16,6 @@ export default class ConfigurationPanel {
 	private readonly _audioPanel: AudioPanel;
 	private readonly _themeManager: ThemeManager;
 	private readonly _configBouton: HTMLElement;
-
-	private _input: Input | undefined;
 
 	public constructor(panelManager: PanelManager, audioPanel: AudioPanel, themeManager: ThemeManager) {
 		this._panelManager = panelManager;
@@ -128,12 +125,13 @@ export default class ConfigurationPanel {
 					event.stopPropagation();
 					let disposition: ClavierDisposition = parseInt((event.target as HTMLSelectElement).value);
 
-					if (this._input) this._input.dessinerClavier(disposition);
-
 					Sauvegardeur.sauvegarderConfig({
 						...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
 						disposition,
 					});
+					
+					window.location.reload();
+
 				}
 			)
 		);
@@ -225,12 +223,12 @@ export default class ConfigurationPanel {
 						haptique,
 					});
 
-					// On redessine le clavier pour la prise en compte de l'option
-					if (this._input) this._input.dessinerClavier(config.disposition ?? Configuration.Default.disposition);
+					window.location.reload();
 				}
 			)
 		);
 
+		// Générations
 		let div = document.createElement("div");
 		div.className = "config-item";
 
@@ -272,6 +270,56 @@ export default class ConfigurationPanel {
 					Sauvegardeur.sauvegarderConfig({
 						...Sauvegardeur.chargerConfig() ?? Configuration.Default,
 						generations: config.generations?.filter(num => num !== i) || []
+					});
+				}
+				Sauvegardeur.purgerPartiesEnCours(false);
+			});
+		}
+
+		contenu.appendChild(div);
+		
+		// Nombre de lettres
+		div = document.createElement("div");
+		div.className = "config-item";
+
+		label = document.createElement("label");
+		label.innerText = i18n[config.langue_interface].configurationPanel.nb_lettres;
+		label.setAttribute("for", "config-longueur");
+		div.appendChild(label);
+
+		let divLongueur = document.createElement("div");
+		divLongueur.id = "config-generations-div";
+		div.appendChild(divLongueur);
+
+		if (config.longueur === undefined) {
+			Sauvegardeur.sauvegarderConfig({
+				...Sauvegardeur.chargerConfig() ?? Configuration.Default,
+				longueur: Configuration.Default.longueur
+			});
+			config.longueur = Configuration.Default.longueur;
+		}
+
+		for (let i = 4; i <= 12; i++) {
+			let longueur = document.createElement("label");
+			longueur.className = "longueur-label";
+			longueur.innerText = `${i}`;
+			longueur.setAttribute("for", "config-longueur");
+			longueur.style.textDecoration = config.longueur.includes(i) ? "underline" : "line-through";
+			divLongueur.appendChild(longueur);
+			longueur.addEventListener("click", (event: Event) => {
+				event.stopPropagation();
+				const config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+				if ((event.target as HTMLLabelElement).style.textDecoration === "line-through") {
+					(event.target as HTMLLabelElement).style.textDecoration = "underline";
+					Sauvegardeur.sauvegarderConfig({
+						...Sauvegardeur.chargerConfig() ?? Configuration.Default,
+						longueur: [...(config.longueur || []), i]
+					});
+				} else if (config.longueur.length > 1) {
+					(event.target as HTMLLabelElement).style.textDecoration = "line-through";
+					Sauvegardeur.sauvegarderConfig({
+						...Sauvegardeur.chargerConfig() ?? Configuration.Default,
+						longueur: config.longueur?.filter(num => num !== i) || []
 					});
 				}
 				Sauvegardeur.purgerPartiesEnCours(false);
@@ -483,7 +531,4 @@ export default class ConfigurationPanel {
 		return div;
 	}
 
-	public setInput(input: Input): void {
-		this._input = input;
-	}
 }

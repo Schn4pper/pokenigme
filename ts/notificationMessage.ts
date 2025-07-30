@@ -11,8 +11,8 @@ export default class NotificationMessage {
 	private static _tempsTimeout: NodeJS.Timeout | undefined; // Timeout pour le chronomètre
 	private static _notificationTimeout: NodeJS.Timeout | undefined; // Timeout pour les notifications
 
-	public static ajouterNotification(message: string): void {
-		this.ajouterNotificationDiv(this._notificationArea, this._notificationLabel, message);
+	public static ajouterNotification(message: string, permanent: boolean): void {
+		this.ajouterNotificationDiv(this._notificationArea, this._notificationLabel, message, permanent);
 	}
 
 	public static decompterTemps(secondes: number): Promise<boolean> {
@@ -65,31 +65,34 @@ export default class NotificationMessage {
 	}
 
 	public static ajouterNotificationPanel(message: string, origine: HTMLElement): void {
-		this.ajouterNotificationDiv(this._notificationPanelArea, this._notificationPanelLabel, message);
+		this.ajouterNotificationDiv(this._notificationPanelArea, this._notificationPanelLabel, message, false);
 		const { top: topParent, left: leftParent } = origine.getBoundingClientRect();
 		this._notificationPanelArea.style.top = `${topParent + 30}px`;
 		this._notificationPanelArea.style.left = `${leftParent - this._notificationPanelArea.getBoundingClientRect().width / 2}px`;
 	}
 
-	private static ajouterNotificationDiv(divArea: HTMLElement, divLabel: HTMLElement, message: string): void {
+	private static ajouterNotificationDiv(divArea: HTMLElement, divLabel: HTMLElement, message: string, permanent: boolean): void {
 		if (this._notificationTimeout) {
 			clearTimeout(this._notificationTimeout);
 			this._notificationTimeout = undefined;
 		}
 		divLabel.innerHTML = message;
 		divArea.style.opacity = "1";
-		this._notificationTimeout = setTimeout(
-			(() => {
-				divArea.style.opacity = "0";
-				this._notificationTimeout = setTimeout(
-					(() => {
-						divLabel.innerHTML = "";
-						this._notificationTimeout = undefined;
-					}).bind(this),
-					1000
-				);
-			}).bind(this),
-			5000
-		);
+		
+		if (!permanent) {
+			this._notificationTimeout = setTimeout(
+				(() => {
+					divArea.style.opacity = "0";
+					this._notificationTimeout = setTimeout(
+						(() => {
+							divLabel.innerHTML = "";
+							this._notificationTimeout = undefined;
+						}).bind(this),
+						1000
+					);
+				}).bind(this),
+				5000
+			);
+		}
 	}
 }

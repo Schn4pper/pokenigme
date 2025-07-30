@@ -12,7 +12,7 @@ export default class Dictionnaire {
 		var today = new Date();
 
 		if (modeJeu !== ModeJeu.DuJour) {
-			const listeNoms = this.filtrerGenerations(false);
+			const listeNoms = this.filtrerGenerationsEtLongueur(false, false);
 			choix = Math.floor(today.getTime()) % listeNoms.length;
 			return listeNoms[choix];
 		} else {
@@ -20,7 +20,7 @@ export default class Dictionnaire {
 			let utc1 = Date.UTC(origine.getFullYear(), origine.getMonth(), origine.getDate());
 			let utc2 = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
 			let diffDays = Math.floor((utc2 - utc1) / (1000 * 3600 * 24));
-			const listeNoms = this.filtrerGenerations(true);
+			const listeNoms = this.filtrerGenerationsEtLongueur(true, true);
 
 			choix = diffDays % listeNoms.length;
 			return listeNoms[choix];
@@ -33,7 +33,7 @@ export default class Dictionnaire {
 		var nbLettres = solution.length;
 		var choix = new Array<string>();
 
-		const listeNoms = this.filtrerGenerations(true);
+		const listeNoms = this.filtrerGenerationsEtLongueur(true, true);
 
 		var choixPossibles = listeNoms.filter(pokemon => pokemon.length === nbLettres && pokemon !== solution);
 
@@ -63,15 +63,18 @@ export default class Dictionnaire {
 			.toUpperCase();
 	}
 
-	private static filtrerGenerations(toutesGenerations: boolean): string[] {
+	private static filtrerGenerationsEtLongueur(toutesGenerations: boolean, toutesLongueurs: boolean): string[] {
 		let config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
 		const generationsVoulues = config.generations ?? Configuration.Default.generations;
+		const longueursVoulues = config.longueur ?? Configuration.Default.longueur;
 
 		var propositions = ListeMotsProposables.Ordre[config.langue_jeu];
 
 		return propositions
 		  .map(id => ListeMotsProposables.Pokedex[id])
 		  .filter(pokemon => pokemon && (toutesGenerations || generationsVoulues.includes(pokemon.generation)))
+		  .filter(pokemon => pokemon && (toutesLongueurs || longueursVoulues.includes(pokemon.noms[config.langue_jeu].length)))
 		  .map(pokemon => pokemon.noms[config.langue_jeu]);
 	}
+	
 }

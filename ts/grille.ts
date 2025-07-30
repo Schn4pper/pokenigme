@@ -47,7 +47,7 @@ export default class Grille {
 				let lettreIndice = this._indice[nbLettre];
 				if (nbMot < this._motActuel || (nbMot === this._motActuel && mot.length !== 0)) {
 					if (mot.length <= nbLettre) {
-						contenuCellule = lettreIndice !== undefined ? lettreIndice : this._filler;
+						contenuCellule = lettreIndice ?? this._filler;
 						cellule.classList.add("cellule-lettre-pas-curseur");
 					} else {
 						contenuCellule = mot[nbLettre];
@@ -93,7 +93,7 @@ export default class Grille {
 
 		this.afficherGrille();
 	}
-
+	
 	public validerMot(mot: string, resultats: Array<LettreResultat>, isBonneReponse: boolean, skipAnimation: boolean = false, estIndice: boolean, endCallback?: () => void): void {
 		if (!estIndice) this.saisirMot(this._motActuel, mot);
 		this.mettreAJourIndice(resultats);

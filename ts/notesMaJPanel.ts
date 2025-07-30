@@ -3,99 +3,109 @@ import InstanceConfiguration from "./instanceConfiguration";
 import PanelManager from "./panelManager";
 import Sauvegardeur from "./sauvegardeur";
 import { i18n } from "./i18n/i18n";
+import { Langue } from "./entites/langue";
 
 export default class NotesMaJPanel {
 	private readonly _panelManager: PanelManager;
 
 	private readonly _notes = [
 		{
+			version: 14,
+			notes: {
+				[Langue.FR] : "Le filtrage par nombre de lettres est désormais possible.",
+				[Langue.EN] : "You can now filter by number of letters.",
+				[Langue.DE] : "Sie können nun per Buchstabenzahl filtern.",
+				[Langue.JA] : "文字数でフィルターすることができます。",
+			},
+		},
+		{
 			version: 13,
-			notes: [
-				"FR : Vous pouvez désormais jouer avec des indices initiaux dans certains modes de jeux (activables dans les paramètres).",
-				"EN : You can now play with cues at the start of some game modes (to be enabled in the settings).",
-				"DE : Sie können nun mit Hinweisen am Anfang bestimmter Spielmodi spielen (in den Einstellungen zu aktivieren).",
-				"JA : 設定で有効にすると、一部のゲームモードの開始時にキューを使って遊べます。",
-			],
+			notes: {
+				[Langue.FR] : "Vous pouvez désormais jouer avec des indices initiaux dans certains modes de jeux (activables dans les paramètres).",
+				[Langue.EN] : "You can now play with cues at the start of some game modes (to be enabled in the settings).",
+				[Langue.DE] : "Sie können nun mit Hinweisen am Anfang bestimmter Spielmodi spielen (in den Einstellungen zu aktivieren).",
+				[Langue.JA] : "設定で有効にすると、一部のゲームモードの開始時にキューを使って遊べます。",
+			},
 		},
 		{
 			version: 12,
-			notes: [
-				"FR : Capturez-les tous ! 👀",
-				"EN : Gotta catch 'em all ! 👀",
-				"DE : Schnapp sie dir alle ! 👀",
-				"JA : ゲットだぜー！ 👀",
-			],
+			notes: {
+				[Langue.FR] : "Capturez-les tous ! 👀",
+				[Langue.EN] : "Gotta catch 'em all ! 👀",
+				[Langue.DE] : "Schnapp sie dir alle ! 👀",
+				[Langue.JA] : "ゲットだぜー！ 👀",
+			},
 		},
 		{
 			version: 11,
-			notes: [
-				"FR : Vous pouvez désormais sauvegarder l'état de votre grille et l'envoyer à vos amis pour qu'ils la complètent à leur tour (depuis la rubrique des statistiques) !",
-				"EN : You can now save the state of your game grid and send it to your friends for them to complete in turn !",
-				"DE : Sie können nun den Zustand Ihres Spielfeldes speichern und es an Ihre Freunde senden, damit sie es ihrerseits vervollständigen können !",
-				"JA : これで、ゲームグリッドの状態を保存して、友達に送り、彼らが順番に完成させることができます。",
-			],
+			notes: {
+				[Langue.FR] : "Vous pouvez désormais sauvegarder l'état de votre grille et l'envoyer à vos amis pour qu'ils la complètent à leur tour (depuis la rubrique des statistiques) !",
+				[Langue.EN] : "You can now save the state of your game grid and send it to your friends for them to complete in turn !",
+				[Langue.DE] : "Sie können nun den Zustand Ihres Spielfeldes speichern und es an Ihre Freunde senden, damit sie es ihrerseits vervollständigen können !",
+				[Langue.JA] : "これで、ゲームグリッドの状態を保存して、友達に送り、彼らが順番に完成させることができます。",
+			},
 		},
 		{
 			version: 10,
-			notes: [
-				"FR : L'utilisation des caractères spéciaux est désormais supportée, rendant ainsi des Pokémon comme M. Mime, Porygon2, les deux Nidoran et Type:0 devinables !",
-				"EN : The use of special characters is now supported, allowing Pokémon like Mr. Mime, Porygon 2 or the both Nidoran to be part of the game !",
-				"DE : Die Verwendung von Sonderzeichen wird nun unterstützt, sodass Pokémon wie M. Mime, Porygon2, die beiden Nidoran und Typ:Null erraten werden können !",
-				"JA : 特殊文字の使用がサポートされるようになり、ポケモン（ポリゴン2、ニドラン♂・ニドラン♀、タイプ：ヌル）を当てられるようになりました。",
-			],
+			notes: {
+				[Langue.FR] : "L'utilisation des caractères spéciaux est désormais supportée, rendant ainsi des Pokémon comme M. Mime, Porygon2, les deux Nidoran et Type:0 devinables !",
+				[Langue.EN] : "The use of special characters is now supported, allowing Pokémon like Mr. Mime, Porygon 2 or the both Nidoran to be part of the game !",
+				[Langue.DE] : "Die Verwendung von Sonderzeichen wird nun unterstützt, sodass Pokémon wie M. Mime, Porygon2, die beiden Nidoran und Typ:Null erraten werden können !",
+				[Langue.JA] : "特殊文字の使用がサポートされるようになり、ポケモン（ポリゴン2、ニドラン♂・ニドラン♀、タイプ：ヌル）を当てられるようになりました。",
+			},
 		},
 		{
 			version: 9,
-			notes: [
-				"FR : Pokénigme est désormais disponible entièrement en japonais ! La langue d'affichage est désormais distincte de celle de jeu. Résolvez des énigmes dans d'autres langues tout en conservant l'interface en français.",
-				"EN : Pokénigma available in Japanese !",
-				"DE : Pokénigma erhältlich auf Japanisch !",
-				"JA : ポケナゾが日本語で利用可能になりました！",
-			],
+			notes: {
+				[Langue.FR] : "Pokénigme est désormais disponible entièrement en japonais ! La langue d'affichage est désormais distincte de celle de jeu. Résolvez des énigmes dans d'autres langues tout en conservant l'interface en français.",
+				[Langue.EN] : "Pokénigma available in Japanese !",
+				[Langue.DE] : "Pokénigma erhältlich auf Japanisch !",
+				[Langue.JA] : "ポケナゾが日本語で利用可能になりました！",
+			},
 		},
 		{
 			version: 8,
-			notes: [
-				"FR : Pokénigme est désormais disponible entièrement en anglais et en allemand !",
-				"EN : Pokénigma available in English !",
-				"DE : Pokénigma erhältlich auf Deutsch !",
-			],
+			notes: {
+				[Langue.FR] : "Pokénigme est désormais disponible entièrement en anglais et en allemand !",
+				[Langue.EN] : "Pokénigma available in English !",
+				[Langue.DE] : "Pokénigma erhältlich auf Deutsch !",
+			},
 		},
 		{
 			version: 7,
-			notes: [
-				"Mode de jeu ⏱ : le chronomètre est désormais mis en pause durant la validation des mots.",
-			],
+			notes: {
+				[Langue.FR] : "Mode de jeu ⏱ : le chronomètre est désormais mis en pause durant la validation des mots.",
+			},
 		},
 		{
 			version: 6,
-			notes: [
-				"Le filtrage des générations est désormais possible (hors Pokémon du jour) !",
-			],
+			notes: {
+				[Langue.FR] : "Le filtrage des générations est désormais possible (hors Pokémon du jour) !",
+			},
 		},
 		{
 			version: 5,
-			notes: [
-				"L'utilisation du trait d'union est désormais supportée, rendant ainsi 24 Pokémon devinables de plus pour un total de 1015. Retrouvez entre autres Ho-Oh, Porygon-Z et les Pokémon paradoxes dans vos grilles !",
-			],
+			notes: {
+				[Langue.FR] : "L'utilisation du trait d'union est désormais supportée, rendant ainsi 24 Pokémon devinables de plus pour un total de 1015. Retrouvez entre autres Ho-Oh, Porygon-Z et les Pokémon paradoxes dans vos grilles !",
+			},
 		},
 		{
 			version: 4,
-			notes: [
-				"Mode de jeu 🕵️:️ nombre de propositions préremplies désormais configurable (cinq par défaut).",
-			],
+			notes: {
+				[Langue.FR] : "Mode de jeu 🕵️:️ nombre de propositions préremplies désormais configurable (cinq par défaut).",
+			},
 		},
 		{
 			version: 3,
-			notes: [
-				"Nouveau mode de jeu ⏱.️",
-			],
+			notes: {
+				[Langue.FR] : "Nouveau mode de jeu ⏱.️",
+			},
 		},
 		{
 			version: 2,
-			notes: [
-				"Mise à jour de Pokénigme sur la base de la version actuelle de SUTOM.",
-			],
+			notes: {
+				[Langue.FR] : "Mise à jour de Pokénigme sur la base de la version actuelle de SUTOM.",
+			},
 		},
 	];
 
@@ -128,11 +138,13 @@ export default class NotesMaJPanel {
 			divNote.appendChild(titre);
 
 			const listeNotes = document.createElement("ul");
+			
+			const noteTraduite = note.notes[config.langue_interface];
 
-			for (let item of note.notes) {
-				const itemLi = document.createElement("li");
-				itemLi.innerText = item;
-				listeNotes.appendChild(itemLi);
+			if (noteTraduite) {
+			    const itemLi = document.createElement("li");
+			    itemLi.innerText = noteTraduite;
+			    listeNotes.appendChild(itemLi);
 			}
 
 			divNote.appendChild(listeNotes);

@@ -33,7 +33,6 @@ export default class Input {
 		"Ö": "OE"
 	};
 
-
 	public constructor(gestionnaire: Gestionnaire, configuration: Configuration, longueurMot: number) {
 		this._inputArea = document.getElementById("input-area") as HTMLElement;
 		this._longueurMot = longueurMot;

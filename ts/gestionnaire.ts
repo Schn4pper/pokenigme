@@ -200,11 +200,18 @@ export default class Gestionnaire {
 	private initialiserChoisirMot(partieEnCours: PartieEnCours): void {
 		this.choisirMot(this._modeJeu, partieEnCours.solution)
 			.then(async (mot) => {
+				
+				if (!mot) {
+					NotificationMessage.ajouterNotification(i18n[this._config.langue_interface].gestionnaire.aucun_pokemon, true); 
+					var jeu = document.getElementById("grille") as HTMLElement;
+					jeu.innerHTML = "";
+					return;
+				}
+				
 				this._motATrouver = mot;
 				this._input = new Input(this, this._config, this._motATrouver.length);
 				this._panelManager.setInput(this._input);
 				this._grille = new Grille(this._motATrouver.length, this._maxNbPropositions, this._audioPanel);
-				this._configurationPanel.setInput(this._input);
 				this._compositionMotATrouver = this.decompose(this._motATrouver);
 				this._indice = partieEnCours.indice == "" ? this.genererIndice(this._motATrouver) : partieEnCours.indice;
 
@@ -257,7 +264,9 @@ export default class Gestionnaire {
 				this.afficherIndice();
 				this.sauvegarderPartieEnCours();
 			})
-			.catch(() => NotificationMessage.ajouterNotification(i18n[this._config.langue_interface].gestionnaire.aucun_pokemon));
+			.catch(() => { 
+				NotificationMessage.ajouterNotification(i18n[this._config.langue_interface].gestionnaire.aucun_pokemon, true); 
+			});
 	}
 	
 	private afficherIndice() : void {
@@ -279,12 +288,12 @@ export default class Gestionnaire {
 	public async verifierMot(mot: string, chargementPartie: boolean = false): Promise<boolean> {
 		mot = Dictionnaire.nettoyerMot(mot);
 		if (mot.length !== this._motATrouver.length) {
-			NotificationMessage.ajouterNotification(i18n[this._config.langue_interface].gestionnaire.trop_court);
+			NotificationMessage.ajouterNotification(i18n[this._config.langue_interface].gestionnaire.trop_court, false);
 			return false;
 		}
 
 		if (!(await Dictionnaire.estMotValide(mot))) {
-			NotificationMessage.ajouterNotification((await Dictionnaire.estMotMissingno(mot)) ? i18n[this._config.langue_interface].gestionnaire.bien_essaye : i18n[this._config.langue_interface].gestionnaire.inconnu);
+			NotificationMessage.ajouterNotification((await Dictionnaire.estMotMissingno(mot)) ? i18n[this._config.langue_interface].gestionnaire.bien_essaye : i18n[this._config.langue_interface].gestionnaire.inconnu, false);
 			return false;
 		}
 
@@ -365,6 +374,7 @@ export default class Gestionnaire {
 	public actualiserAffichage(mot: string): void {
 		if (this._grille) this._grille.actualiserAffichage(Dictionnaire.nettoyerMot(mot));
 	}
+	
 
 	private analyserMot(mot: string, markBienPlaceAsMalPlace: boolean): Array<LettreResultat> {
 		let resultats = new Array<LettreResultat>();

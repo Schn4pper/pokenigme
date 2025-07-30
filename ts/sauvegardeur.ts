@@ -31,12 +31,12 @@ export default class Sauvegardeur {
 			const donneesDepuisLien = this.chargerInformationDepuisLien(contenuLocation);
 			window.location.hash = "";
 			if (donneesDepuisLien) {
-				NotificationMessage.ajouterNotification(i18n[config.langue_interface].sauvegardeur.stats_chargees);
+				NotificationMessage.ajouterNotification(i18n[config.langue_interface].sauvegardeur.stats_chargees, false);
 				this.sauvegarderStats(donneesDepuisLien);
 				return donneesDepuisLien;
 			}
 
-			NotificationMessage.ajouterNotification(i18n[config.langue_interface].sauvegardeur.stats_ko);
+			NotificationMessage.ajouterNotification(i18n[config.langue_interface].sauvegardeur.stats_ko, false);
 		}
 
 		const dataStats = localStorage.getItem(this._cleStats);
@@ -289,11 +289,11 @@ export default class Sauvegardeur {
 			const partieDepuisLien = this.chargerPartieDepuisLien(contenuLocation);
 			window.location.hash = "";
 			if (partieDepuisLien) {
-				if (partieDepuisLien.solution != "MEW") NotificationMessage.ajouterNotification(i18n[config.langue_interface].sauvegardeur.partie_partage_ok);
+				if (partieDepuisLien.solution != "MEW") NotificationMessage.ajouterNotification(i18n[config.langue_interface].sauvegardeur.partie_partage_ok, false);
 				return partieDepuisLien;
 			}
 
-			NotificationMessage.ajouterNotification(i18n[config.langue_interface].sauvegardeur.partie_partage_ko);
+			NotificationMessage.ajouterNotification(i18n[config.langue_interface].sauvegardeur.partie_partage_ko, false);
 		}
 
 		return null;
@@ -407,6 +407,14 @@ export default class Sauvegardeur {
 				generations: Configuration.Default.generations
 			});
 			config.generations = Configuration.Default.generations;
+		}
+		
+		if (config.longueur === undefined) {
+			this.sauvegarderConfig({
+				...config,
+				longueur: Configuration.Default.longueur
+			});
+			config.longueur = Configuration.Default.longueur;
 		}
 
 		if (config.nbIndices === undefined) {
