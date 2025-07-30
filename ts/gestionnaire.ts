@@ -202,9 +202,7 @@ export default class Gestionnaire {
 			.then(async (mot) => {
 				
 				if (!mot) {
-					NotificationMessage.ajouterNotification(i18n[this._config.langue_interface].gestionnaire.aucun_pokemon, true); 
-					var jeu = document.getElementById("grille") as HTMLElement;
-					jeu.innerHTML = "";
+					this.afficherAucunPokemon();
 					return;
 				}
 				
@@ -264,9 +262,7 @@ export default class Gestionnaire {
 				this.afficherIndice();
 				this.sauvegarderPartieEnCours();
 			})
-			.catch(() => { 
-				NotificationMessage.ajouterNotification(i18n[this._config.langue_interface].gestionnaire.aucun_pokemon, true); 
-			});
+			.catch(() => this.afficherAucunPokemon() );
 	}
 	
 	private afficherIndice() : void {
@@ -427,5 +423,13 @@ export default class Gestionnaire {
 
 		this._reglesPanel.afficher();
 	}
+	
+	private afficherAucunPokemon(): void {
+		NotificationMessage.ajouterNotification(i18n[this._config.langue_interface].gestionnaire.aucun_pokemon, true); 
+		var jeu = document.getElementById("grille") as HTMLElement;
+		jeu.innerHTML = "";
+	}
 
 }
+
+

@@ -288,7 +288,7 @@ export default class ConfigurationPanel {
 		div.appendChild(label);
 
 		let divLongueur = document.createElement("div");
-		divLongueur.id = "config-generations-div";
+		divLongueur.id = "config-longueur-div";
 		div.appendChild(divLongueur);
 
 		if (config.longueur === undefined) {
