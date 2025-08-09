@@ -414,7 +414,7 @@ export const i18n = {
 		},
 		reglesPanel: {
 			regles: "Rules",
-			regles_ligne_1: "You have six attempts to guess the Pokémon of the day, between 4 and 11 letters, common to all.",
+			regles_ligne_1: "You have six attempts to guess the Pokémon of the day, between 4 and 12 letters, common to all.",
 			regles_ligne_2: "You can only propose Pokémon names (in all available languages) of the same length as the solution.",
 			regles_ligne_3: "The word changes every day. Therefore, please avoid spoilers and prefer sharing the summary.",
 			regles_ligne_4: "Letters surrounded by a 🟥 are well placed.",
@@ -621,4 +621,5 @@ export const i18n = {
 			stats_pokenigme: "🟡 ポケナゾ統計 🟡",
 		},
 	}
+
 } as const;
