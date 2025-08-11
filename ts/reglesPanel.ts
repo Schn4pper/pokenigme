@@ -56,7 +56,9 @@ export default class ReglesPanel {
 			+ i18n[config.langue_interface].reglesPanel.cree_par + ' <a href="mailto:schnapper@hotmail.ch">' + i18n[config.langue_interface].reglesPanel.schnapper + '</a>'
 			+ i18n[config.langue_interface].reglesPanel.point + ' ' + i18n[config.langue_interface].reglesPanel.base_sur + ' <a target="_blank" href="https://framagit.org/JonathanMM/sutom">'
 			+ i18n[config.langue_interface].reglesPanel.sutom + '</a> ' + i18n[config.langue_interface].reglesPanel.cree_par + ' <a target="_blank" href="https://bsky.app/profile/jonathanmm.nocle.fr">'
-			+ i18n[config.langue_interface].reglesPanel.jonamaths + '</a>' + i18n[config.langue_interface].reglesPanel.point + '<br /><br />'
+			+ i18n[config.langue_interface].reglesPanel.jonamaths + '</a>' + i18n[config.langue_interface].reglesPanel.point + ' '
+			+ i18n[config.langue_interface].reglesPanel.graphismes + '</a>' + ' <a target="_blank" href="https://sprites.pmdcollab.org">'
+			+ i18n[config.langue_interface].reglesPanel.pmdcollab + '</a>' + i18n[config.langue_interface].reglesPanel.point + '<br /><br />'
 			+ '<a href="#" id="changelog">' + i18n[config.langue_interface].notesMaJPanel.notes + '</a>' + i18n[config.langue_interface].reglesPanel.point
 			+ "</p>";
 

@@ -80,11 +80,11 @@ export default class PokedexPanel {
 			})
 			.forEach((p: Pokemon) => {
 				const pkDiv = document.createElement("div");
-				pkDiv.classList.add("pokemon-item", stats.pokemon.includes(p.numero) ? "atrappe" : "non-atrappe");
+				pkDiv.classList.add("pokemon-item", stats.pokemon.includes(p.numero) ? "caught" : "uncaught");
 
-				const formattedNumber = `#${String(p.numero).padStart(4, "0")}`;
+				const formattedNumber = `${String(p.numero).padStart(4, "0")}`;
 				const pkTxt = document.createElement("p");
-				pkTxt.innerHTML = `<span class="pokemon-number">${formattedNumber}</span><br/> ${p.noms[config.langue_interface]}`;
+				pkTxt.innerHTML = `<span class="pokemon-number">#${formattedNumber}</span><p class="pokedex-cadre-img"><img class="pokedex-${stats.pokemon.includes(p.numero) ? "caught" : "uncaught"}" src="./public/img/${formattedNumber}.png"/></p>${p.noms[config.langue_interface]}`;
 
 				const generationDiv = document.createElement("div");
 				generationDiv.classList.add("pokemon-generation");

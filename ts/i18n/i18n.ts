@@ -121,6 +121,8 @@ export const i18n = {
 			base_sur: "Basé sur l'excellent",
 			sutom: "SUTOM",
 			jonamaths: "JonathanMM",
+			graphismes: "Graphisme par",
+			pmdcollab: "PMDCollab",
 			point: ".",
 			mot_exemple: "Mot 1 sur 1",
 			lettre_1: "N",
@@ -276,6 +278,8 @@ export const i18n = {
 			base_sur: "Basiert auf dem exzellenten",
 			sutom: "SUTOM",
 			jonamaths: "JonathanMM",
+			graphismes: "Grafiken von",
+			pmdcollab: "PMDCollab",
 			point: ".",
 			mot_exemple: "Wort 1 von 1",
 			lettre_1: "P",
@@ -431,6 +435,8 @@ export const i18n = {
 			base_sur: "Based on the excellent",
 			sutom: "SUTOM",
 			jonamaths: "JonathanMM",
+			graphismes: "Graphics by",
+			pmdcollab: "PMDCollab",
 			point: ".",
 			mot_exemple: "Word 1 out of 1",
 			lettre_1: "U",
@@ -586,6 +592,8 @@ export const i18n = {
 			base_sur: "優れた",
 			sutom: "SUTOM",
 			jonamaths: "JonathanMM",
+			graphismes: "グラフィック：",
+			pmdcollab: "PMDCollab",
 			point: "。",
 			mot_exemple: "単語 1分の1",
 			lettre_1: "K",
@@ -621,5 +629,4 @@ export const i18n = {
 			stats_pokenigme: "🟡 ポケナゾ統計 🟡",
 		},
 	}
-
 } as const;
