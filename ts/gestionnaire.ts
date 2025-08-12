@@ -37,6 +37,7 @@ export default class Gestionnaire {
 	private readonly _notesMaJPanel: NotesMaJPanel;
 
 	private _motATrouver: string = "";
+	private _idATrouver: number = 0;
 	private _compositionMotATrouver: { [lettre: string]: number } = {};
 	private _maxNbPropositions: number = 6;
 	private _datePartieEnCours: Date;
@@ -187,18 +188,18 @@ export default class Gestionnaire {
 	}
 
 	private sauvegarderPartieEnCours(): void {
-		Sauvegardeur.sauvegarderPartieEnCours(this._datePartieEnCours, this._propositions, this._motATrouver, this._dateFinPartie, this._modeJeu, this._langue, this._partage, this._indice);
+		Sauvegardeur.sauvegarderPartieEnCours(this._datePartieEnCours, this._propositions, this._motATrouver, this._idATrouver, this._dateFinPartie, this._modeJeu, this._langue, this._partage, this._indice);
 	}
 
-	private async choisirMot(modeJeu: ModeJeu, solution: string): Promise<string> {
-		if (modeJeu == ModeJeu.DuJour || solution.trim() == "") {
-			return Dictionnaire.getMot(modeJeu);
+	private async choisirMot(partieEnCours: PartieEnCours): Promise<Record<number, string>> {
+		if (this._modeJeu == ModeJeu.DuJour || partieEnCours.solution.trim() == "") {
+			return Dictionnaire.getMot(this._modeJeu);
 		}
-		return solution;
+		return ({ [partieEnCours.idSolution]: partieEnCours.solution });
 	}
 
 	private initialiserChoisirMot(partieEnCours: PartieEnCours): void {
-		this.choisirMot(this._modeJeu, partieEnCours.solution)
+		this.choisirMot(partieEnCours)
 			.then(async (mot) => {
 				
 				if (!mot) {
@@ -206,7 +207,8 @@ export default class Gestionnaire {
 					return;
 				}
 				
-				this._motATrouver = mot;
+				this._motATrouver = Object.values(mot)[0];
+				this._idATrouver = +Object.keys(mot)[0];
 				this._input = new Input(this, this._config, this._motATrouver.length);
 				this._panelManager.setInput(this._input);
 				this._grille = new Grille(this._motATrouver.length, this._maxNbPropositions, this._audioPanel);
@@ -222,7 +224,7 @@ export default class Gestionnaire {
 				
 				if (this._partage) {
 					let modeJeu = document.getElementById("configuration-mode-jeu-bouton") as HTMLElement;
-					modeJeu.innerHTML = i18n[this._config.langue_interface].modeJeuPanel.pokenigme + (partieEnCours.solution == "MEW" ? " 🚚" : " 🔗");
+					modeJeu.innerHTML = i18n[this._config.langue_interface].modeJeuPanel.pokenigme + (partieEnCours.idSolution == 151 ? " 🚚" : " 🔗");
 				}
 				
 				switch (this._modeJeu) {
@@ -240,7 +242,7 @@ export default class Gestionnaire {
 							NotificationMessage.decompterTemps(this._secondesCourse).then((estTermine) => {
 								if (estTermine) {
 									// Effectuer une action spécifique, par exemple afficher un panneau de fin de partie
-									this._finDePartiePanel.genererResume(false, this._motATrouver, new Array(), 0, false, this._langue);
+									this._finDePartiePanel.genererResume(false, this._motATrouver, this._idATrouver, new Array(), 0, false, this._langue);
 									this._finDePartiePanel.afficher();
 									Sauvegardeur.purgerPartieEnCours();
 									this._courseEnCours = false;
@@ -302,7 +304,7 @@ export default class Gestionnaire {
 		if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
 			if (!this._dateFinPartie || this._modeJeu == ModeJeu.Course) this._dateFinPartie = new Date();
 			let duree = this._dateFinPartie.getTime() - this._datePartieEnCours.getTime();
-			this._finDePartiePanel.genererResume(isBonneReponse, this._motATrouver, this._resultats, duree, this._partage, this._langue);
+			this._finDePartiePanel.genererResume(isBonneReponse, this._motATrouver, this._idATrouver, this._resultats, duree, this._partage, this._langue);
 			if (!chargementPartie) this.enregistrerPartieDansStats();
 		}
 
@@ -324,6 +326,7 @@ export default class Gestionnaire {
 							this._propositions.length = 0;
 							let partieEnCours = this.chargerPartieEnCours();
 							partieEnCours.solution = "";
+							partieEnCours.idSolution = 0;
 							partieEnCours.indice = "";
 							if (partieEnCours.propositions !== undefined) partieEnCours.propositions.length = 0;
 							this.initialiserChoisirMot(partieEnCours);

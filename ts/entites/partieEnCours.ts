@@ -7,6 +7,7 @@ export default class PartieEnCours {
 	public dateFinPartie: Date | undefined;
 	public modeJeu: ModeJeu | undefined;
 	public solution: string = "";
+	public idSolution: number = 0;
 	public langue: Langue | undefined;
 	public partage: boolean = false;
 	public indice: string = "";

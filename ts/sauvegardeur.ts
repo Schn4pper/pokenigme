@@ -52,25 +52,26 @@ export default class Sauvegardeur {
 		return stats;
 	}
 
-	public static sauvegarderPartieEnCours(datePartie: Date, propositions: Array<string>, solution: string, dateFinPartie?: Date, modeJeu?: ModeJeu, langue?: Langue, partage?: boolean, indice?: string): void {
+	public static sauvegarderPartieEnCours(datePartie: Date, propositions: Array<string>, solution: string, idSolution: number, dateFinPartie?: Date, modeJeu?: ModeJeu, langue?: Langue, partage?: boolean, indice?: string): void {
 		let partieEnCours: SauvegardePartie = {
 			propositions: propositions,
 			datePartie,
 			dateFinPartie,
 			modeJeu,
 			solution,
+			idSolution,
 			langue,
 			partage,
 			indice
 		};
 
-		let clePartie;
-
 		if (partage) {
 			localStorage.setItem(this._clePartieEnCoursPartage, JSON.stringify(partieEnCours));
 			return;
-		}		
-				
+		}
+
+		let clePartie;
+
 		switch (modeJeu) {
 			case ModeJeu.Infini:
 				clePartie = this._clePartieEnCoursInfini;
@@ -140,6 +141,7 @@ export default class Sauvegardeur {
 			propositions: partieEnCours.propositions,
 			modeJeu: partieEnCours.modeJeu,
 			solution: partieEnCours.solution,
+			idSolution: partieEnCours.idSolution,
 			langue: partieEnCours.langue,
 			partage: partieEnCours.partage ?? false,
 			indice: partieEnCours.indice ?? ""
@@ -288,8 +290,8 @@ export default class Sauvegardeur {
 		if (contenuLocation) {
 			const partieDepuisLien = this.chargerPartieDepuisLien(contenuLocation);
 			window.location.hash = "";
-			if (partieDepuisLien) {
-				if (partieDepuisLien.solution != "MEW") NotificationMessage.ajouterNotification(i18n[config.langue_interface].sauvegardeur.partie_partage_ok, false);
+			if (partieDepuisLien && partieDepuisLien.langue && !isNaN(partieDepuisLien.langue) && partieDepuisLien.idSolution != null && partieDepuisLien.solution != null) {
+				if (partieDepuisLien.idSolution != 151) NotificationMessage.ajouterNotification(i18n[config.langue_interface].sauvegardeur.partie_partage_ok, false);
 				return partieDepuisLien;
 			}
 
@@ -321,6 +323,7 @@ export default class Sauvegardeur {
 			JSON.stringify(partie.propositions),
 			partie.modeJeu,
 			partie.solution,
+			partie.idSolution,
 			partie.langue,
 			partie.indice
 		].join("|");
@@ -331,6 +334,7 @@ export default class Sauvegardeur {
 			propositions,
 			modeJeu,
 			solution,
+			idSolution,
 			langue,
 			indice
 		] = partie.split("|");
@@ -338,6 +342,7 @@ export default class Sauvegardeur {
 		var parsedPropositions: string[] = propositions ? JSON.parse(propositions) : [];
 		var parsedModeJeu: ModeJeu = modeJeu ? Number(modeJeu) as ModeJeu : ModeJeu.Infini;
 		var parsedLangue: Langue = langue ? Number(langue) as Langue : Langue.FR;
+		var parsedIdSolution = Number(idSolution);
 
 		if (parsedModeJeu != ModeJeu.Desordre) {
 			parsedModeJeu = ModeJeu.Devinette;
@@ -351,6 +356,7 @@ export default class Sauvegardeur {
 			dateFinPartie: undefined,
 			modeJeu: parsedModeJeu,
 			solution: solution,
+			idSolution: parsedIdSolution,
 			langue: parsedLangue,
 			partage: true,
 			indice: indice ?? ""

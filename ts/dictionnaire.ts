@@ -7,7 +7,7 @@ import Sauvegardeur from "./sauvegardeur";
 export default class Dictionnaire {
 	public constructor() { }
 
-	public static async getMot(modeJeu: ModeJeu): Promise<string> {
+	public static async getMot(modeJeu: ModeJeu): Promise<Record<number, string>> {
 		var choix;
 		var today = new Date();
 
@@ -35,12 +35,15 @@ export default class Dictionnaire {
 
 		const listeNoms = this.filtrerGenerationsEtLongueur(true, true);
 
-		var choixPossibles = listeNoms.filter(pokemon => pokemon.length === nbLettres && pokemon !== solution);
+		var choixPossibles = listeNoms.filter(pokemon => {
+			const pokemonNom = Object.values(pokemon)[0];
+			return pokemonNom.length === nbLettres && pokemonNom !== solution;
+		});
 
 		for (var i = 0; i < (config.nbIndices ?? Configuration.Default.nbIndices); i++) {
 			let rand = Math.floor(Math.random() * choixPossibles.length);
 			let ligne = choixPossibles[rand];
-			choix.push(ligne);
+			choix.push(Object.values(ligne)[0]);
 			choixPossibles.splice(rand, 1);
 		}
 
@@ -63,7 +66,7 @@ export default class Dictionnaire {
 			.toUpperCase();
 	}
 
-	private static filtrerGenerationsEtLongueur(toutesGenerations: boolean, toutesLongueurs: boolean): string[] {
+	private static filtrerGenerationsEtLongueur(toutesGenerations: boolean, toutesLongueurs: boolean): Record<number, string>[] {
 		let config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
 		const generationsVoulues = config.generations ?? Configuration.Default.generations;
 		const longueursVoulues = config.longueur ?? Configuration.Default.longueur;
@@ -74,7 +77,7 @@ export default class Dictionnaire {
 		  .map(id => ListeMotsProposables.Pokedex[id])
 		  .filter(pokemon => pokemon && (toutesGenerations || generationsVoulues.includes(pokemon.generation)))
 		  .filter(pokemon => pokemon && (toutesLongueurs || longueursVoulues.includes(pokemon.noms[config.langue_jeu].length)))
-		  .map(pokemon => pokemon.noms[config.langue_jeu]);
+		  .map(pokemon => ({ [pokemon.numero]: pokemon.noms[config.langue_jeu] }));
 	}
 	
 }

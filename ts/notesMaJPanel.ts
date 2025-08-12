@@ -10,6 +10,15 @@ export default class NotesMaJPanel {
 
 	private readonly _notes = [
 		{
+			version: 15,
+			notes: {
+				[Langue.FR] : "Amélioration graphique de l'écran de fin et du Pokédex.",
+				[Langue.EN] : "Graphical improvement of the finish screen and the Pokédex.",
+				[Langue.DE] : "Graphische Verbesserung des Endbildschirms und des Pokédex.",
+				[Langue.JA] : "エンドスクリーンとポケデックスのグラフィック改善。",
+			},
+		},
+		{
 			version: 14,
 			notes: {
 				[Langue.FR] : "Le filtrage par nombre de lettres est désormais possible.",

@@ -7,6 +7,7 @@ export default class SauvegardePartie {
 	dateFinPartie?: Date;
 	modeJeu?: ModeJeu;
 	solution: string = "";
+	idSolution: number = 0;
 	langue?: Langue;
 	partage?: boolean;
 	indice?: string = "";

@@ -33,7 +33,7 @@ export default class PokedexPanel {
 		if (nbPokemon == nbTotalPokemon-1) {
 			const oh = document.createElement("h3");
 			const ohLien = document.createElement("a");
-			ohLien.href = "./#" +  btoa(unescape(encodeURIComponent("p=[]|2|MEW|" + config.langue_jeu)));
+			ohLien.href = "./#" +  btoa(unescape(encodeURIComponent("p=[]|2|MEW|151|" + config.langue_jeu)));
 			ohLien.target = "_blank";
 			ohLien.innerText = `🚚`;
 			oh.appendChild(ohLien);
@@ -78,32 +78,37 @@ export default class PokedexPanel {
 					(selectedStatus === "caught" && isCaught) ||
 					(selectedStatus === "uncaught" && !isCaught);
 			})
-			.forEach((p: Pokemon) => {
-				const pkDiv = document.createElement("div");
-				pkDiv.classList.add("pokemon-item", stats.pokemon.includes(p.numero) ? "caught" : "uncaught");
-
-				const formattedNumber = `${String(p.numero).padStart(4, "0")}`;
-				const pkTxt = document.createElement("p");
-				pkTxt.innerHTML = `<span class="pokemon-number">#${formattedNumber}</span><p class="pokedex-cadre-img"><img class="pokedex-${stats.pokemon.includes(p.numero) ? "caught" : "uncaught"}" src="./public/img/${formattedNumber}.png"/></p>${p.noms[config.langue_interface]}`;
-
-				const generationDiv = document.createElement("div");
-				generationDiv.classList.add("pokemon-generation");
-				generationDiv.innerText = `${i18n[config.langue_interface].pokedexPanel.gen} ${p.generation}`;
-
-				const namesDiv = document.createElement("div");
-				namesDiv.classList.add("pokemon-names");
-				const filteredNames = Object.entries(p.noms).filter(([langue, _]) => Number(langue) !== config.langue_interface).map(([_, nom]) => nom);
-				namesDiv.innerText = filteredNames.join(", ");
-
-				pkDiv.appendChild(pkTxt);
-				pkDiv.appendChild(generationDiv);
-				pkDiv.appendChild(namesDiv);
-				listePokemon.appendChild(pkDiv);
-			});
+			.forEach((p: Pokemon) => listePokemon.appendChild(PokedexPanel.createPokemonDiv(p, stats.pokemon.includes(p.numero), true)));
 
 			this._contenu.appendChild(listePokemon);
 			this._panelManager.setContenuHtmlElement(i18n[config.langue_interface].pokedexPanel.collection, this._contenu);
 			this._panelManager.setClasses(["pokedex-panel"]);
 			this._panelManager.afficherPanel();
+	}
+	
+	public static createPokemonDiv(p: Pokemon, caught: boolean, hover: boolean): HTMLDivElement {
+		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+
+		const pkDiv = document.createElement("div");
+		pkDiv.classList.add(hover ? "pokemon-item" : "pokemon-item-no-hover", caught ? "caught" : "uncaught");
+
+		const formattedNumber = `${String(p.numero).padStart(4, "0")}`;
+		const pkTxt = document.createElement("p");
+		pkTxt.innerHTML = `<span class="pokemon-number">#${formattedNumber}</span><p class="pokedex-cadre-img"><img class="pokedex-${caught ? "caught" : "uncaught"}" src="./public/img/${formattedNumber}.png"/></p>${p.noms[config.langue_interface]}`;
+
+		const generationDiv = document.createElement("div");
+		generationDiv.classList.add("pokemon-generation");
+		generationDiv.innerText = `${i18n[config.langue_interface].pokedexPanel.gen} ${p.generation}`;
+
+		const namesDiv = document.createElement("div");
+		namesDiv.classList.add("pokemon-names");
+		const filteredNames = Object.entries(p.noms).filter(([langue, _]) => Number(langue) !== config.langue_interface).map(([_, nom]) => nom);
+		namesDiv.innerText = filteredNames.join(", ");
+
+		pkDiv.appendChild(pkTxt);
+		pkDiv.appendChild(generationDiv);
+		pkDiv.appendChild(namesDiv);
+
+		return pkDiv;
 	}
 }
