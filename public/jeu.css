@@ -600,7 +600,8 @@ notification-course {
     margin: auto;
 }
 
-.pokemon-item {
+.pokemon-item,
+.pokemon-item-no-hover {
     border: 1px solid #fff;
     border-radius: 8px;
     padding: 10px;
@@ -612,11 +613,13 @@ notification-course {
     position: relative;
 }
 
-.pokemon-item.caught {
+.pokemon-item.caught,
+.pokemon-item-no-hover.caught {
     background: #184218;
 }
 
-.pokemon-item.uncaught {
+.pokemon-item.uncaught,
+.pokemon-item-no-hover.uncaught {
     background: #333;
 }
 
