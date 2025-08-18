@@ -677,7 +677,7 @@ export default class ListeMotsProposables {
 		666:{ numero: 666, generation: 6, noms: { [Langue.FR]: "PRISMILLON", [Langue.EN]: "VIVILLON", [Langue.DE]: "VIVILLON", [Langue.JA]: "VIVIYON" } },
 		667:{ numero: 667, generation: 6, noms: { [Langue.FR]: "HELIONCEAU", [Langue.EN]: "LITLEO", [Langue.DE]: "LEUFEO", [Langue.JA]: "SHISHIKO" } },
 		668:{ numero: 668, generation: 6, noms: { [Langue.FR]: "NEMELIOS", [Langue.EN]: "PYROAR", [Langue.DE]: "PYROLEO", [Langue.JA]: "KAENJISHI" } },
-		669:{ numero: 669, generation: 6, noms: { [Langue.FR]: "FLABEBE", [Langue.EN]: "FLABÉBÉ", [Langue.DE]: "FLABÉBÉ", [Langue.JA]: "FLABEBE" } },
+		669:{ numero: 669, generation: 6, noms: { [Langue.FR]: "FLABEBE", [Langue.EN]: "FLABEBE", [Langue.DE]: "FLABEBE", [Langue.JA]: "FLABEBE" } },
 		670:{ numero: 670, generation: 6, noms: { [Langue.FR]: "FLOETTE", [Langue.EN]: "FLOETTE", [Langue.DE]: "FLOETTE", [Langue.JA]: "FLOETTE" } },
 		671:{ numero: 671, generation: 6, noms: { [Langue.FR]: "FLORGES", [Langue.EN]: "FLORGES", [Langue.DE]: "FLORGES", [Langue.JA]: "FLORGES" } },
 		672:{ numero: 672, generation: 6, noms: { [Langue.FR]: "CABRIOLAINE", [Langue.EN]: "SKIDDO", [Langue.DE]: "MAEHIKEL", [Langue.JA]: "MEECLE" } },
