@@ -21,7 +21,7 @@ export default class FinDePartiePanel {
 
 	private _resumeTexte: string = "";
 	private _resumeTexteLegacy: string = "";
-	private _motATrouver: string = "";
+	private _nouvelleCapture: boolean = false;
 	private _idATrouver: number = 0;
 	private _estVictoire: boolean = false;
 	private _partieEstFinie: boolean = false;
@@ -40,12 +40,12 @@ export default class FinDePartiePanel {
 		);
 	}
 
-	public genererResume(estBonneReponse: boolean, motATrouver: string, idATrouver: number, resultats: Array<Array<LettreResultat>>, dureeMs: number, partage : boolean, langue : Langue): void {
+	public genererResume(estBonneReponse: boolean, nouvelleCapture: boolean, idATrouver: number, resultats: Array<Array<LettreResultat>>, dureeMs: number, partage : boolean, langue : Langue): void {
 		var nbManches = this._config.nbManches ?? Configuration.Default.nbManches;
 		var secondesCourse = this._config.secondesCourse ?? Configuration.Default.secondesCourse;
 		let dateGrille = this._datePartie.getTime();
 		let origine = InstanceConfiguration.dateOrigine.getTime();
-		this._motATrouver = motATrouver;
+		this._nouvelleCapture = nouvelleCapture;
 		this._idATrouver = idATrouver;
 		this._estVictoire = estBonneReponse;
 		this._partieEstFinie = true;
@@ -192,7 +192,8 @@ export default class FinDePartiePanel {
 	public afficher(): void {
 		let titre: string;
 		let contenu: string = "";
-
+		let stats = Sauvegardeur.chargerSauvegardeStats();
+		
 		if (!this._partieEstFinie) {
 			titre = i18n[this._config.langue_interface].finDePartiePanel.stats;
 			contenu += '<p class="fin-de-partie-panel-phrase">' + i18n[this._config.langue_interface].finDePartiePanel.partie_non_finie + '</p>';
@@ -200,13 +201,13 @@ export default class FinDePartiePanel {
 
 			if (this._estVictoire) {
 				titre = i18n[this._config.langue_interface].finDePartiePanel.felicitations;
-				contenu += PokedexPanel.createPokemonDiv(ListeMotsProposables.Pokedex[this._idATrouver],true,false).outerHTML + '<p class="fin-de-partie-panel-phrase">' + i18n[this._config.langue_interface].finDePartiePanel.bravo + '</p>';
+				contenu += PokedexPanel.createPokemonDiv(ListeMotsProposables.Pokedex[this._idATrouver],true,false,this._nouvelleCapture).outerHTML + '<p class="fin-de-partie-panel-phrase">' + i18n[this._config.langue_interface].finDePartiePanel.bravo + '</p>';
 			} else {
 				titre = i18n[this._config.langue_interface].finDePartiePanel.perdu;
 				contenu +=
 					'<details class="fin-de-partie-panel-phrase"> \
 			  <summary>' + i18n[this._config.langue_interface].finDePartiePanel.pokemon_etait + '</summary> ' +
-					PokedexPanel.createPokemonDiv(ListeMotsProposables.Pokedex[this._idATrouver],false,false).outerHTML
+					PokedexPanel.createPokemonDiv(ListeMotsProposables.Pokedex[this._idATrouver],false,false,false).outerHTML
 					+ "<br /></details>";
 			}
 
@@ -218,7 +219,6 @@ export default class FinDePartiePanel {
 		const partagePartieBouton = CopieHelper.creerBoutonPartage("partage-partie");
 		contenu += partagePartieBouton.outerHTML + "</h3>";
 
-		let stats = Sauvegardeur.chargerSauvegardeStats();
 		if (stats) {
 			contenu += StatistiquesDisplayer.genererHtmlStats(stats).outerHTML;
 		}

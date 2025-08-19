@@ -28,7 +28,6 @@ export default class Gestionnaire {
 	private _input: Input | null = null;
 	private readonly _reglesPanel: ReglesPanel;
 	private readonly _finDePartiePanel: FinDePartiePanel;
-	private readonly _configurationPanel: ConfigurationPanel;
 	private readonly _propositions: Array<string>;
 	private readonly _resultats: Array<Array<LettreResultat>>;
 	private readonly _panelManager: PanelManager;
@@ -106,7 +105,7 @@ export default class Gestionnaire {
 		this._reglesPanel = new ReglesPanel(this._panelManager);
 		new ModeJeuPanel(this._panelManager);
 		this._finDePartiePanel = new FinDePartiePanel(this._datePartieEnCours, this._panelManager);
-		this._configurationPanel = new ConfigurationPanel(this._panelManager, this._audioPanel, this._themeManager);
+		new ConfigurationPanel(this._panelManager, this._audioPanel, this._themeManager);
 		this._notesMaJPanel = new NotesMaJPanel(this._panelManager);
 		
 		this.initialiserChoisirMot(partieEnCours);
@@ -242,7 +241,7 @@ export default class Gestionnaire {
 							NotificationMessage.decompterTemps(this._secondesCourse).then((estTermine) => {
 								if (estTermine) {
 									// Effectuer une action spécifique, par exemple afficher un panneau de fin de partie
-									this._finDePartiePanel.genererResume(false, this._motATrouver, this._idATrouver, new Array(), 0, false, this._langue);
+									this._finDePartiePanel.genererResume(false, false, this._idATrouver, new Array(), 0, false, this._langue);
 									this._finDePartiePanel.afficher();
 									Sauvegardeur.purgerPartieEnCours();
 									this._courseEnCours = false;
@@ -304,7 +303,7 @@ export default class Gestionnaire {
 		if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
 			if (!this._dateFinPartie || this._modeJeu == ModeJeu.Course) this._dateFinPartie = new Date();
 			let duree = this._dateFinPartie.getTime() - this._datePartieEnCours.getTime();
-			this._finDePartiePanel.genererResume(isBonneReponse, this._motATrouver, this._idATrouver, this._resultats, duree, this._partage, this._langue);
+			this._finDePartiePanel.genererResume(isBonneReponse, !this._stats.pokemon.includes(this._idATrouver), this._idATrouver, this._resultats, duree, this._partage, this._langue);
 			if (!chargementPartie) this.enregistrerPartieDansStats();
 		}
 

@@ -78,7 +78,7 @@ export default class PokedexPanel {
 					(selectedStatus === "caught" && isCaught) ||
 					(selectedStatus === "uncaught" && !isCaught);
 			})
-			.forEach((p: Pokemon) => listePokemon.appendChild(PokedexPanel.createPokemonDiv(p, stats.pokemon.includes(p.numero), true)));
+			.forEach((p: Pokemon) => listePokemon.appendChild(PokedexPanel.createPokemonDiv(p, stats.pokemon.includes(p.numero), true, false)));
 
 			this._contenu.appendChild(listePokemon);
 			this._panelManager.setContenuHtmlElement(i18n[config.langue_interface].pokedexPanel.collection, this._contenu);
@@ -86,7 +86,7 @@ export default class PokedexPanel {
 			this._panelManager.afficherPanel();
 	}
 	
-	public static createPokemonDiv(p: Pokemon, caught: boolean, hover: boolean): HTMLDivElement {
+	public static createPokemonDiv(p: Pokemon, caught: boolean, hover: boolean, nouvelleCapture: boolean): HTMLDivElement {
 		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
 
 		const pkDiv = document.createElement("div");
@@ -94,7 +94,7 @@ export default class PokedexPanel {
 
 		const formattedNumber = `${String(p.numero).padStart(4, "0")}`;
 		const pkTxt = document.createElement("p");
-		pkTxt.innerHTML = `<span class="pokemon-number">#${formattedNumber}</span><p class="pokedex-cadre-img"><img class="pokedex-${caught ? "caught" : "uncaught"}" src="./public/img/${formattedNumber}.png"/></p>${p.noms[config.langue_interface]}`;
+		pkTxt.innerHTML = `<span class="pokemon-number">#${formattedNumber}</span><p class="pokedex-cadre-img"><img class="pokedex-${caught ? "caught" : "uncaught"}" src="./img/${formattedNumber}.png"/></p>${p.noms[config.langue_interface]}`;
 
 		const generationDiv = document.createElement("div");
 		generationDiv.classList.add("pokemon-generation");
@@ -105,6 +105,14 @@ export default class PokedexPanel {
 		const filteredNames = Object.entries(p.noms).filter(([langue, _]) => Number(langue) !== config.langue_interface).map(([_, nom]) => nom);
 		namesDiv.innerText = filteredNames.join(", ");
 
+		const divNouvelleCapture = document.createElement("div");
+
+		if (nouvelleCapture) {
+			divNouvelleCapture.classList.add("pokemon-nouvelle-capture");
+			divNouvelleCapture.innerHTML = i18n[config.langue_interface].pokedexPanel.nouvelle_capture;
+			pkDiv.appendChild(divNouvelleCapture);
+		}
+		
 		pkDiv.appendChild(pkTxt);
 		pkDiv.appendChild(generationDiv);
 		pkDiv.appendChild(namesDiv);
