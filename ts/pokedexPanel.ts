@@ -94,7 +94,7 @@ export default class PokedexPanel {
 
 		const formattedNumber = `${String(p.numero).padStart(4, "0")}`;
 		const pkTxt = document.createElement("p");
-		pkTxt.innerHTML = `<span class="pokemon-number">#${formattedNumber}</span><p class="pokedex-cadre-img"><img class="pokedex-${caught ? "caught" : "uncaught"}" src="./img/public/${formattedNumber}.png"/></p>${p.noms[config.langue_interface]}`;
+		pkTxt.innerHTML = `<span class="pokemon-number">#${formattedNumber}</span><p class="pokedex-cadre-img"><img class="pokedex-${caught ? "caught" : "uncaught"}" src="./public/img/${formattedNumber}.png"/></p>${p.noms[config.langue_interface]}`;
 
 		const generationDiv = document.createElement("div");
 		generationDiv.classList.add("pokemon-generation");
@@ -119,3 +119,4 @@ export default class PokedexPanel {
 		return pkDiv;
 	}
 }
+
