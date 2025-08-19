@@ -100,7 +100,8 @@ export const i18n = {
 			tous: "Tous",
 			attrapes: "Attrapés",
 			non_attrapes: "Non attrapés",
-			felicitations: "Félicitations ! Vous avez complété Pokénigme à 100% !"
+			felicitations: "Félicitations ! Vous avez complété Pokénigme à 100% !",
+			nouvelle_capture: "Nouvelle capture !"
 		},
 		reglesPanel: {
 			regles: "Règles",
@@ -257,7 +258,8 @@ export const i18n = {
 			tous: "Alle",
 			attrapes: "Gefangen",
 			non_attrapes: "Nicht gefangen",
-			felicitations: "Herzlichen Glückwunsch ! Sie haben Pokénigme zu 100% abgeschlossen !"
+			felicitations: "Herzlichen Glückwunsch ! Sie haben Pokénigme zu 100% abgeschlossen !",
+			nouvelle_capture: "Neuer Fang !"
 		},
 		reglesPanel: {
 			regles: "Regeln",
@@ -414,7 +416,8 @@ export const i18n = {
 			tous: "All",
 			attrapes: "Caught",
 			non_attrapes: "Not caught",
-			felicitations: "Congratulations ! You have 100% completed Pokénigma !"
+			felicitations: "Congratulations ! You have 100% completed Pokénigma !",
+			nouvelle_capture: "New catch !"
 		},
 		reglesPanel: {
 			regles: "Rules",
@@ -571,7 +574,8 @@ export const i18n = {
 			tous: "すべて",
 			attrapes: "捕まえた",
 			non_attrapes: "未捕獲",
-			felicitations: "おめでとうございます！ポケナゾを100％クリアしました！"
+			felicitations: "おめでとうございます！ポケナゾを100％クリアしました！",
+			nouvelle_capture: "新しい獲物！"
 		},
 		reglesPanel: {
 			regles: "ルール",
