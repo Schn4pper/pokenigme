@@ -647,6 +647,12 @@ notification-course {
     margin-top: -15px;
 }
 
+.pokemon-nouvelle-capture {
+	margin-top: 8px;
+	font-weight: bold;
+	color: darkgoldenrod;
+}
+
 @media (max-width: 1024px) {
 	#contenu {
 		margin-left: 2px;
