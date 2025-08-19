@@ -57,7 +57,7 @@ export default class ConfigurationPanel {
 						...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
 						langue_interface: langue,
 					});
-					window.location.reload();
+					this._panelManager.reloadWindow = true;
 				}
 			)
 		);
@@ -81,7 +81,7 @@ export default class ConfigurationPanel {
 						...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
 						langue_jeu: langue,
 					});
-					window.location.reload();
+					this._panelManager.reloadWindow = true;
 				}
 			)
 		);
@@ -130,8 +130,7 @@ export default class ConfigurationPanel {
 						disposition,
 					});
 					
-					window.location.reload();
-
+					this._panelManager.reloadWindow = true;
 				}
 			)
 		);
@@ -223,7 +222,7 @@ export default class ConfigurationPanel {
 						haptique,
 					});
 
-					window.location.reload();
+					this._panelManager.reloadWindow = true;
 				}
 			)
 		);
@@ -272,7 +271,8 @@ export default class ConfigurationPanel {
 						generations: config.generations?.filter(num => num !== i) || []
 					});
 				}
-				Sauvegardeur.purgerPartiesEnCours(false);
+				this._panelManager.purgerParties = true;
+				this._panelManager.reloadWindow = true;
 			});
 		}
 
@@ -322,7 +322,8 @@ export default class ConfigurationPanel {
 						longueur: config.longueur?.filter(num => num !== i) || []
 					});
 				}
-				Sauvegardeur.purgerPartiesEnCours(false);
+				this._panelManager.purgerParties = true;
+				this._panelManager.reloadWindow = true;
 			});
 		}
 
@@ -337,7 +338,7 @@ export default class ConfigurationPanel {
 					{ value: true.toString(), label: i18n[config.langue_interface].configurationPanel.oui }
 				],
 				(config.afficherIndice ?? Configuration.Default.afficherIndice).toString(),
-				(event: Event) => {					
+				(event: Event) => {
 					event.stopPropagation();
 					let afficherIndice = (event.target as HTMLSelectElement).value === true.toString();
 
@@ -346,7 +347,8 @@ export default class ConfigurationPanel {
 						afficherIndice,
 					});
 					
-					window.location.reload();
+					this._panelManager.purgerParties = true;
+					this._panelManager.reloadWindow = true;
 				}
 			)
 		);
@@ -371,6 +373,9 @@ export default class ConfigurationPanel {
 						...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
 						nbIndices: Number(nbIndices)
 					});
+					
+					this._panelManager.purgerParties = true;
+					this._panelManager.reloadWindow = true;
 				}
 			)
 		);
@@ -389,6 +394,8 @@ export default class ConfigurationPanel {
 						...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
 						nbManches: Number(nbManches)
 					});
+					
+					this._panelManager.reloadWindow = true;
 				}
 			)
 		);
@@ -407,6 +414,8 @@ export default class ConfigurationPanel {
 						...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
 						secondesCourse: Number(secondesCourse)
 					});
+					
+					this._panelManager.reloadWindow = true;
 				}
 			)
 		);

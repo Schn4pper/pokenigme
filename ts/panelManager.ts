@@ -1,4 +1,5 @@
 import Input, { ContexteBloquage } from "./input";
+import Sauvegardeur from "./sauvegardeur";
 
 export default class PanelManager {
 	private readonly _panelArea: HTMLElement;
@@ -8,6 +9,9 @@ export default class PanelManager {
 	private readonly _panelFermetureBouton: HTMLElement;
 
 	private _input?: Input;
+	
+	public reloadWindow : boolean = false;
+	public purgerParties : boolean = false;
 
 	public constructor() {
 		this._panelArea = document.getElementById("panel-area") as HTMLElement;
@@ -82,6 +86,16 @@ export default class PanelManager {
 		this._panelArea.setAttribute("aria-modal", "false");
 		this._panelArea.removeAttribute("tabindex");
 		if (this._input) this._input.debloquer(ContexteBloquage.Panel);
+		
+		if (this.purgerParties) {
+			this.purgerParties = false;
+			Sauvegardeur.purgerPartiesEnCours(false);
+		}
+		
+		if (this.reloadWindow) {
+			this.reloadWindow = false;
+			window.location.reload();
+		}
 	}
 
 	public setContenu(titre: string, contenu: string): void {
