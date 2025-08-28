@@ -164,6 +164,10 @@ h2 {
 	background-color: var(--couleur-fond-grille);
 }
 
+.grille td.filling-space::after {
+	background-color: var(--couleur-fond);
+}
+
 #panel-area {
 	display: none;
 	font-size: 20px;
@@ -648,6 +652,11 @@ notification-course {
 }
 
 .pokemon-nouvelle-capture {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	font-size: 12px;
+	
 	margin-top: 8px;
 	font-weight: bold;
 	color: darkgoldenrod;
