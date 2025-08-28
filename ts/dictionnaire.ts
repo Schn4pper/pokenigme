@@ -51,12 +51,11 @@ export default class Dictionnaire {
 	}
 
 	public static async estMotValide(mot: string): Promise<boolean> {
-		mot = this.nettoyerMot(mot);
-		return Object.values(ListeMotsProposables.Pokedex).flatMap(pokemon => Object.values(pokemon.noms)).includes(mot);
+		return Object.values(ListeMotsProposables.Pokedex).flatMap(pokemon => Object.values(pokemon.noms)).includes(mot.trim());
 	}
 
 	public static async estMotMissingno(mot: string): Promise<boolean> {
-		return "MISSINGNO" === mot || "MISSINGNO." === mot;
+		return "MISSINGNO" === mot.trim() || "MISSINGNO." === mot.trim();
 	}
 
 	public static nettoyerMot(mot: string): string {

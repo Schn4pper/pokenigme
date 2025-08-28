@@ -284,9 +284,12 @@ export default class Gestionnaire {
 
 	public async verifierMot(mot: string, chargementPartie: boolean = false): Promise<boolean> {
 		mot = Dictionnaire.nettoyerMot(mot);
+		
+
 		if (mot.length !== this._motATrouver.length) {
-			NotificationMessage.ajouterNotification(i18n[this._config.langue_interface].gestionnaire.trop_court, false);
-			return false;
+			for (let i = mot.length; i < this._motATrouver.length; i++) {
+				mot += " ";
+			}
 		}
 
 		if (!(await Dictionnaire.estMotValide(mot))) {
@@ -376,7 +379,6 @@ export default class Gestionnaire {
 
 	private analyserMot(mot: string, markBienPlaceAsMalPlace: boolean): Array<LettreResultat> {
 		let resultats = new Array<LettreResultat>();
-		mot = mot.toUpperCase();
 
 		let composition = { ...this._compositionMotATrouver };
 
@@ -390,13 +392,17 @@ export default class Gestionnaire {
 		}
 
 		for (let position = 0; position < this._motATrouver.length; position++) {
-			let lettreATrouve = this._motATrouver[position];
 			let lettreProposee = mot[position];
-
+			let isSpace = lettreProposee == ' ';
+			let isFillingSpace = isSpace && (position == 0 || position+1 == this._motATrouver.length || mot[position-1] == " " || mot[position+1] == " ");
+			let lettreATrouver = this._motATrouver[position];
+			
 			let resultat = new LettreResultat();
 			resultat.lettre = lettreProposee;
 
-			if (lettreATrouve === lettreProposee) {
+			if (isFillingSpace) {
+				resultat.statut = LettreStatut.FillingSpace;
+			} else if (lettreATrouver === lettreProposee) {
 				resultat.statut = markBienPlaceAsMalPlace ? LettreStatut.MalPlace : LettreStatut.BienPlace;
 			} else if (this._motATrouver.includes(lettreProposee)) {
 				if (composition[lettreProposee] > 0) {

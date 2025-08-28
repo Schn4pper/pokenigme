@@ -67,7 +67,6 @@ export const i18n = {
 		},
 		gestionnaire: {
 			aucun_pokemon: "Aucun Pokémon n'a été trouvé.",
-			trop_court: "Proposition trop courte.",
 			inconnu: "Pokémon inconnu.",
 			bien_essaye: "Bien essayé ! ;-)",
 			afficher_regles: "Afficher les règles",
@@ -106,7 +105,7 @@ export const i18n = {
 		reglesPanel: {
 			regles: "Règles",
 			regles_ligne_1: "Vous avez six essais pour deviner le Pokémon du jour, entre 4 et 12 lettres, commun à tous.",
-			regles_ligne_2: "Vous ne pouvez proposer que des noms de Pokémon (dans toutes les langues disponibles) de la même longueur que la solution.",
+			regles_ligne_2: "Vous ne pouvez proposer que des noms de Pokémon (dans toutes les langues disponibles).",
 			regles_ligne_3: "Le mot change chaque jour. Prière donc d'éviter le divulgâchage et de privilégier le partage du résumé.",
 			regles_ligne_4: "Les lettres entourées d'un 🟥 sont bien placées.",
 			regles_ligne_5: "Les lettres entourées d'un 🟡 sont présentes dans le mot mais mal placées.",
@@ -225,7 +224,6 @@ export const i18n = {
 		},
 		gestionnaire: {
 			aucun_pokemon: "Kein Pokémon wurde gefunden.",
-			trop_court: "Vorschlag zu kurz.",
 			inconnu: "Unbekanntes Pokémon.",
 			bien_essaye: "Gut versucht ! ;-)",
 			afficher_regles: "Regeln anzeigen",
@@ -264,7 +262,7 @@ export const i18n = {
 		reglesPanel: {
 			regles: "Regeln",
 			regles_ligne_1: "Sie haben sechs Versuche, das Pokémon des Tages zu erraten, zwischen 4 und 11 Buchstaben, für alle gleich.",
-			regles_ligne_2: "Sie können nur Pokémon-Namen (auf allen verfügbaren Sprachen) mit der gleichen Länge wie die Lösung vorschlagen.",
+			regles_ligne_2: "Sie können nur Pokémon-Namen (auf allen verfügbaren Sprachen) vorschlagen.",
 			regles_ligne_3: "Das Wort ändert sich jeden Tag. Bitte vermeiden Sie Spoiler und bevorzugen Sie das Teilen der Zusammenfassung.",
 			regles_ligne_4: "Buchstaben, die von einem 🟥 umgeben sind, sind gut platziert.",
 			regles_ligne_5: "Buchstaben, die von einem 🟡 umgeben sind, sind im Wort, aber fehl am Platz.",
@@ -383,7 +381,6 @@ export const i18n = {
 		},
 		gestionnaire: {
 			aucun_pokemon: "No Pokémon found.",
-			trop_court: "Proposal too short.",
 			inconnu: "Unknown Pokémon.",
 			bien_essaye: "Nice try ! ;-)",
 			afficher_regles: "Show rules",
@@ -422,7 +419,7 @@ export const i18n = {
 		reglesPanel: {
 			regles: "Rules",
 			regles_ligne_1: "You have six attempts to guess the Pokémon of the day, between 4 and 12 letters, common to all.",
-			regles_ligne_2: "You can only propose Pokémon names (in all available languages) of the same length as the solution.",
+			regles_ligne_2: "You can only propose Pokémon names (in all available languages).",
 			regles_ligne_3: "The word changes every day. Therefore, please avoid spoilers and prefer sharing the summary.",
 			regles_ligne_4: "Letters surrounded by a 🟥 are well placed.",
 			regles_ligne_5: "Letters surrounded by a 🟡 are in the word but misplaced.",
@@ -541,7 +538,6 @@ export const i18n = {
 		},
 		gestionnaire: {
 			aucun_pokemon: "ポケモンが見つかりませんでした。",
-			trop_court: "提案が短すぎます。",
 			inconnu: "未知のポケモン。",
 			bien_essaye: "よくやった！ ;-)",
 			afficher_regles: "ルールを表示",
@@ -580,7 +576,7 @@ export const i18n = {
 		reglesPanel: {
 			regles: "ルール",
 			regles_ligne_1: "皆が共通に持つ、4〜12文字のポケモンを6回の試行で当ててください。",
-			regles_ligne_2: "解答と同じ長さのポケモン名（利用可能なすべての言語で）しか提案できません。",
+			regles_ligne_2: "ポケモンの名前のみを提案できます（利用可能なすべての言語で）。",
 			regles_ligne_3: "言葉は毎日変わります。したがって、ネタバレを避け、サマリーの共有をお勧めします。",
 			regles_ligne_4: "🟥 で囲まれた文字は正しい位置にあります。",
 			regles_ligne_5: "🟡 で囲まれた文字は単語に含まれていますが、位置が間違っています。",

@@ -10,6 +10,15 @@ export default class NotesMaJPanel {
 
 	private readonly _notes = [
 		{
+			version: 16,
+			notes: {
+				[Langue.FR] : "En panne d'inspiration ? Vous pouvez désormais saisir des noms d'une longueur inférieure à la solution, en utilisant des espaces avant et après.",
+				[Langue.EN] : "Out of inspiration ? You can now enter names shorter than the solution, using spaces before and after.",
+				[Langue.DE] : "Ideenlos ? Sie können jetzt Namen eingeben, die kürzer als die Lösung sind, indem Sie Leerzeichen vor und nach dem Namen verwenden.",
+				[Langue.JA] : "インスピレーションが出ないですか？解答より短い名前を、前後にスペースを入れて入力することができるようになりました。",
+			},
+		},
+		{
 			version: 15,
 			notes: {
 				[Langue.FR] : "Amélioration graphique de l'écran de fin et du Pokédex.",

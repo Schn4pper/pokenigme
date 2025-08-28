@@ -303,6 +303,7 @@ export default class Input {
 	public updateClavierAvecProposition(resultats: Array<LettreResultat>, markBienPlaceAsMalPlace: boolean): void {
 		let statutLettres: { [lettre: string]: LettreStatut } = {};
 		for (let resultat of resultats) {
+			if (resultat.statut == LettreStatut.FillingSpace) continue;
 			if (!statutLettres[resultat.lettre]) statutLettres[resultat.lettre] = resultat.statut;
 			else {
 				switch (resultat.statut) {
@@ -340,12 +341,14 @@ export default class Input {
 							touche.classList.add("input-lettre");
 							touche.classList.add("lettre-mal-place");
 							break;
-						default:
+						case LettreStatut.NonTrouve:
 							if (touche.classList.contains("lettre-bien-place")) break;
 							if (touche.classList.contains("lettre-mal-place")) break;
 							touche.className = "";
 							touche.classList.add("input-lettre");
 							touche.classList.add("lettre-non-trouve");
+							break;
+						default:
 							break;
 					}
 				}

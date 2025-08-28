@@ -73,8 +73,13 @@ export default class Grille {
 							cellule.classList.add("mal-place", "resultat");
 							cellule.setAttribute("aria-label", `${i18n[this._langue].grille.lettre} ${resultat.lettre} ${i18n[this._langue].grille.mal_placee}`);
 							break;
-						default:
+						case LettreStatut.NonTrouve:
 							cellule.classList.add("non-trouve", "resultat");
+							cellule.setAttribute("aria-label", `${i18n[this._langue].grille.lettre} ${resultat.lettre} ${i18n[this._langue].grille.non_presente}`);
+							break;
+						case LettreStatut.FillingSpace:
+						default:
+							cellule.classList.add("filling-space", "resultat");
 							cellule.setAttribute("aria-label", `${i18n[this._langue].grille.lettre} ${resultat.lettre} ${i18n[this._langue].grille.non_presente}`);
 					}
 				}
@@ -153,8 +158,14 @@ export default class Grille {
 				cellule.setAttribute("aria-label", `${i18n[this._langue].grille.lettre} ${resultat.lettre} ${i18n[this._langue].grille.mal_placee}`);
 				this._audioPanel.jouerSonLettreMalPlace(callback);
 				break;
-			default:
+			case LettreStatut.NonTrouve:
 				cellule.classList.add("non-trouve", "resultat");
+				cellule.setAttribute("aria-label", `${i18n[this._langue].grille.lettre} ${resultat.lettre} ${i18n[this._langue].grille.non_presente}`);
+				this._audioPanel.jouerSonLettreNonTrouve(callback);
+				break;
+			case LettreStatut.FillingSpace:
+			default:
+				cellule.classList.add("filling-space", "resultat");
 				cellule.setAttribute("aria-label", `${i18n[this._langue].grille.lettre} ${resultat.lettre} ${i18n[this._langue].grille.non_presente}`);
 				this._audioPanel.jouerSonLettreNonTrouve(callback);
 		}
