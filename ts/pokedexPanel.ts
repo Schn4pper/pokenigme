@@ -5,6 +5,7 @@ import Sauvegardeur from "./sauvegardeur";
 import { i18n } from "./i18n/i18n";
 import ListeMotsProposables from "./mots/listeMotsProposables";
 import { Pokemon } from "./mots/listeMotsProposables";
+import { Langue } from "./entites/langue";
 
 export default class PokedexPanel {
 	private readonly _panelManager: PanelManager;
@@ -78,7 +79,7 @@ export default class PokedexPanel {
 					(selectedStatus === "caught" && isCaught) ||
 					(selectedStatus === "uncaught" && !isCaught);
 			})
-			.forEach((p: Pokemon) => listePokemon.appendChild(PokedexPanel.createPokemonDiv(p, stats.pokemon.includes(p.numero), true, false)));
+			.forEach((p: Pokemon) => listePokemon.appendChild(PokedexPanel.createPokemonDiv(p, stats.pokemon.includes(p.numero), true, false, false)));
 
 			this._contenu.appendChild(listePokemon);
 			this._panelManager.setContenuHtmlElement(i18n[config.langue_interface].pokedexPanel.collection, this._contenu);
@@ -86,15 +87,16 @@ export default class PokedexPanel {
 			this._panelManager.afficherPanel();
 	}
 	
-	public static createPokemonDiv(p: Pokemon, caught: boolean, hover: boolean, nouvelleCapture: boolean): HTMLDivElement {
+	public static createPokemonDiv(p: Pokemon, caught: boolean, hover: boolean, nouvelleCapture: boolean, langueJeu: boolean): HTMLDivElement {
 		var config = Sauvegardeur.chargerConfig() ?? Configuration.Default;
+		let langueNomPrincipal = langueJeu ? config.langue_jeu : config.langue_interface;
 
 		const pkDiv = document.createElement("div");
 		pkDiv.classList.add(hover ? "pokemon-item" : "pokemon-item-no-hover", caught ? "caught" : "uncaught");
 
 		const formattedNumber = `${String(p.numero).padStart(4, "0")}`;
 		const pkTxt = document.createElement("p");
-		pkTxt.innerHTML = `<span class="pokemon-number">#${formattedNumber}</span><p class="pokedex-cadre-img"><img class="pokedex-${caught ? "caught" : "uncaught"}" src="./public/img/${formattedNumber}.png"/></p>${p.noms[config.langue_interface]}`;
+		pkTxt.innerHTML = `<span class="pokemon-number">#${formattedNumber}</span><p class="pokedex-cadre-img"><img class="pokedex-${caught ? "caught" : "uncaught"}" src="./public/img/${formattedNumber}.png"/></p>${p.noms[langueNomPrincipal]}`;
 
 		const generationDiv = document.createElement("div");
 		generationDiv.classList.add("pokemon-generation");
@@ -102,7 +104,12 @@ export default class PokedexPanel {
 
 		const namesDiv = document.createElement("div");
 		namesDiv.classList.add("pokemon-names");
-		const filteredNames = Object.entries(p.noms).filter(([langue, _]) => Number(langue) !== config.langue_interface).map(([_, nom]) => nom);
+		namesDiv.title = (Object.keys(Langue) as Array<keyof typeof Langue>)
+		.filter(key => !isNaN(Number(key)))
+		.filter(langue => Number(langue) !== Number(langueNomPrincipal))
+		.map(langue => Langue[langue])
+		.join(", ");
+		const filteredNames = Object.entries(p.noms).filter(([langue, _]) => Number(langue) !== langueNomPrincipal).map(([_, nom]) => nom);
 		namesDiv.innerText = filteredNames.join(", ");
 
 		if (nouvelleCapture) {

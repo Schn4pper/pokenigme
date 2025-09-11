@@ -77,6 +77,8 @@ export default class FinDePartiePanel {
 							return ligne + "🟥";
 						case LettreStatut.MalPlace:
 							return ligne + "🟡";
+						case LettreStatut.FillingSpace:
+							return ligne + "⬛";
 						default:
 							return ligne + "🟦";
 					}
@@ -92,8 +94,10 @@ export default class FinDePartiePanel {
 							return ligne + '<span class="emoji-carre-rouge">🟥</span>';
 						case LettreStatut.MalPlace:
 							return ligne + '<span class="emoji-cercle-jaune">🟡</span>';
+						case LettreStatut.FillingSpace:
+								return ligne + '<span class="emoji-carre-bleu">⬛</span>';
 						default:
-							return ligne + '<span class="emoji-carre-bleu">🟦</span>';
+							return ligne + '<span class="emoji-carre-noir">🟦</span>';
 					}
 				}, "")
 		);
@@ -201,13 +205,13 @@ export default class FinDePartiePanel {
 
 			if (this._estVictoire) {
 				titre = i18n[this._config.langue_interface].finDePartiePanel.felicitations;
-				contenu += PokedexPanel.createPokemonDiv(ListeMotsProposables.Pokedex[this._idATrouver],true,false,this._nouvelleCapture).outerHTML + '<p class="fin-de-partie-panel-phrase">' + i18n[this._config.langue_interface].finDePartiePanel.bravo + '</p>';
+				contenu += PokedexPanel.createPokemonDiv(ListeMotsProposables.Pokedex[this._idATrouver],true,false,this._nouvelleCapture, true).outerHTML + '<p class="fin-de-partie-panel-phrase">' + i18n[this._config.langue_interface].finDePartiePanel.bravo + '</p>';
 			} else {
 				titre = i18n[this._config.langue_interface].finDePartiePanel.perdu;
 				contenu +=
 					'<details class="fin-de-partie-panel-phrase"> \
 			  <summary>' + i18n[this._config.langue_interface].finDePartiePanel.pokemon_etait + '</summary> ' +
-					PokedexPanel.createPokemonDiv(ListeMotsProposables.Pokedex[this._idATrouver],false,false,false).outerHTML
+					PokedexPanel.createPokemonDiv(ListeMotsProposables.Pokedex[this._idATrouver],false,false,false,true).outerHTML
 					+ "<br /></details>";
 			}
 
