@@ -95,9 +95,9 @@ export default class FinDePartiePanel {
 						case LettreStatut.MalPlace:
 							return ligne + '<span class="emoji-cercle-jaune">🟡</span>';
 						case LettreStatut.FillingSpace:
-								return ligne + '<span class="emoji-carre-bleu">⬛</span>';
+								return ligne + '<span class="emoji-carre-noir">⬛</span>';
 						default:
-							return ligne + '<span class="emoji-carre-noir">🟦</span>';
+							return ligne + '<span class="emoji-carre-bleu">🟦</span>';
 					}
 				}, "")
 		);
