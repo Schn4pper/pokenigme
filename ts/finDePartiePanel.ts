@@ -241,6 +241,15 @@ export default class FinDePartiePanel {
 			if (stats) pokedexPanel.afficher(stats);
 		});
 		
+		let pokemonSolution = document.getElementsByClassName("pokemon-item-no-hover");
+		if (pokemonSolution != undefined) {
+			let pokemonSolutionItem = pokemonSolution[0] as HTMLElement;
+			if (pokemonSolutionItem) pokemonSolutionItem.addEventListener("click", () => {
+				var pokedexPanel = new PokedexPanel(this._panelManager);
+				if (stats) pokedexPanel.afficher(stats);
+			});
+		}
+		
 		this._panelManager.afficherPanel();
 	}
 
