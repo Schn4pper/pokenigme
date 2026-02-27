@@ -248,7 +248,7 @@ export default class ConfigurationPanel {
 			config.generations = Configuration.Default.generations;
 		}
 		
-		for (let i = 1; i <= 9; i++) {
+		for (let i = 1; i <= 10; i++) {
 			let gen = document.createElement("label");
 			gen.className = "generation-label";
 			gen.innerText = `${i}`;

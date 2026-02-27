@@ -10,6 +10,15 @@ export default class NotesMaJPanel {
 
 	private readonly _notes = [
 		{
+			version: 17,
+			notes: {
+				[Langue.FR] : "La génération 10 arrive !",
+				[Langue.EN] : "The 10th generation came out !",
+				[Langue.DE] : "Die Generation 10 kam heraus !",
+				[Langue.JA] : "第10世代が登場。",
+			},
+		},
+		{
 			version: 16,
 			notes: {
 				[Langue.FR] : "En panne d'inspiration ? Vous pouvez désormais saisir des noms d'une longueur inférieure à la solution, en utilisant des espaces avant et après.",
