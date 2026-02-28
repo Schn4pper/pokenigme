@@ -1034,9 +1034,9 @@ export default class ListeMotsProposables {
 		1023:{ numero: 1023, generation: 9, noms: { [Langue.FR]: "CHEF-DE-FER", [Langue.EN]: "IRON CROWN", [Langue.DE]: "EISENHAUPT", [Langue.JA]: "TETSUNOKASHIRA" } },
 		1024:{ numero: 1024, generation: 9, noms: { [Langue.FR]: "TERAPAGOS", [Langue.EN]: "TERAPAGOS", [Langue.DE]: "TERAPAGOS", [Langue.JA]: "TERAPAGOS" } },
 		1025:{ numero: 1025, generation: 9, noms: { [Langue.FR]: "PECHAMINUS", [Langue.EN]: "PECHARUNT", [Langue.DE]: "INFAMOMO", [Langue.JA]: "MOMOWAROU" } },
-		1026:{ numero: 1026, generation: 10, noms: { [Langue.FR]: "BROUSSATIF", [Langue.EN]: "BROWT", [Langue.DE]: "BRAUBEL", [Langue.JA]: "" } },
-		1029:{ numero: 1029, generation: 10, noms: { [Langue.FR]: "CALOULOU", [Langue.EN]: "POMBON", [Langue.DE]: "POMFIFI", [Langue.JA]: "" } },
-		1032:{ numero: 1032, generation: 10, noms: { [Langue.FR]: "OGEKO", [Langue.EN]: "GECQUA", [Langue.DE]: "GEKKUA", [Langue.JA]: "" } },
+		1026:{ numero: 1026, generation: 10, noms: { [Langue.FR]: "BROUSSATIF", [Langue.EN]: "BROWT", [Langue.DE]: "BRAUBEL", [Langue.JA]: "?" } },
+		1029:{ numero: 1029, generation: 10, noms: { [Langue.FR]: "CALOULOU", [Langue.EN]: "POMBON", [Langue.DE]: "POMFIFI", [Langue.JA]: "?" } },
+		1032:{ numero: 1032, generation: 10, noms: { [Langue.FR]: "OGEKO", [Langue.EN]: "GECQUA", [Langue.DE]: "GEKKUA", [Langue.JA]: "?" } },
 	};
 
 	public static readonly Ordre: Record<Langue, number[]> = {

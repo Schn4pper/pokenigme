@@ -47,7 +47,7 @@ export default class PokedexPanel {
 		listePokemon.classList.add("pokemon-list");
 
 		this._generationFilter.innerHTML = `<option value="all" selected>${i18n[config.langue_interface].pokedexPanel.toutes_generations}</option>` +
-		Array.from({ length: 9 }, (_, i) => `<option value="${i + 1}">${i18n[config.langue_interface].pokedexPanel.generation} ${i + 1}</option>`).join("");
+		Array.from({ length: 10 }, (_, i) => `<option value="${i + 1}">${i18n[config.langue_interface].pokedexPanel.generation} ${i + 1}</option>`).join("");
 
 		this._statusFilter.innerHTML = `<option value="all">${i18n[config.langue_interface].pokedexPanel.tous}</option>
 		<option value="caught" selected>${i18n[config.langue_interface].pokedexPanel.attrapes}</option>
