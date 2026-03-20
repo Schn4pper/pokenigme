@@ -990,7 +990,7 @@ export default class ListeMotsProposables {
 		979:{ numero: 979, generation: 9, noms: { [Langue.FR]: "COURROUSINGE", [Langue.EN]: "ANNIHILAPE", [Langue.DE]: "EPITAFF", [Langue.JA]: "KONOYOZARU" } },
 		980:{ numero: 980, generation: 9, noms: { [Langue.FR]: "TERRAISTE", [Langue.EN]: "CLODSIRE", [Langue.DE]: "SUELORD", [Langue.JA]: "DOOH" } },
 		981:{ numero: 981, generation: 9, noms: { [Langue.FR]: "FARIGIRAF", [Langue.EN]: "FARIGIRAF", [Langue.DE]: "FARIGIRAF", [Langue.JA]: "RIKIKIRIN" } },
-		982:{ numero: 982, generation: 9, noms: { [Langue.FR]: "DEUSOLURDO", [Langue.EN]: "DUDUNSPARCE", [Langue.DE]: "DUMMIMISEL", [Langue.JA]: "NOKOKOCCHI" } },
+		982:{ numero: 982, generation: 9, noms: { [Langue.FR]: "DEUSOLOURDO", [Langue.EN]: "DUDUNSPARCE", [Langue.DE]: "DUMMIMISEL", [Langue.JA]: "NOKOKOCCHI" } },
 		983:{ numero: 983, generation: 9, noms: { [Langue.FR]: "SCALPEREUR", [Langue.EN]: "KINGAMBIT", [Langue.DE]: "GLADIMPERIO", [Langue.JA]: "DODOGEZAN" } },
 		984:{ numero: 984, generation: 9, noms: { [Langue.FR]: "FORT-IVOIRE", [Langue.EN]: "GREAT TUSK", [Langue.DE]: "RIESENZAHN", [Langue.JA]: "IDAINAKIBA" } },
 		985:{ numero: 985, generation: 9, noms: { [Langue.FR]: "HURLE-QUEUE", [Langue.EN]: "SCREAM TAIL", [Langue.DE]: "BRUELLSCHWEIF", [Langue.JA]: "SAKEBUSHIPPO" } },
