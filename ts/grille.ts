@@ -45,6 +45,7 @@ export default class Grille {
 				let cellule = document.createElement("td");
 				let contenuCellule: string = "";
 				let lettreIndice = this._indice[nbLettre];
+
 				if (nbMot < this._motActuel || (nbMot === this._motActuel && mot.length !== 0)) {
 					if (mot.length <= nbLettre) {
 						contenuCellule = lettreIndice ?? this._filler;
@@ -53,7 +54,17 @@ export default class Grille {
 						contenuCellule = mot[nbLettre];
 						cellule.classList.remove("cellule-lettre-pas-curseur");
 					}
+					if (nbLettre == mot.length) {
+						cellule.classList.add("case-a-saisir");
+					} else {
+						cellule.classList.remove("case-a-saisir");
+					}
 				} else if (nbMot === this._motActuel) {
+
+					if (nbLettre == 0) {
+						cellule.classList.add("case-a-saisir");
+					}
+
 					if (lettreIndice !== undefined) {
 						contenuCellule = lettreIndice;
 						cellule.classList.remove("cellule-lettre-pas-curseur");
@@ -83,7 +94,7 @@ export default class Grille {
 							cellule.setAttribute("aria-label", `${i18n[this._langue].grille.lettre} ${resultat.lettre} ${i18n[this._langue].grille.non_presente}`);
 					}
 				}
-				cellule.innerText = contenuCellule;
+				cellule.innerHTML = contenuCellule === " " ? '&nbsp;' : contenuCellule;
 				ligne.appendChild(cellule);
 			}
 
