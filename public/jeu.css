@@ -283,6 +283,10 @@ h2 {
 	color: var(--couleur-police-grille-pas-curseur);
 }
 
+.case-a-saisir {
+	text-decoration: underline;
+}
+
 .regles-panel table {
 	font-size: 32px;
 }
@@ -703,8 +707,4 @@ notification-course {
 
 .emoji-carre-bleu {
 	color: skyblue;
-}
-
-.emoji-carre-noir {
-	color: black;
 }
