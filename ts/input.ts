@@ -203,6 +203,8 @@ export default class Input {
 		document.addEventListener(
 			"keydown",
 			((event: KeyboardEvent) => {
+				const tag = (event.target as HTMLElement)?.tagName;
+				if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
 				event.stopPropagation();
 				let touche = event.key;
 
