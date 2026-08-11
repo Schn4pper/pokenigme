@@ -51,6 +51,7 @@ export default class Gestionnaire {
 	private _secondesCourse: number = 300;
 	private _manchesCourse: number = 3;
 	private _mancheEnCours: number = 1;
+	private _coursePokemonJoues: Array<{ idSolution: number; trouve: boolean; nouvelleCapture: boolean }> = [];
 
 	public constructor() {
 				
@@ -89,6 +90,7 @@ export default class Gestionnaire {
 			this._secondesCourse = this._config.secondesCourse;
 			this._manchesCourse = this._config.nbManches;
 			partieEnCours = new PartieEnCours();
+			this._coursePokemonJoues = [];
 		}
 
 		this._datePartieEnCours = partieEnCours.datePartie ?? new Date();
@@ -241,7 +243,8 @@ export default class Gestionnaire {
 							NotificationMessage.decompterTemps(this._secondesCourse).then((estTermine) => {
 								if (estTermine) {
 									// Effectuer une action spécifique, par exemple afficher un panneau de fin de partie
-									this._finDePartiePanel.genererResume(false, false, this._idATrouver, new Array(), 0, false, this._langue);
+									this._coursePokemonJoues.push({ idSolution: this._idATrouver, trouve: false, nouvelleCapture: false });
+									this._finDePartiePanel.genererResume(false, false, this._idATrouver, new Array(), 0, false, this._langue, this._coursePokemonJoues);
 									this._finDePartiePanel.afficher();
 									Sauvegardeur.purgerPartieEnCours();
 									this._courseEnCours = false;
@@ -306,7 +309,11 @@ export default class Gestionnaire {
 		if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
 			if (!this._dateFinPartie || this._modeJeu == ModeJeu.Course) this._dateFinPartie = new Date();
 			let duree = this._dateFinPartie.getTime() - this._datePartieEnCours.getTime();
-			this._finDePartiePanel.genererResume(isBonneReponse, !this._stats.pokemon.includes(this._idATrouver), this._idATrouver, this._resultats, duree, this._partage, this._langue);
+			let nouvelleCapture = !this._stats.pokemon.includes(this._idATrouver);
+			if (this._modeJeu === ModeJeu.Course) {
+				this._coursePokemonJoues.push({ idSolution: this._idATrouver, trouve: isBonneReponse, nouvelleCapture: isBonneReponse ? nouvelleCapture : false });
+			}
+			this._finDePartiePanel.genererResume(isBonneReponse, nouvelleCapture, this._idATrouver, this._resultats, duree, this._partage, this._langue, this._modeJeu === ModeJeu.Course ? this._coursePokemonJoues : undefined);
 			if (!chargementPartie) this.enregistrerPartieDansStats();
 		}
 

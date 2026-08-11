@@ -112,16 +112,16 @@ export default class PokedexPanel {
 		const filteredNames = Object.entries(p.noms).filter(([langue, _]) => Number(langue) !== langueNomPrincipal).map(([_, nom]) => nom);
 		namesDiv.innerText = filteredNames.join(", ");
 
+		pkDiv.appendChild(pkTxt);
+		pkDiv.appendChild(generationDiv);
+		pkDiv.appendChild(namesDiv);
+
 		if (nouvelleCapture) {
 			const divNouvelleCapture = document.createElement("div");
 			divNouvelleCapture.classList.add("pokemon-nouvelle-capture");
 			divNouvelleCapture.innerHTML = i18n[config.langue_interface].pokedexPanel.nouvelle_capture;
 			pkDiv.appendChild(divNouvelleCapture);
 		}
-
-		pkDiv.appendChild(pkTxt);
-		pkDiv.appendChild(generationDiv);
-		pkDiv.appendChild(namesDiv);
 
 		return pkDiv;
 	}

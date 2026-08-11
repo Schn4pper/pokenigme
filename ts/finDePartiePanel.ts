@@ -25,6 +25,7 @@ export default class FinDePartiePanel {
 	private _idATrouver: number = 0;
 	private _estVictoire: boolean = false;
 	private _partieEstFinie: boolean = false;
+	private _coursePokemon: Array<{ idSolution: number; trouve: boolean; nouvelleCapture: boolean }> = [];
 
 	public constructor(datePartie: Date, panelManager: PanelManager) {
 		this._datePartie = new Date(datePartie);
@@ -40,7 +41,7 @@ export default class FinDePartiePanel {
 		);
 	}
 
-	public genererResume(estBonneReponse: boolean, nouvelleCapture: boolean, idATrouver: number, resultats: Array<Array<LettreResultat>>, dureeMs: number, partage : boolean, langue : Langue): void {
+	public genererResume(estBonneReponse: boolean, nouvelleCapture: boolean, idATrouver: number, resultats: Array<Array<LettreResultat>>, dureeMs: number, partage : boolean, langue : Langue, coursePokemon?: Array<{ idSolution: number; trouve: boolean; nouvelleCapture: boolean }>): void {
 		var nbManches = this._config.nbManches ?? Configuration.Default.nbManches;
 		var secondesCourse = this._config.secondesCourse ?? Configuration.Default.secondesCourse;
 		let dateGrille = this._datePartie.getTime();
@@ -49,6 +50,7 @@ export default class FinDePartiePanel {
 		this._idATrouver = idATrouver;
 		this._estVictoire = estBonneReponse;
 		this._partieEstFinie = true;
+		if (coursePokemon) this._coursePokemon = coursePokemon;
 		let afficherChrono = (Sauvegardeur.chargerConfig() ?? Configuration.Default).afficherChrono;
 
 		if (this._config.modeJeu == ModeJeu.Course) {
@@ -203,7 +205,20 @@ export default class FinDePartiePanel {
 			contenu += '<p class="fin-de-partie-panel-phrase">' + i18n[this._config.langue_interface].finDePartiePanel.partie_non_finie + '</p>';
 		} else {
 
-			if (this._estVictoire) {
+			if (this._config.modeJeu === ModeJeu.Course && this._coursePokemon.length > 0) {
+				titre = this._estVictoire
+					? i18n[this._config.langue_interface].finDePartiePanel.felicitations
+					: i18n[this._config.langue_interface].finDePartiePanel.perdu;
+				contenu += StatistiquesDisplayer.genererResumeTexte(this._resumeTexteLegacy).outerHTML;
+				contenu += '<div class="pokemon-list">';
+				for (const { idSolution, trouve, nouvelleCapture } of this._coursePokemon) {
+					const pokemon = ListeMotsProposables.Pokedex[idSolution];
+					if (pokemon) {
+						contenu += PokedexPanel.createPokemonDiv(pokemon, trouve, false, nouvelleCapture, true).outerHTML;
+					}
+				}
+				contenu += '</div>';
+			} else if (this._estVictoire) {
 				titre = i18n[this._config.langue_interface].finDePartiePanel.felicitations;
 				contenu += PokedexPanel.createPokemonDiv(ListeMotsProposables.Pokedex[this._idATrouver],true,false,this._nouvelleCapture, true).outerHTML + '<p class="fin-de-partie-panel-phrase">' + i18n[this._config.langue_interface].finDePartiePanel.bravo + '</p>';
 			} else {
@@ -215,7 +230,9 @@ export default class FinDePartiePanel {
 					+ "<br /></details>";
 			}
 
-			contenu += StatistiquesDisplayer.genererResumeTexte(this._resumeTexteLegacy).outerHTML;
+			if (this._config.modeJeu !== ModeJeu.Course) {
+				contenu += StatistiquesDisplayer.genererResumeTexte(this._resumeTexteLegacy).outerHTML;
+			}
 			contenu += '<p>' + i18n[this._config.langue_interface].finDePartiePanel.rejouer + '<br/><a href="#" id="rejouer-infini-bouton" class="rejouer-bouton">∞</a> <a href="#" id="rejouer-devinette-bouton" class="rejouer-bouton">🕵️</a> <a href="#" id="rejouer-desordre-bouton" class="rejouer-bouton">👀</a> <a href="#" id="rejouer-course-bouton" class="rejouer-bouton">⏱️</a></p>';
 		}
 		
